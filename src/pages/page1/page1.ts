@@ -16,7 +16,7 @@ export class Page1 {
 
 
 signInWithFacebook() {
-   this.authProvider.loginWithFacebook();
+  // this.authProvider.loginWithFacebook();
   }
  signOut() {
       this.authProvider.logout();

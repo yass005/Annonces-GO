@@ -13,7 +13,7 @@ import { AuthProvider } from '../providers/auth/auth';
 import { RegisterPage } from '../pages/register/register';
 import { LoginPage } from '../pages/login/login';
 import { ResetPasswordPage } from '../pages/reset-password/reset-password';
-
+import { Facebook } from '@ionic-native/facebook'
 
 
 
@@ -57,7 +57,8 @@ export const firebaseConfig = {
     StatusBar,
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
-    AuthProvider
+    AuthProvider,
+    Facebook
   ]
 })
 export class AppModule { }
