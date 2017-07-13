@@ -11,6 +11,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { AuthProvider } from '../providers/auth/auth';
 import { RegisterPage } from '../pages/register/register';
+import { LoginPage } from '../pages/login/login';
 
 
 
@@ -28,7 +29,10 @@ export const firebaseConfig = {
     MyApp,
     Page1,
     Page2,
-    RegisterPage
+    RegisterPage,
+    LoginPage
+
+
   ],
   imports: [
     BrowserModule,
@@ -42,7 +46,8 @@ export const firebaseConfig = {
     MyApp,
     Page1,
     Page2,
-    RegisterPage
+    RegisterPage,
+    LoginPage
   ],
   providers: [
     StatusBar,

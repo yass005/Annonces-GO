@@ -42,6 +42,9 @@ erreur: any;
 return this.afAuth.auth.sendPasswordResetEmail(email);
 }
 
+  loginUser(email: string, password: string): firebase.Promise<any> {
+    return this.afAuth.auth.signInWithEmailAndPassword(email, password);
+  }
 }
 
 
