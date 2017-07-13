@@ -12,6 +12,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { AuthProvider } from '../providers/auth/auth';
 import { RegisterPage } from '../pages/register/register';
 import { LoginPage } from '../pages/login/login';
+import { ResetPasswordPage } from '../pages/reset-password/reset-password';
+
 
 
 
@@ -30,7 +32,8 @@ export const firebaseConfig = {
     Page1,
     Page2,
     RegisterPage,
-    LoginPage
+    LoginPage,
+    ResetPasswordPage
 
 
   ],
@@ -47,7 +50,8 @@ export const firebaseConfig = {
     Page1,
     Page2,
     RegisterPage,
-    LoginPage
+    LoginPage,
+      ResetPasswordPage
   ],
   providers: [
     StatusBar,

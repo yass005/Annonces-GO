@@ -2,7 +2,6 @@ import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-
 import { Page1 } from '../pages/page1/page1';
 import { Page2 } from '../pages/page2/page2';
 import { RegisterPage } from '../pages/register/register';
@@ -27,7 +26,7 @@ export class MyApp {
       { title: 'Page One', component: Page1 },
       { title: 'Page Two', component: Page2 },
       { title: 'register', component: RegisterPage },
-      { title: 'Login', component: LoginPage }
+      { title: 'Login', component:LoginPage  }
 
     ];
 
