@@ -11,7 +11,7 @@ import firebase from 'firebase/app';
 */
 @Injectable()
 export class AuthProvider {
-
+erreur: any;
   constructor(private afAuth: AngularFireAuth, private afDatabase : AngularFireDatabase) { }
 
  signupUser(email: string, password: string): firebase.Promise<any> {
@@ -19,7 +19,7 @@ export class AuthProvider {
       this.afDatabase.object(`/userProfile/${newUser.uid}`).set({
           email: email
       });
-    });
+    })
   }
 
   loginWithFacebook() {
