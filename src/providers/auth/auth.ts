@@ -47,7 +47,7 @@ erreur: any;
     this.afAuth.auth.signOut();
   }
 
-  resetPassword(email: string):firebase.Promise<any> {
+resetPassword(email: string):firebase.Promise<any> {
 return this.afAuth.auth.sendPasswordResetEmail(email);
 }
 
