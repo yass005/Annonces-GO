@@ -9,7 +9,7 @@
 <ion-item>
 <ion-label stacked>Email</ion-label>
 <ion-input formControlName="email" type="email"
-placeholder="Your email address"
+placeholder="Adresse e-mail"
 [class.invalid]="!loginForm.controls.email.valid &&
 loginForm.controls.email.dirty">
 </ion-input>
@@ -22,7 +22,7 @@ loginForm.controls.email.dirty">
 <ion-item>
 <ion-label stacked>Password</ion-label>
 <ion-input formControlName="password" type="password"
-placeholder="Your password"
+placeholder="Mot de passe"
 [class.invalid]="!loginForm.controls.password.valid &&
 loginForm.controls.password.dirty">
 </ion-input>
@@ -42,17 +42,14 @@ Login
 </button>
 <button ion-button clear block color="primary-dark" class="login-button"
 (click)="goToResetPassword()">
- Réinitialiser votre mot de passe
+Mot de passe oublié ?
 </button>
-<h4  clear block color="primary-dark"> Social Login</h4>
-	<ion-list inset>
-		<ion-item class="facebook" (click)="facebookLogin()">
-			<ion-icon name="logo-facebook" item-left></ion-icon>
-			Facebook
-		</ion-item>
-		<ion-item class="google" (click)="googlelogin()">
-			<ion-icon name="logo-google" item-left></ion-icon>
-			Google
-		</ion-item>
-</ion-list>
+ <button ion-button block class="facebook-btn" (click)="facebookLogin()">
+    <ion-icon name="logo-facebook" item-left></ion-icon>
+    Connexion avec Facebook
+  </button>
+<button ion-button block class="google-btn"  (click)="googlelogin()">
+    <ion-icon name="logo-google" item-left></ion-icon>
+    Connexion avec Google
+  </button>
 </ion-content>
