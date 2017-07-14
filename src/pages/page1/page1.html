@@ -8,8 +8,21 @@
 
 <ion-content padding>
 
-  <h1>Hello {{displayName}}</h1>
+<button ion-button block (click)=" google()" *ngIf="!user" >
+  GOOGLE LOGIN
+</button>
+	<button ion-button outline (click)="face()" *ngIf="!user" >
+    Login facebook
+  </button>
+<ion-card *ngIf="user">
+  <ion-card-header>
+    {{ user.email }}
+  </ion-card-header>
+  <ion-card-content>
+  </ion-card-content>
+</ion-card>
 
-	<button ion-button outline (click)="signInWithFacebook()">Login</button>
-  <button ion-button outline (click)="signOut()">Logout</button>
+
+
+  <button ion-button outline (click)="signOut()" *ngIf="user">Logout</button>
 </ion-content>

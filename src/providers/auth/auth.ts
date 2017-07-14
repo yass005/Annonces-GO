@@ -12,6 +12,8 @@ import { Facebook } from '@ionic-native/facebook';
 @Injectable()
 export class AuthProvider {
 erreur: any;
+  providerFacebook = new firebase.auth.FacebookAuthProvider();
+  providerGoogle = new firebase.auth.FacebookAuthProvider();
   constructor(private afAuth: AngularFireAuth, private afDatabase : AngularFireDatabase,  public facebook: Facebook) { }
 
  signupUser(email: string, password: string): firebase.Promise<any> {
@@ -21,8 +23,8 @@ erreur: any;
       });
     })
   }
-
-  facebookLogin(): Promise<any> {
+// impossible d'utiliser authetification native une cle hash et demander et impossible de la générer
+ /* facebookLogin(): Promise<any> {
     return this.facebook.login(['email'])
       .then( (response) => {
         const facebookCredential = firebase.auth.FacebookAuthProvider
@@ -34,7 +36,7 @@ erreur: any;
 
       })
       .catch((error) => { console.log(error) });
-  }
+  }*/
 
 
   getUser(): firebase.User {
@@ -52,6 +54,32 @@ return this.afAuth.auth.sendPasswordResetEmail(email);
   loginUser(email: string, password: string): firebase.Promise<any> {
     return this.afAuth.auth.signInWithEmailAndPassword(email, password);
   }
+
+  googleLogin():void {
+
+this.SocialLogin(this.providerGoogle);
+}
+  faceLogin(): void {
+
+  this.SocialLogin(this.providerFacebook)
+}
+
+ SocialLogin(provider): void {
+
+  firebase.auth().signInWithRedirect(provider).then( () => {
+    firebase.auth().getRedirectResult().then( result => {
+      // This gives you a Google Access Token.
+      // You can use it to access the Google API.
+      var token = result.credential.accessToken;
+      // The signed-in user info.
+      var user = result.user;
+      console.log(token, user);
+    }).catch(function(error) {
+      // Handle Errors here.
+      console.log(error.message);
+    });
+  });
+}
 }
 
 
