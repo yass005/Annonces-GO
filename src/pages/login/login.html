@@ -4,7 +4,7 @@
 </ion-navbar>
 </ion-header>
 <ion-content padding>
-<img src="assets/img/logo.jpg" class="auth-img">
+<img src="http://via.placeholder.com/350x150" class="auth-img">
 <form [formGroup]="loginForm" (submit)="loginUser()" novalidate>
 <ion-item>
 <ion-label stacked>Email</ion-label>
@@ -38,13 +38,13 @@ Login
 </form>
 <button ion-button clear block color="primary-dark" class="login-button"
 (click)="goToSignup()">
-I don't have an account
+  créer un nouveau compte
 </button>
 <button ion-button clear block color="primary-dark" class="login-button"
 (click)="goToResetPassword()">
-Mot de passe oublié ?
+ Réinitialiser votre mot de passe
 </button>
-<h4 padding> Social Login</h4>
+<h4  clear block color="primary-dark"> Social Login</h4>
 	<ion-list inset>
 		<ion-item class="facebook" (click)="facebookLogin()">
 			<ion-icon name="logo-facebook" item-left></ion-icon>
