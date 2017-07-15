@@ -3,6 +3,7 @@ import { NavController } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { LoginPage } from '../login/login';
 import { MyApp } from '../../app/app.component';
+import { ProfilePage } from '../profile/profile';
 
 @Component({
   selector: 'page-page1',
@@ -24,6 +25,9 @@ signInWithFacebook() {
       this.navCtrl.setRoot(MyApp);
   }
 
+  profile(){
+this.navCtrl.push(ProfilePage)
+  }
   google(){
     this.auth.googleLogin();
   }

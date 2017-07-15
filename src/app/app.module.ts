@@ -15,6 +15,7 @@ import { LoginPage } from '../pages/login/login';
 import { ResetPasswordPage } from '../pages/reset-password/reset-password';
 import { Facebook } from '@ionic-native/facebook'
 import { ProfileProvider } from '../providers/profile/profile';
+import { ProfilePage } from '../pages/profile/profile';
 
 
 
@@ -34,7 +35,8 @@ export const firebaseConfig = {
     Page2,
     RegisterPage,
     LoginPage,
-    ResetPasswordPage
+    ResetPasswordPage,
+    ProfilePage
 
 
   ],
@@ -52,7 +54,8 @@ export const firebaseConfig = {
     Page2,
     RegisterPage,
     LoginPage,
-      ResetPasswordPage
+      ResetPasswordPage,
+ProfilePage
   ],
   providers: [
     StatusBar,
