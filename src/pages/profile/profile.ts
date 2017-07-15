@@ -14,6 +14,7 @@ import { LoginPage } from '../login/login';
 export class ProfilePage {
   public userProfile:any;
   public birthDate:string;
+  public userAdress:any;
 
   constructor(public navCtrl: NavController, public alertCtrl: AlertController,
     public profileProvider: ProfileProvider, public authProvider: AuthProvider) {}
@@ -22,6 +23,7 @@ export class ProfilePage {
     this.profileProvider.getUserProfile().on('value', userProfileSnapshot => {
       this.userProfile = userProfileSnapshot.val();
       this.birthDate = userProfileSnapshot.val().birthDate;
+      this.userAdress=userProfileSnapshot.val().adress;
     });
   }
 
@@ -61,6 +63,40 @@ this.navCtrl.push(LoginPage);
     alert.present();
   }
 
+    updatadress(){
+    const alert = this.alertCtrl.create({
+      message: "Votre adress",
+      inputs: [
+        {
+          name: 'rue',
+          placeholder: 'rue',
+          value: this.userAdress.rue
+        },
+        {
+          name: 'numéro',
+          placeholder: 'numéro',
+         value: this.userAdress.numéro
+        },
+           {
+          name: 'ville',
+          placeholder: 'ville',
+         value: this.userAdress.ville
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            this.profileProvider.updateAdresse(data.rue , data.numéro , data.ville);
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
   updateDOB(birthDate){
     this.profileProvider.updateDOB(birthDate);
   }

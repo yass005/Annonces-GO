@@ -32,7 +32,23 @@
         </ion-row>
       </ion-grid>
     </ion-item>
-
+<ion-item (click)=" updatadress()">
+      <ion-grid>
+        <ion-row>
+          <ion-col col-6>
+            adress
+          </ion-col>
+          <ion-col col-6 *ngIf="userProfile?.adress">
+            {{userProfile?.adress.rue}} {{userProfile?.adress.ville}}
+          </ion-col>
+          <ion-col col-6 class="placeholder-profile" *ngIf="!userProfile?.adress">
+            <span>
+              Tap here to edit.
+            </span>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
     <ion-item>
       <ion-label class="dob-label">Date of Birth</ion-label>
       <ion-datetime displayFormat="MMM D, YYYY" pickerFormat="D MMM YYYY"
