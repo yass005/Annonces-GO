@@ -13,7 +13,7 @@ import { Facebook } from '@ionic-native/facebook';
 export class AuthProvider {
 erreur: any;
   providerFacebook = new firebase.auth.FacebookAuthProvider();
-  providerGoogle = new firebase.auth.FacebookAuthProvider();
+  providerGoogle = new firebase.auth.GoogleAuthProvider();
   constructor(private afAuth: AngularFireAuth, private afDatabase : AngularFireDatabase,  public facebook: Facebook) { }
 
  signupUser(email: string, password: string): firebase.Promise<any> {
