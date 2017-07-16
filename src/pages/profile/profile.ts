@@ -164,4 +164,30 @@ this.navCtrl.push(LoginPage);
     alert.present();
   }
 
+   Delteuser(){
+    let alert = this.alertCtrl.create({
+       message: "vous veuiller saisir votre mot de pass",
+      inputs: [
+
+        {
+          name: 'Password',
+          placeholder: 'Your password',
+          type: 'password'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancel',
+        },
+        {
+          text: 'Save',
+          handler: data => {
+            this.profileProvider.DeleteUser(data.Password);
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
+
 }

@@ -80,4 +80,27 @@ export class ProfileProvider {
       });
     });
   }
+
+  DeleteUser(Password: string): firebase.Promise<any> {
+    const credential = firebase.auth.EmailAuthProvider
+      .credential(this.currentUser.email, Password);
+
+    return this.currentUser.reauthenticateWithCredential(credential).then(user => {
+      this.currentUser.delete().then( message => {
+        console.log("User deleted");
+      }, error => {
+        console.log(error);
+      });
+    });
+  }
+
+
 }
+
+
+
+
+
+
+
+

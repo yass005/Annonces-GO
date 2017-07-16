@@ -11,12 +11,18 @@ const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 exports.createProfile = functions.auth.user().onCreate( event => {
  return admin.database().ref(`/userProfile/${event.data.uid}`).set({
-    firstName: event.data.firstName,
-    lastName: event.data.lastName,
-    birthDate: event.data.birthDate,
+    firstName: "",
+    lastName: "",
+    birthDate: "",
     adress: {rue: "", numéro: "", ville: ""},
     position: {Lat:"" , Long : ""},
     email:  event.data.email
 
   });
+});
+
+
+exports.cleanupUserData = functions.auth.user().onDelete(event => {
+  const uid = event.data.uid;
+  return admin.database().ref(`/userProfile/${uid}`).remove();
 });
