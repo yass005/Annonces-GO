@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import {Loading,
-  LoadingController, IonicPage, NavController, AlertController  } from 'ionic-angular';
+import {
+  Loading,
+  LoadingController, IonicPage, NavController, AlertController
+} from 'ionic-angular';
 import { ProfileProvider } from '../../providers/profile/profile';
 import { AuthProvider } from '../../providers/auth/auth';
 import { LoginPage } from '../login/login';
@@ -14,28 +16,28 @@ import { MyApp } from '../../app/app.component';
   templateUrl: 'profile.html',
 })
 export class ProfilePage {
-  public userProfile:any;
-  public birthDate:string;
-  public userAdress:any;
+  public userProfile: any;
+  public birthDate: string;
+  public userAdress: any;
   public loading: Loading;
-  constructor( public loadingCtrl: LoadingController, public navCtrl: NavController, public alertCtrl: AlertController,
-    public profileProvider: ProfileProvider, public authProvider: AuthProvider) {}
+  constructor(public loadingCtrl: LoadingController, public navCtrl: NavController, public alertCtrl: AlertController,
+    public profileProvider: ProfileProvider, public authProvider: AuthProvider) { }
 
   ionViewDidEnter() {
     this.profileProvider.getUserProfile().on('value', userProfileSnapshot => {
       this.userProfile = userProfileSnapshot.val();
       this.birthDate = userProfileSnapshot.val().birthDate;
-      this.userAdress=userProfileSnapshot.val().adress;
+      this.userAdress = userProfileSnapshot.val().adress;
     });
   }
 
   logOut(): void {
-this.authProvider.logout();
-this.navCtrl.setRoot(MyApp);
+    this.authProvider.logout();
+    this.navCtrl.setRoot(MyApp);
 
   }
 
-  updateName(){
+  updateName() {
     const alert = this.alertCtrl.create({
       message: "Your first name & last name",
       inputs: [
@@ -65,7 +67,7 @@ this.navCtrl.setRoot(MyApp);
     alert.present();
   }
 
-    updatadress(){
+  updatadress() {
     const alert = this.alertCtrl.create({
       message: "Votre adress",
       inputs: [
@@ -77,12 +79,12 @@ this.navCtrl.setRoot(MyApp);
         {
           name: 'numéro',
           placeholder: 'numéro',
-         value: this.userAdress.numéro
+          value: this.userAdress.numéro
         },
-           {
+        {
           name: 'ville',
           placeholder: 'ville',
-         value: this.userAdress.ville
+          value: this.userAdress.ville
         }
       ],
       buttons: [
@@ -92,18 +94,18 @@ this.navCtrl.setRoot(MyApp);
         {
           text: 'Save',
           handler: data => {
-            this.profileProvider.updateAdresse(data.rue , data.numéro , data.ville);
+            this.profileProvider.updateAdresse(data.rue, data.numéro, data.ville);
           }
         }
       ]
     });
     alert.present();
   }
-  updateDOB(birthDate){
+  updateDOB(birthDate) {
     this.profileProvider.updateDOB(birthDate);
   }
 
-  updateEmail(){
+  updateEmail() {
     let alert = this.alertCtrl.create({
       inputs: [
         {
@@ -124,38 +126,14 @@ this.navCtrl.setRoot(MyApp);
           text: 'Save',
           handler: data => {
             let newEmail = data.newEmail;
+            this.profileProvider.updateEmail(data.newEmail, data.password).then(() => {
+              this.showMessage("Email bien modifier");
 
-          this.profileProvider.updateEmail(data.newEmail, data.password).then ( () => {
-
-          this.loading.dismiss().then(() => {
-              let alert = this.alertCtrl.create({
-              message: "Email bien modifier",
-              buttons: [
-                {
-                  text: "Ok",
-                  role: 'cancel'
-                }
-              ]
+            }, error => {
+              this.showMessage(error.message);
             });
-            alert.present();
-             console.log("Email bien modifier")
-          });
-        }, error => {
-          this.loading.dismiss().then(() => {
-            let alert = this.alertCtrl.create({
-              message: error.message,
-              buttons: [
-                {
-                  text: "Ok",
-                  role: 'cancel'
-                }
-              ]
-            });
-            alert.present();
-          });
-        });
-      this.loading = this.loadingCtrl.create();
-      this.loading.present();
+            this.loading = this.loadingCtrl.create();
+            this.loading.present();
           }
         }
       ]
@@ -163,7 +141,7 @@ this.navCtrl.setRoot(MyApp);
     alert.present();
   }
 
-  updatePassword(){
+  updatePassword() {
     let alert = this.alertCtrl.create({
       inputs: [
         {
@@ -185,40 +163,18 @@ this.navCtrl.setRoot(MyApp);
           text: 'Save',
           handler: data => {
 
-          this.profileProvider.updatePassword(data.newPassword, data.oldPassword)
-        .then ( () => {
+            this.profileProvider.updatePassword(data.newPassword, data.oldPassword)
+              .then(() => {
 
-          this.loading.dismiss().then(() => {
-              let alert = this.alertCtrl.create({
-              message: "mot de pass bien modifier",
-              buttons: [
-                {
-                  text: "Ok",
-                  role: 'cancel'
-                }
-              ]
-            });
-            alert.present();
-             console.log("mot de passe modifier")
-          });
+                this.showMessage('mot de pass bien modifier');
 
+              }, error => {
 
-        }, error => {
-          this.loading.dismiss().then(() => {
-            let alert = this.alertCtrl.create({
-              message: error.message,
-              buttons: [
-                {
-                  text: "Ok",
-                  role: 'cancel'
-                }
-              ]
-            });
-            alert.present();
-          });
-        });
-      this.loading = this.loadingCtrl.create();
-      this.loading.present();
+                this.showMessage(error.message);
+              });
+
+            this.loading = this.loadingCtrl.create();
+            this.loading.present();
           }
         }
       ]
@@ -226,9 +182,9 @@ this.navCtrl.setRoot(MyApp);
     alert.present();
   }
 
-   Delteuser(){
+  Delteuser() {
     let alert = this.alertCtrl.create({
-       message: "vous veuiller saisir votre mot de pass",
+      message: "vous veuiller saisir votre mot de pass",
       inputs: [
 
         {
@@ -244,26 +200,14 @@ this.navCtrl.setRoot(MyApp);
         {
           text: 'Save',
           handler: data => {
-            this.profileProvider.DeleteUser(data.Password).then ( () => {
-          this.loading.dismiss().then(() => {
-            console.log("user deleted")
-          });
-        }, error => {
-          this.loading.dismiss().then(() => {
-            let alert = this.alertCtrl.create({
-              message: error.message,
-              buttons: [
-                {
-                  text: "Ok",
-                  role: 'cancel'
-                }
-              ]
+
+            this.profileProvider.DeleteUser(data.Password).then(() => {
+              this.showMessage("user deleted");
+            }, error => {
+              this.showMessage(error.message);
             });
-            alert.present();
-          });
-        });
-      this.loading = this.loadingCtrl.create();
-      this.loading.present();
+            this.loading = this.loadingCtrl.create();
+            this.loading.present();
           }
         }
       ]
@@ -271,4 +215,19 @@ this.navCtrl.setRoot(MyApp);
     alert.present();
   }
 
+  showMessage(message: string) {
+    this.loading.dismiss().then(() => {
+      let alert = this.alertCtrl.create({
+        message: message,
+        buttons: [
+          {
+            text: "Ok",
+            role: 'cancel'
+          }
+        ]
+      });
+      alert.present();
+      console.log(message);
+    });
+  }
 }

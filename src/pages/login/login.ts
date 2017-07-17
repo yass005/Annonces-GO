@@ -45,7 +45,7 @@ export class LoginPage {
       this.authProvider.loginUser(this.loginForm.value.email,
         this.loginForm.value.password).then(() => {
           this.loading.dismiss().then(() => {
-            this.navCtrl.push(Page1);
+             this.navCtrl.setRoot(Page1);
           });
         }, error => {
           this.loading.dismiss().then(() => {
@@ -63,7 +63,7 @@ export class LoginPage {
         });
       this.loading = this.loadingCtrl.create();
       this.loading.present();
-      this.navCtrl.setRoot(ProfilePage);
+
     }
   }
 
