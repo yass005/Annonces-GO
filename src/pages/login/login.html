@@ -23,13 +23,11 @@ loginForm.controls.email.dirty">
 <ion-label stacked>Password</ion-label>
 <ion-input formControlName="password" type="password"
 placeholder="Mot de passe"
-[class.invalid]="!loginForm.controls.password.valid &&
-loginForm.controls.password.dirty">
+[class.invalid]="!loginForm.controls.password.valid && loginForm.controls.password.dirty">
 </ion-input>
 </ion-item>
 <ion-item class="error-message"
-*ngIf="!loginForm.controls.password.valid &&
-loginForm.controls.password.dirty">
+*ngIf="!loginForm.controls.password.valid && loginForm.controls.password.dirty">
 <p>Your password needs more than 6 characters.</p>
 </ion-item>
 <button ion-button block type="submit" [disabled]="!loginForm.valid">

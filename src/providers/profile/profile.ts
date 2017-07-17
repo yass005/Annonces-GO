@@ -69,16 +69,17 @@ export class ProfileProvider {
   }
 
   updatePassword(newPassword: string, oldPassword: string): firebase.Promise<any> {
-    const credential = firebase.auth.EmailAuthProvider
-      .credential(this.currentUser.email, oldPassword);
 
-    return this.currentUser.reauthenticateWithCredential(credential).then(user => {
-      this.currentUser.updatePassword(newPassword).then(user => {
+    const credential = firebase.auth.EmailAuthProvider.credential(this.currentUser.email, oldPassword);
+
+  return this.currentUser.reauthenticateWithCredential(credential).then(user => {
+    console.log('user loged ok');
+      return   this.currentUser.updatePassword(newPassword).then(user => {
         console.log("Password Changed");
-      }, error => {
-        console.log(error);
-      });
-    });
+      })
+  }/*, error => {
+         console.log(error);
+      }*/);
   }
 
   DeleteUser(Password: string): firebase.Promise<any> {

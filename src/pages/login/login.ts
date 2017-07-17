@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage,
-NavController,
-Loading,
-LoadingController,
-AlertController } from 'ionic-angular';
+import {
+  IonicPage,
+  NavController,
+  Loading,
+  LoadingController,
+  AlertController
+} from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthProvider } from '../../providers/auth/auth';
 import { Page1 } from '../page1/page1';
@@ -23,52 +25,56 @@ import { EmailValidator } from '../../validators/email';
   templateUrl: 'login.html',
 })
 export class LoginPage {
-public loginForm: FormGroup;
-public loading: Loading;
+  public loginForm: FormGroup;
+  public loading: Loading;
 
-constructor(public navCtrl: NavController,
-public loadingCtrl: LoadingController, public authProvider: AuthProvider,
-public formBuilder: FormBuilder, public alertCtrl: AlertController) {
-  this.loginForm = formBuilder.group({
-email: ['', Validators.compose([Validators.required, EmailValidator.isValid])],
-password: ['', Validators.compose([Validators.minLength(6),
-Validators.required])]
-});
-}
-loginUser():void {
-if (!this.loginForm.valid){
-console.log(this.loginForm.value);
-} else {
-  this.authProvider.loginUser(this.loginForm.value.email,
-this.loginForm.value.password).then( () => {
-this.loading.dismiss().then( () => {
-this.navCtrl.push(Page1);
-});
-}, error => {
-this.loading.dismiss().then( () => {
-let alert = this.alertCtrl.create({
-message: error.message,
-buttons: [
-{
-text: "Ok",
-role: 'cancel'
-}
-]
-});
-alert.present();
-});
-});
-this.loading = this.loadingCtrl.create();
-this.loading.present();
-}
-}
+  constructor(public navCtrl: NavController,
+    public loadingCtrl: LoadingController, public authProvider: AuthProvider,
+    public formBuilder: FormBuilder, public alertCtrl: AlertController) {
+    this.loginForm = formBuilder.group({
+      email: ['', Validators.compose([Validators.required, EmailValidator.isValid])],
+      password: ['', Validators.compose([Validators.minLength(6),
+      Validators.required])]
+    });
+  }
+  loginUser(): void {
+    if (!this.loginForm.valid) {
+      console.log(this.loginForm.value);
+    } else {
+      this.authProvider.loginUser(this.loginForm.value.email,
+        this.loginForm.value.password).then(() => {
+          this.loading.dismiss().then(() => {
+            this.navCtrl.push(Page1);
+          });
+        }, error => {
+          this.loading.dismiss().then(() => {
+            let alert = this.alertCtrl.create({
+              message: error.message,
+              buttons: [
+                {
+                  text: "Ok",
+                  role: 'cancel'
+                }
+              ]
+            });
+            alert.present();
+          });
+        });
+      this.loading = this.loadingCtrl.create();
+      this.loading.present();
+    }
+  }
 
-goToResetPassword():void { this.navCtrl.push(ResetPasswordPage); }
-goToSignup():void { this.navCtrl.push(RegisterPage); }
- facebookLogin(): void {
+  goToResetPassword(): void { this.navCtrl.push(ResetPasswordPage); }
+
+  goToSignup(): void { this.navCtrl.push(RegisterPage); }
+
+  facebookLogin(): void {
+
     this.authProvider.faceLogin();
   }
-   googlelogin(): void {
+  googlelogin(): void {
+
     this.authProvider.googleLogin();
   }
 }

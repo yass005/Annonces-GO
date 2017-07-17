@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, AlertController } from 'ionic-angular';
+import {Loading,
+  LoadingController, IonicPage, NavController, AlertController  } from 'ionic-angular';
 import { ProfileProvider } from '../../providers/profile/profile';
 import { AuthProvider } from '../../providers/auth/auth';
 import { LoginPage } from '../login/login';
@@ -15,8 +16,8 @@ export class ProfilePage {
   public userProfile:any;
   public birthDate:string;
   public userAdress:any;
-
-  constructor(public navCtrl: NavController, public alertCtrl: AlertController,
+  public loading: Loading;
+  constructor( public loadingCtrl: LoadingController, public navCtrl: NavController, public alertCtrl: AlertController,
     public profileProvider: ProfileProvider, public authProvider: AuthProvider) {}
 
   ionViewDidEnter() {
@@ -123,11 +124,26 @@ this.navCtrl.push(LoginPage);
           handler: data => {
             let newEmail = data.newEmail;
 
-            this.profileProvider.updateEmail(data.newEmail, data.password).then( () =>{
-              this.userProfile.email = newEmail;
-            }).catch(error => {
-              console.log('ERROR: '+error.message);
+            this.profileProvider.updateEmail(data.newEmail, data.password).then( ()=> {
+          this.loading.dismiss().then(() => {
+            console.log("mail modifier")
+          });
+        }, error => {
+          this.loading.dismiss().then(() => {
+            let alert = this.alertCtrl.create({
+              message: error.message,
+              buttons: [
+                {
+                  text: "Ok",
+                  role: 'cancel'
+                }
+              ]
             });
+            alert.present();
+          });
+        });
+      this.loading = this.loadingCtrl.create();
+      this.loading.present();
           }
         }
       ]
@@ -156,7 +172,41 @@ this.navCtrl.push(LoginPage);
         {
           text: 'Save',
           handler: data => {
-            this.profileProvider.updatePassword(data.newPassword, data.oldPassword);
+
+          this.profileProvider.updatePassword(data.newPassword, data.oldPassword)
+        .then ( () => {
+
+          this.loading.dismiss().then(() => {
+              let alert = this.alertCtrl.create({
+              message: "mot de pass bien modifier",
+              buttons: [
+                {
+                  text: "Ok",
+                  role: 'cancel'
+                }
+              ]
+            });
+            alert.present();
+             console.log("mot de passe modifier")
+          });
+
+
+        }, error => {
+          this.loading.dismiss().then(() => {
+            let alert = this.alertCtrl.create({
+              message: error.message,
+              buttons: [
+                {
+                  text: "Ok",
+                  role: 'cancel'
+                }
+              ]
+            });
+            alert.present();
+          });
+        });
+      this.loading = this.loadingCtrl.create();
+      this.loading.present();
           }
         }
       ]
@@ -182,7 +232,26 @@ this.navCtrl.push(LoginPage);
         {
           text: 'Save',
           handler: data => {
-            this.profileProvider.DeleteUser(data.Password);
+            this.profileProvider.DeleteUser(data.Password).then ( () => {
+          this.loading.dismiss().then(() => {
+            console.log("mail modifier")
+          });
+        }, error => {
+          this.loading.dismiss().then(() => {
+            let alert = this.alertCtrl.create({
+              message: error.message,
+              buttons: [
+                {
+                  text: "Ok",
+                  role: 'cancel'
+                }
+              ]
+            });
+            alert.present();
+          });
+        });
+      this.loading = this.loadingCtrl.create();
+      this.loading.present();
           }
         }
       ]
