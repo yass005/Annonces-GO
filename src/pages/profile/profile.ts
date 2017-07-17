@@ -4,6 +4,7 @@ import {Loading,
 import { ProfileProvider } from '../../providers/profile/profile';
 import { AuthProvider } from '../../providers/auth/auth';
 import { LoginPage } from '../login/login';
+import { MyApp } from '../../app/app.component';
 
 @IonicPage({
   name: 'profile'
@@ -30,7 +31,7 @@ export class ProfilePage {
 
   logOut(): void {
 this.authProvider.logout();
-this.navCtrl.push(LoginPage);
+this.navCtrl.setRoot(MyApp);
 
   }
 
@@ -124,9 +125,20 @@ this.navCtrl.push(LoginPage);
           handler: data => {
             let newEmail = data.newEmail;
 
-            this.profileProvider.updateEmail(data.newEmail, data.password).then( ()=> {
+          this.profileProvider.updateEmail(data.newEmail, data.password).then ( () => {
+
           this.loading.dismiss().then(() => {
-            console.log("mail modifier")
+              let alert = this.alertCtrl.create({
+              message: "Email bien modifier",
+              buttons: [
+                {
+                  text: "Ok",
+                  role: 'cancel'
+                }
+              ]
+            });
+            alert.present();
+             console.log("Email bien modifier")
           });
         }, error => {
           this.loading.dismiss().then(() => {
@@ -234,7 +246,7 @@ this.navCtrl.push(LoginPage);
           handler: data => {
             this.profileProvider.DeleteUser(data.Password).then ( () => {
           this.loading.dismiss().then(() => {
-            console.log("mail modifier")
+            console.log("user deleted")
           });
         }, error => {
           this.loading.dismiss().then(() => {

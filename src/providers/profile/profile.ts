@@ -58,12 +58,15 @@ export class ProfileProvider {
   }
 
   updateEmail(newEmail: string, password: string): firebase.Promise<any> {
-    const credential = firebase.auth.EmailAuthProvider
-      .credential(this.currentUser.email, password);
+    const credential = firebase.auth.EmailAuthProvider.credential(this.currentUser.email, password);
 
     return this.currentUser.reauthenticateWithCredential(credential).then(user => {
-      this.currentUser.updateEmail(newEmail).then(user => {
-        this.userProfile.update({ email: newEmail });
+       console.log('user loged ok');
+     return this.currentUser.updateEmail(newEmail).then(user => {
+       console.log("Password Changed");
+        this.userProfile.update({ email: newEmail }).then(user => {
+
+      })
       });
     });
   }
@@ -77,14 +80,14 @@ export class ProfileProvider {
       return   this.currentUser.updatePassword(newPassword).then(user => {
         console.log("Password Changed");
       })
-  }/*, error => {
+  });
+  /*, error => {
          console.log(error);
-      }*/);
+      }*/
   }
 
   DeleteUser(Password: string): firebase.Promise<any> {
-    const credential = firebase.auth.EmailAuthProvider
-      .credential(this.currentUser.email, Password);
+    const credential = firebase.auth.EmailAuthProvider.credential(this.currentUser.email, Password);
 
     return this.currentUser.reauthenticateWithCredential(credential).then(user => {
       this.currentUser.delete().then( message => {

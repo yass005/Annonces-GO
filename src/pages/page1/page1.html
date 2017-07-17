@@ -8,12 +8,10 @@
 
 <ion-content padding>
 
-<button ion-button block (click)=" google()" *ngIf="!user" >
-  GOOGLE LOGIN
+<button ion-button block (click)=" gologin()" *ngIf="!user" >
+  LOGIN to Check your profile
 </button>
-	<button ion-button outline (click)="face()" *ngIf="!user" >
-    Login facebook
-  </button>
+
 <ion-card *ngIf="user">
   <ion-card-header>
     {{ user.email }}

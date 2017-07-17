@@ -14,9 +14,14 @@ user: any;
   public userProfile: any = null;
 constructor(public navCtrl: NavController, public auth : AuthProvider) {
 
-  this.user = this.auth.getUser();
-}
 
+
+}
+ionViewDidLoad(){
+
+ this.user = this.auth.getUser();
+
+  }
 signInWithFacebook() {
   // this.authProvider.loginWithFacebook();
   }
@@ -28,9 +33,9 @@ signInWithFacebook() {
   profile(){
 this.navCtrl.push(ProfilePage)
   }
-  google(){
-    this.auth.googleLogin();
-  }
+ gologin(){
+   this.navCtrl.push(LoginPage);
+ }
 
   face(){
      this.auth.faceLogin();

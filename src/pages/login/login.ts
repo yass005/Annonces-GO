@@ -12,6 +12,7 @@ import { Page1 } from '../page1/page1';
 import { RegisterPage } from '../register/register';
 import { ResetPasswordPage } from '../reset-password/reset-password';
 import { EmailValidator } from '../../validators/email';
+import { ProfilePage } from '../profile/profile';
 
 /**
  * Generated class for the LoginPage page.
@@ -62,6 +63,7 @@ export class LoginPage {
         });
       this.loading = this.loadingCtrl.create();
       this.loading.present();
+      this.navCtrl.setRoot(ProfilePage);
     }
   }
 
