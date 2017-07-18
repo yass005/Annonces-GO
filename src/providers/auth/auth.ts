@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
 import firebase from 'firebase/app';
-//import { Facebook } from '@ionic-native/facebook';
+import { Facebook } from '@ionic-native/facebook';
 /*
   Generated class for the AuthProvider provider.
 
@@ -11,10 +11,10 @@ import firebase from 'firebase/app';
 */
 @Injectable()
 export class AuthProvider {
-erreur: any;
+  erreur: any;
   providerFacebook = new firebase.auth.FacebookAuthProvider();
   providerGoogle = new firebase.auth.GoogleAuthProvider();
-  constructor(private afAuth: AngularFireAuth, private afDatabase : AngularFireDatabase) { }
+  constructor(private afAuth: AngularFireAuth, private afDatabase : AngularFireDatabase, public facebook : Facebook) { }
 
  signupUser(email: string, password: string): firebase.Promise<any> {
     return this.afAuth.auth.createUserWithEmailAndPassword(email, password).then((newUser) => {
@@ -22,9 +22,10 @@ erreur: any;
           email: email
       });
     })
+
   }
 // impossible d'utiliser authetification native une cle hash et demander et impossible de la générer
- /* facebookLogin(): Promise<any> {
+  facebookLogin(): Promise<any> {
     return this.facebook.login(['email'])
       .then( (response) => {
         const facebookCredential = firebase.auth.FacebookAuthProvider
@@ -36,7 +37,7 @@ erreur: any;
 
       })
       .catch((error) => { console.log(error) });
-  }*/
+  }
 
 
   getUser(): firebase.User {
@@ -55,24 +56,25 @@ return this.afAuth.auth.sendPasswordResetEmail(email);
     return this.afAuth.auth.signInWithEmailAndPassword(email, password);
   }
 
-  googleLogin():void {
+googleLogin() {
 
-this.SocialLogin(this.providerGoogle);
+return this.SocialLogin(this.providerGoogle);
 }
-  faceLogin(): void {
+  faceLogin() {
 
-  this.SocialLogin(this.providerFacebook)
+  return this.SocialLogin(this.providerFacebook)
 }
 
- SocialLogin(provider): void {
+ SocialLogin(provider): void{
 
-  firebase.auth().signInWithRedirect(provider).then( () => {
-    firebase.auth().getRedirectResult().then( result => {
+      this.afAuth.auth.signInWithRedirect(provider).then( () => {
+          this.afAuth.auth.getRedirectResult().then( result => {
       // This gives you a Google Access Token.
       // You can use it to access the Google API.
       var token = result.credential.accessToken;
       // The signed-in user info.
       var user = result.user;
+
       console.log(token, user);
     }).catch(function(error) {
       // Handle Errors here.

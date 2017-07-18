@@ -8,7 +8,6 @@ import {
 } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthProvider } from '../../providers/auth/auth';
-import { Page1 } from '../page1/page1';
 import { RegisterPage } from '../register/register';
 import { ResetPasswordPage } from '../reset-password/reset-password';
 import { EmailValidator } from '../../validators/email';
@@ -20,6 +19,8 @@ import { ProfilePage } from '../profile/profile';
  * See http://ionicframework.com/docs/components/#navigation for more info
  * on Ionic pages and navigation.
  */
+
+
 @IonicPage()
 @Component({
   selector: 'page-login',
@@ -37,6 +38,7 @@ export class LoginPage {
       password: ['', Validators.compose([Validators.minLength(6),
       Validators.required])]
     });
+
   }
   loginUser(): void {
     if (!this.loginForm.valid) {
@@ -45,7 +47,6 @@ export class LoginPage {
       this.authProvider.loginUser(this.loginForm.value.email,
         this.loginForm.value.password).then(() => {
           this.loading.dismiss().then(() => {
-             this.navCtrl.setRoot(Page1);
           });
         }, error => {
           this.loading.dismiss().then(() => {
@@ -73,7 +74,29 @@ export class LoginPage {
 
   facebookLogin(): void {
 
+   /* this.authProvider.facebookLogin().then(() => {
+          this.loading.dismiss().then(() => {
+             this.navCtrl.setRoot(ProfilePage);
+          });
+        }, error => {
+          this.loading.dismiss().then(() => {
+            let alert = this.alertCtrl.create({
+              message: error.message,
+              buttons: [
+                {
+                  text: "Ok",
+                  role: 'cancel'
+                }
+              ]
+            });
+            alert.present();
+          });
+        });
+      this.loading = this.loadingCtrl.create();
+      this.loading.present(); */
     this.authProvider.faceLogin();
+    console.log("ok")
+
   }
   googlelogin(): void {
 

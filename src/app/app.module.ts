@@ -2,7 +2,6 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
-import { Page1 } from '../pages/page1/page1';
 import { Page2 } from '../pages/page2/page2';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
@@ -31,7 +30,6 @@ export const firebaseConfig = {
 @NgModule({
   declarations: [
     MyApp,
-    Page1,
     Page2,
     RegisterPage,
     LoginPage,
@@ -50,7 +48,6 @@ export const firebaseConfig = {
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    Page1,
     Page2,
     RegisterPage,
     LoginPage,

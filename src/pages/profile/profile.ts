@@ -7,6 +7,7 @@ import { ProfileProvider } from '../../providers/profile/profile';
 import { AuthProvider } from '../../providers/auth/auth';
 import { LoginPage } from '../login/login';
 import { MyApp } from '../../app/app.component';
+import { Page2 } from '../page2/page2';
 
 @IonicPage({
   name: 'profile'
@@ -229,5 +230,10 @@ export class ProfilePage {
       alert.present();
       console.log(message);
     });
+  }
+
+  annonces(){
+
+    this.navCtrl.push(Page2)
   }
 }
