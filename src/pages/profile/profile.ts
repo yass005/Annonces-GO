@@ -22,10 +22,17 @@ export class ProfilePage {
   public userAdress: any;
   public loading: Loading;
   constructor(public loadingCtrl: LoadingController, public navCtrl: NavController, public alertCtrl: AlertController,
-    public profileProvider: ProfileProvider, public authProvider: AuthProvider) { }
+    public profileProvider: ProfileProvider, public authProvider: AuthProvider) {
 
-  ionViewDidEnter() {
-    this.profileProvider.getUserProfile().on('value', userProfileSnapshot => {
+
+
+    }
+
+  ionViewCanEnter(){
+
+
+
+ this.profileProvider.getUserProfile().on('value', userProfileSnapshot => {
       this.userProfile = userProfileSnapshot.val();
       this.birthDate = userProfileSnapshot.val().birthDate;
       this.userAdress = userProfileSnapshot.val().adress;

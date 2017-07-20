@@ -35,8 +35,8 @@ this.authProvider.resetPassword(this.resetPasswordForm.value.email)
 .then( () => {
 loading.dismiss().then( () => {
 const alert = this.alertCtrl.create({
-title: 'Your email is on the way!',
-subTitle: 'We just sent you an email with instructions to retrieve your password.',
+title: 'lien de réinitialisation envoyé',
+subTitle: `Un lien pour réinitialiser votre mot de passe a été envoyé par e-mail à ${this.resetPasswordForm.value.email}`,
 buttons: [
 {
 text: 'OK',
@@ -52,7 +52,7 @@ alert.present();
 loading.dismiss().then( () => {
 const alert = this.alertCtrl.create({
 title: error.name,
-subTitle: error.message,
+subTitle: `Aucun compte ne correspond à ${this.resetPasswordForm.value.email} Peut-être avez-vous utilisé une adresse e-mail différente/incorrecte lors de votre inscription`,
 buttons: [
 {
 text: 'OK',

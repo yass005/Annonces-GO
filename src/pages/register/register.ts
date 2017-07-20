@@ -46,7 +46,6 @@ console.log(this.signupForm.value);
 this.authProvider.signupUser(this.signupForm.value.email,
 this.signupForm.value.password).then(() => {
 this.loading.dismiss().then( () => {
-this.navCtrl.pop();
 });
 }, (error) => {
 this.loading.dismiss().then( () => {

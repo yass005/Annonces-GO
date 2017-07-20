@@ -51,7 +51,8 @@ export class LoginPage {
         }, error => {
           this.loading.dismiss().then(() => {
             let alert = this.alertCtrl.create({
-              message: error.message,
+
+              message: " login ou mot de passe incorrecte !" ,
               buttons: [
                 {
                   text: "Ok",
