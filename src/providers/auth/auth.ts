@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
 import firebase from 'firebase/app';
-import { Facebook } from '@ionic-native/facebook';
+
 /*
   Generated class for the AuthProvider provider.
 
@@ -43,7 +43,7 @@ private init(): void {
 
   }
 // impossible d'utiliser authetification native une cle hash et demander et impossible de la générer
-  facebookLogin(): Promise<any> {
+ /* facebookLogin(): Promise<any> {
     return this.facebook.login(['email'])
       .then( (response) => {
         const facebookCredential = firebase.auth.FacebookAuthProvider
@@ -55,7 +55,7 @@ private init(): void {
 
       })
       .catch((error) => { console.log(error) });
-  }
+  }*/
 
 
   getUser(): firebase.User {
