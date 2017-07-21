@@ -14,7 +14,10 @@
     <ion-list-header>
       Personal Information
     </ion-list-header>
-
+      <ion-item>
+      <ion-label>Tracker</ion-label>
+      <ion-toggle color="royal" checked="check" (ionChange)="changer()"></ion-toggle>
+    </ion-item>
     <ion-item (click)="updateName()">
       <ion-grid>
         <ion-row>

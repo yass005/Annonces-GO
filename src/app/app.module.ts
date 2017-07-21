@@ -12,9 +12,13 @@ import { AuthProvider } from '../providers/auth/auth';
 import { RegisterPage } from '../pages/register/register';
 import { LoginPage } from '../pages/login/login';
 import { ResetPasswordPage } from '../pages/reset-password/reset-password';
-import { Facebook } from '@ionic-native/facebook'
 import { ProfileProvider } from '../providers/profile/profile';
 import { ProfilePage } from '../pages/profile/profile';
+import { AuthServiceMock } from '../providers/auth-service-mock/auth-service-mock';
+import { LocationTrackerProvider } from '../providers/location-tracker/location-tracker';
+import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
+import { Geolocation } from '@ionic-native/geolocation';
+import { NativeGeocoder } from '@ionic-native/native-geocoder';
 
 
 
@@ -59,8 +63,12 @@ ProfilePage
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     AuthProvider,
-    Facebook,
-    ProfileProvider
+    ProfileProvider,
+    AuthServiceMock,
+    BackgroundGeolocation,
+    Geolocation,
+    NativeGeocoder,
+    LocationTrackerProvider
   ]
 })
 export class AppModule { }

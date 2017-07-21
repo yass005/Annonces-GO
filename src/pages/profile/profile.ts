@@ -8,6 +8,7 @@ import { AuthProvider } from '../../providers/auth/auth';
 import { LoginPage } from '../login/login';
 import { MyApp } from '../../app/app.component';
 import { Page2 } from '../page2/page2';
+import { LocationTrackerProvider } from '../../providers/location-tracker/location-tracker';
 
 @IonicPage({
   name: 'profile'
@@ -21,8 +22,9 @@ export class ProfilePage {
   public birthDate: string;
   public userAdress: any;
   public loading: Loading;
+  check : boolean=false
   constructor(public loadingCtrl: LoadingController, public navCtrl: NavController, public alertCtrl: AlertController,
-    public profileProvider: ProfileProvider, public authProvider: AuthProvider) {
+    public profileProvider: ProfileProvider, public authProvider: AuthProvider, public LocationTracker: LocationTrackerProvider) {
 
 
 
@@ -242,5 +244,15 @@ export class ProfilePage {
   annonces(){
 
     this.navCtrl.push(Page2)
+  }
+
+  start_stop(){
+
+   this.check ? this.LocationTracker.startTracking() :  this.LocationTracker.stopTracking();
+  }
+
+  changer(){
+ this.check ? this.check=false : this.check=true
+ this.start_stop();
   }
 }

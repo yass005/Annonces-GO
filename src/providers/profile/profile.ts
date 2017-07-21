@@ -35,8 +35,8 @@ export class ProfileProvider {
   updatePosition(lat: number, long: number): firebase.Promise<void> {
     var hopperRef = this.userProfile.child("position");
     return hopperRef.update({
-      lat: lat,
-      long: long,
+      Lat: lat,
+      Long: long,
     });
 
   }
@@ -47,7 +47,8 @@ export class ProfileProvider {
        numéro: num,
        rue: rue,
       ville: ville
-    });
+    }).then(res => console.log(res)).
+    catch(err => console.log(err))
 
   }
 
