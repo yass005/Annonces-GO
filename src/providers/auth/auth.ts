@@ -14,9 +14,9 @@ export class AuthProvider {
   erreur: any;
   providerFacebook = new firebase.auth.FacebookAuthProvider();
   providerGoogle = new firebase.auth.GoogleAuthProvider();
-   private  authState: firebase.User;
+  private  authState: firebase.User;
 
-  constructor(private afAuth: AngularFireAuth, private afDatabase : AngularFireDatabase, public facebook : Facebook) { }
+  constructor(private afAuth: AngularFireAuth, private afDatabase : AngularFireDatabase) { }
 private init(): void {
     this.afAuth.authState.subscribe((authState) => {
       if (authState === null) {
@@ -42,7 +42,9 @@ private init(): void {
     })
 
   }
-// impossible d'utiliser authetification native une cle hash et demander et impossible de la générer
+
+// impossible d'utiliser authetification native une cle hash et demander et impossible de
+//la générer le plugin disponible genere aussi une erreur lor du  tests ur emulateur ou device
  /* facebookLogin(): Promise<any> {
     return this.facebook.login(['email'])
       .then( (response) => {

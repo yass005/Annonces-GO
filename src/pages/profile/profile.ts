@@ -242,12 +242,10 @@ export class ProfilePage {
   }
 
   annonces(){
-
     this.navCtrl.push(Page2)
   }
 
   start_stop(){
-
    this.check ? this.LocationTracker.startTracking() :  this.LocationTracker.stopTracking();
   }
 
