@@ -17,23 +17,7 @@ export class AuthProvider {
   private  authState: firebase.User;
 
   constructor(private afAuth: AngularFireAuth, private afDatabase : AngularFireDatabase) { }
-private init(): void {
-    this.afAuth.authState.subscribe((authState) => {
-      if (authState === null) {
-        this.afAuth.auth.signInAnonymously()
-          .then((authState) => {
-            this.authState = authState;
-          })
-          .catch((error) => {
-            throw new Error(error.message);
-          });
-      } else {
-        this.authState = authState;
-      }
-    }, (error) => {
-      throw new Error(error.message);
-    });
-  }
+
  signupUser(email: string, password: string): firebase.Promise<any> {
     return this.afAuth.auth.createUserWithEmailAndPassword(email, password).then((newUser) => {
       this.afDatabase.object(`/userProfile/${newUser.uid}`).update({

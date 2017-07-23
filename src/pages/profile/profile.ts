@@ -30,15 +30,17 @@ export class ProfilePage {
 
     }
 
-  ionViewCanEnter(){
+  ionViewDidLoad(){
 
 
-
- this.profileProvider.getUserProfile().on('value', userProfileSnapshot => {
+    this.profileProvider.getUserProfile().on('value', userProfileSnapshot => {
       this.userProfile = userProfileSnapshot.val();
       this.birthDate = userProfileSnapshot.val().birthDate;
       this.userAdress = userProfileSnapshot.val().adress;
     });
+
+
+
   }
 
   logOut(): void {
