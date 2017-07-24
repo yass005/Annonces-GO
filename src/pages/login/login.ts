@@ -33,6 +33,9 @@ export class LoginPage {
   constructor(public navCtrl: NavController,
     public loadingCtrl: LoadingController, public authProvider: AuthProvider,
     public formBuilder: FormBuilder, public alertCtrl: AlertController) {
+
+      // initiation du formulaire de'nvoie du login mot de passe avec controle de validité de email et mot longeur
+      //du mot de passe
     this.loginForm = formBuilder.group({
       email: ['', Validators.compose([Validators.required, EmailValidator.isValid])],
       password: ['', Validators.compose([Validators.minLength(6),
@@ -40,6 +43,7 @@ export class LoginPage {
     });
 
   }
+  //// appel de ma méthode de connexion login email/mot de passe depuis le service de authetification
   loginUser(): void {
     if (!this.loginForm.valid) {
       console.log(this.loginForm.value);
@@ -52,7 +56,7 @@ export class LoginPage {
           this.loading.dismiss().then(() => {
             let alert = this.alertCtrl.create({
 
-              message: " login ou mot de passe incorrecte !" ,
+              message: " login ou mot de passe incorrecte !",
               buttons: [
                 {
                   text: "Ok",
@@ -73,35 +77,41 @@ export class LoginPage {
 
   goToSignup(): void { this.navCtrl.push(RegisterPage); }
 
+// appel de ma méthode de connexion facebook depuis le service de authetification
   facebookLogin(): void {
 
-   /* this.authProvider.facebookLogin().then(() => {
-          this.loading.dismiss().then(() => {
-             this.navCtrl.setRoot(ProfilePage);
-          });
-        }, error => {
-          this.loading.dismiss().then(() => {
-            let alert = this.alertCtrl.create({
-              message: error.message,
-              buttons: [
-                {
-                  text: "Ok",
-                  role: 'cancel'
-                }
-              ]
-            });
-            alert.present();
-          });
-        });
-      this.loading = this.loadingCtrl.create();
-      this.loading.present(); */
-    this.authProvider.facebookLogin();
- console.log("ok")
-
-
+    this.authProvider.facebookLogin().then(() => {
+      console.log("ok")
+    }, error => {
+      this.showMessage(error.message);
+    });
+    this.loading = this.loadingCtrl.create();
+    this.loading.present();
   }
+  // appel de ma méthode de connexion google depuis le service de authetification
   googlelogin(): void {
+    this.authProvider.googleLogin().then(() => {
+      console.log("ok")
+    }, error => {
+      this.showMessage(error.message);
+    });
+    this.loading = this.loadingCtrl.create();
+    this.loading.present();
+  }
 
-    this.authProvider.googleLogin();
+  showMessage(message: string) {
+    this.loading.dismiss().then(() => {
+      let alert = this.alertCtrl.create({
+        message: message,
+        buttons: [
+          {
+            text: "Ok",
+            role: 'cancel'
+          }
+        ]
+      });
+      alert.present();
+      console.log(message);
+    });
   }
 }

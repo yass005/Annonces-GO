@@ -47,7 +47,7 @@ it('should log user in',
 
   it('should log user out',
     inject([LoginPage], (app: LoginPage) => {
-      expect(app.authProvider.faceLogin).toHaveBeenCalled();
+      expect(app.authProvider.facebookLogin).toHaveBeenCalled();
     })
   );
 });
