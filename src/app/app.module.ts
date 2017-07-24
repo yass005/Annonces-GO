@@ -19,8 +19,8 @@ import { LocationTrackerProvider } from '../providers/location-tracker/location-
 import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
 import { Geolocation } from '@ionic-native/geolocation';
 import { NativeGeocoder } from '@ionic-native/native-geocoder';
-
-
+import { GooglePlus } from '@ionic-native/google-plus';
+import { Facebook } from '@ionic-native/facebook';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyB6s6vyLqyo9EaN2xqDpHa0WBu4tKFzwgo",
@@ -67,7 +67,9 @@ ProfilePage
     AuthServiceMock,
     BackgroundGeolocation,
     Geolocation,
+    Facebook,
     NativeGeocoder,
+    GooglePlus,
     LocationTrackerProvider
   ]
 })

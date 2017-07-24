@@ -23,8 +23,9 @@
         "@angular/platform-browser-dynamic": "4.1.2",
         "@ionic-native/background-geolocation": "^4.1.0",
         "@ionic-native/core": "3.12.1",
-        "@ionic-native/facebook": "^4.0.0",
+        "@ionic-native/facebook": "^4.1.0",
         "@ionic-native/geolocation": "^4.1.0",
+        "@ionic-native/google-plus": "^4.1.0",
         "@ionic-native/native-geocoder": "^4.1.0",
         "@ionic-native/splash-screen": "3.12.1",
         "@ionic-native/status-bar": "3.12.1",
@@ -37,7 +38,10 @@
         "cordova-plugin-console": "^1.0.5",
         "cordova-plugin-customurlscheme": "^4.3.0",
         "cordova-plugin-device": "^1.1.4",
+        "cordova-plugin-facebook": "^0.2.2",
+        "cordova-plugin-facebook4": "^1.7.4",
         "cordova-plugin-geolocation": "^2.4.3",
+        "cordova-plugin-googleplus": "~5.1.1",
         "cordova-plugin-inappbrowser": "^1.7.1",
         "cordova-plugin-mauron85-background-geolocation": "^2.2.5",
         "cordova-plugin-nativegeocoder": "^1.0.2",
@@ -94,7 +98,14 @@
                 "ACCOUNT_TYPE": "$PACKAGE_NAME.account",
                 "CONTENT_AUTHORITY": "$PACKAGE_NAME"
             },
-            "cordova-plugin-nativegeocoder": {}
+            "cordova-plugin-nativegeocoder": {},
+            "cordova-plugin-googleplus": {
+                "REVERSED_CLIENT_ID": "240356183666-isqpe199edhl77u7bn5e5m847ffsokh2.apps.googleusercontent.co"
+            },
+            "cordova-plugin-facebook4": {
+                "APP_ID": "833319713510346",
+                "APP_NAME": "Annonces-go"
+            }
         },
         "platforms": [
             "android"
