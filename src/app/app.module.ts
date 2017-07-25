@@ -21,6 +21,9 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { NativeGeocoder } from '@ionic-native/native-geocoder';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { Facebook } from '@ionic-native/facebook';
+import { AnnonceProvider } from '../providers/annonce/annonce';
+import { AjoutAnnoncePage } from '../pages/ajout-annonce/ajout-annonce';
+import { AnnonceDetailsPage } from '../pages/annonce-details/annonce-details';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyB6s6vyLqyo9EaN2xqDpHa0WBu4tKFzwgo",
@@ -38,7 +41,9 @@ export const firebaseConfig = {
     RegisterPage,
     LoginPage,
     ResetPasswordPage,
-    ProfilePage
+    ProfilePage,
+    AjoutAnnoncePage,
+    AnnonceDetailsPage
 
 
   ],
@@ -56,7 +61,9 @@ export const firebaseConfig = {
     RegisterPage,
     LoginPage,
       ResetPasswordPage,
-ProfilePage
+        AnnonceDetailsPage,
+ProfilePage,
+AjoutAnnoncePage
   ],
   providers: [
     StatusBar,
@@ -70,7 +77,9 @@ ProfilePage
     Facebook,
     NativeGeocoder,
     GooglePlus,
-    LocationTrackerProvider
+    LocationTrackerProvider,
+    AnnonceProvider,
+
   ]
 })
 export class AppModule { }

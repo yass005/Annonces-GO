@@ -21,8 +21,8 @@ export class MyApp {
     this.initializeApp();
 
 
-    afAuth.authState.subscribe( authState => {
-      if (authState){
+    afAuth.authState.subscribe( user  => {
+      if (user ){
         this.rootPage = ProfilePage;
       } else {
         this.rootPage = LoginPage;

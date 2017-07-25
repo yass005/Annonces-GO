@@ -82,21 +82,18 @@ export class LoginPage {
 
     this.authProvider.facebookLogin().then(() => {
       console.log("ok")
-    }, error => {
-      this.showMessage(error.message);
-    });
-    this.loading = this.loadingCtrl.create();
-    this.loading.present();
+
+    }).catch(err => {
+    this.showMessage(err);
+    })
   }
   // appel de ma méthode de connexion google depuis le service de authetification
   googlelogin(): void {
     this.authProvider.googleLogin().then(() => {
       console.log("ok")
-    }, error => {
-      this.showMessage(error.message);
-    });
-    this.loading = this.loadingCtrl.create();
-    this.loading.present();
+    }).catch(err => {
+    this.showMessage(err);
+    })
   }
 
   showMessage(message: string) {

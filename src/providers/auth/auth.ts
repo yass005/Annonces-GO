@@ -4,6 +4,7 @@ import { AngularFireDatabase, AngularFireDatabaseModule } from 'angularfire2/dat
 import firebase from 'firebase/app';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { Facebook } from '@ionic-native/facebook';
+import { Observable } from 'rxjs/Rx';
 /*
   Generated class for the AuthProvider provider.
 
@@ -17,9 +18,11 @@ export class AuthProvider {
   // premier solution connexion réseau social
   /*providerFacebook = new firebase.auth.FacebookAuthProvider();
   providerGoogle = new firebase.auth.GoogleAuthProvider();*/
-  private  authState: firebase.User;
+  public   user: Observable<firebase.User>;
 
-  constructor(private afAuth: AngularFireAuth, private afDatabase : AngularFireDatabase, public googlePlus : GooglePlus, public facebook : Facebook) { }
+  constructor(private afAuth: AngularFireAuth, private afDatabase : AngularFireDatabase, public googlePlus : GooglePlus, public facebook : Facebook) {
+    this.user = afAuth.authState;
+  }
 //création d'un nouveau utilisateur avec email e mot de passe et mise a jour de email dans la base
  signupUser(email: string, password: string): firebase.Promise<any> {
     return this.afAuth.auth.createUserWithEmailAndPassword(email, password).then((newUser) => {
