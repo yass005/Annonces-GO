@@ -24,9 +24,9 @@ export class AjoutAnnoncePage {
   private formBuilder: FormBuilder, private toastCtrl: ToastController) {
 
      this.todo = this.formBuilder.group({
-      title: ['', Validators.required],
+      title: ['',  Validators.compose([Validators.minLength(20), Validators.required])],
       categorie: ['', Validators.required],
-      description: [''],
+      description: ['', Validators.compose([Validators.minLength(50), Validators.required])],
     });
 
     this.Cats=categories;
@@ -43,8 +43,8 @@ logForm(){
     this.ann={
   titre : this.todo.value.title,
   description : this.todo.value.description,
-  categorie: { nom: this.todo.value.categorie},
-  imageURL: '"http://placehold.it/100x60?text=F3"'
+  categorie: { nom: this.todo.value.categorie, icon : "test"},
+  imageURL: 'http://placehold.it/100x60?text=F3'
 }
 
 console.log( this.ann);

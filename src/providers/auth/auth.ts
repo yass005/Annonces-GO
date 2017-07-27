@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { AngularFireDatabase, AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFireDatabase, AngularFireDatabaseModule,  } from 'angularfire2/database';
 import firebase from 'firebase/app';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { Facebook } from '@ionic-native/facebook';
@@ -32,6 +32,7 @@ export class AuthProvider {
     })
 
   }
+
 
 
 // récupération de id de utilisateur (important pour avoir accés a son profile)
