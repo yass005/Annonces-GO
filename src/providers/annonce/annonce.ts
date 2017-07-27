@@ -62,7 +62,8 @@ this.items$.push({
   titre : annonce.titre,
   description : annonce.description,
   categorie: annonce.categorie,
-  imageURL: 'http://placehold.it/100x60?text=F3'
+  imageURL: 'http://placehold.it/100x60?text=F3',
+  location : annonce.location
 
 
 }).then(res => {

@@ -44,7 +44,8 @@ logForm(){
   titre : this.todo.value.title,
   description : this.todo.value.description,
   categorie: { nom: this.todo.value.categorie, icon : "test"},
-  imageURL: 'http://placehold.it/100x60?text=F3'
+  imageURL: 'http://placehold.it/100x60?text=F3',
+ // location  : {lat:0, lng:0}
 }
 
 console.log( this.ann);
@@ -64,7 +65,7 @@ presentToast() {
   });
 
   toast.onDidDismiss(() => {
-    this.todo.reset();
+  //  this.todo.reset();
   });
 
   toast.present();

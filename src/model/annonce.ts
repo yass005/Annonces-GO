@@ -1,4 +1,5 @@
 import { categorie } from "./categorie";
+import { Loc } from './location';
 
 export interface Annonce {
 
@@ -6,5 +7,5 @@ export interface Annonce {
   description : string
   categorie: categorie
   imageURL?: string
-
+  location? : Loc
 }

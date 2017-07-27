@@ -30,7 +30,7 @@
     <p>{{annonce.description}}</p>
     </ion-card-content>
 
-   <ion-row no-padding>
+   <ion-row >
       <ion-col text-left>
         <button ion-button clear small color="primary" icon-start>
          <ion-icon name="create"></ion-icon>
@@ -40,13 +40,13 @@
       <ion-col text-center>
         <button ion-button clear small color="danger" icon-start (click)="suprimmer(annonce)">
           <ion-icon name='trash'></ion-icon>
-          Suprimmer
+          Suprimer
         </button>
       </ion-col>
       <ion-col text-right>
         <button ion-button clear small color="secondary" icon-start>
           <ion-icon ios="ios-share" md="md-share"></ion-icon>
-          Partage
+          Partager
         </button>
       </ion-col>
     </ion-row>
