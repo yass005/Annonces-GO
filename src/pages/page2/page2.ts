@@ -4,6 +4,7 @@ import { AnnonceProvider } from '../../providers/annonce/annonce';
 import { AjoutAnnoncePage } from '../ajout-annonce/ajout-annonce';
 import { Annonce } from '../../model/annonce';
 import { AnnonceDetailsPage } from '../annonce-details/annonce-details';
+import { FirebaseListObservable } from 'angularfire2/database';
 @Component({
   selector: 'page-page2',
   templateUrl: 'page2.html'
@@ -11,11 +12,11 @@ import { AnnonceDetailsPage } from '../annonce-details/annonce-details';
 export class Page2 {
   selectedItem: any;
   icons: string[];
-  items: Annonce[]
- pushPage: any;
+  items: FirebaseListObservable<any[]>;
+  pushPage: any;
   constructor(public navCtrl: NavController, public navParams: NavParams,public  Annonces : AnnonceProvider) {
 
-    this.items=Annonces.List_des_annonces();
+this.items=Annonces.items$;
 this.pushPage = AnnonceDetailsPage;
     // If we navigated to this page, we will have an item available as a nav param
     this.selectedItem = navParams.get('item');

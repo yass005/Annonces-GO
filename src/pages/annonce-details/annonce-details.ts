@@ -14,9 +14,10 @@ import { AnnonceProvider } from '../../providers/annonce/annonce';
   templateUrl: 'annonce-details.html',
 })
 export class AnnonceDetailsPage {
-annonce : Annonce
+annonce : any
   constructor(public navCtrl: NavController, public navParams: NavParams,public annonceProvider :AnnonceProvider, private toastCtrl: ToastController) {
-     this.annonce=this.navParams.data;
+     this.annonce= annonceProvider.getAnnonce(this.navParams.get('item.$key'));
+     console.log(this.annonce);
   }
 
   ionViewDidLoad() {

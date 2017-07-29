@@ -6,7 +6,7 @@ import { annonces } from '../../model/Annonces';
 import { AngularFireDatabase, AngularFireDatabaseModule, FirebaseObjectObservable, FirebaseListObservable } from 'angularfire2/database';
 import { AuthProvider } from '../auth/auth';
 import { ProfileProvider } from '../profile/profile';
-
+import * as firebase from 'firebase';
 /*
   Generated class for the AnnonceProvider provider.
 
@@ -41,6 +41,15 @@ export class AnnonceProvider {
 
 }
 
+getAnnonce(key : string) {
+  return this.db.list(`${this.profileProvider.userProfile}/Annonces/${key}`);
+}
+
+	getList_des_annonce(): FirebaseListObservable<any> {
+		// console.log('BillProvider.getBillList(), this.billList: '+this.billList);
+		return this.items$
+	}
+
     removeAnnonce(annonce :Annonce): Boolean{
 
          const position = annonces.indexOf(annonce);
@@ -54,24 +63,33 @@ export class AnnonceProvider {
     }
 
      ADD(annonce: Annonce ): void {
+
   // Writes user name and email to realtime db
   // useful if your app displays information about users or for admin features
+if (annonce.imageURL != null) {
 
-this.items$.push({
-
+  this.items$.push({
   titre : annonce.titre,
   description : annonce.description,
   categorie: annonce.categorie,
   imageURL: 'http://placehold.it/100x60?text=F3',
-  location : annonce.location
+  location : annonce.location,
 
 
 }).then(res => {
-  console.log(res);
-}, err => console.log(err))
+firebase.storage().ref('/Users/').child(`${this.profileProvider.currentUser.uid}`).child(`${res.key}`)
+  .child('Annonces.png')
+  .putString(annonce.imageURL, 'base64', {contentType: 'image/png'})
+  .then((savedPicture) => this.items$.update( res , { imageURL: savedPicture.downloadURL}))
+}) }
+else {
+  this.items$.push({
+  titre : annonce.titre,
+  description : annonce.description,
+  categorie: annonce.categorie,
+  imageURL: 'http://placehold.it/100x60?text=F3',
+  location : annonce.location,})
 
 }
-
-
-
-}
+     }
+     }

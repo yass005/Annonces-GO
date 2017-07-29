@@ -59,6 +59,8 @@
     <engine name="android" spec="^6.2.3" />
     <plugin name="cordova-plugin-browsertab" spec="^0.2.0" />
     <plugin name="cordova-plugin-buildinfo" spec="^1.1.0" />
+    <plugin name="cordova-plugin-camera" spec="^2.4.1" />
+    <plugin name="cordova-plugin-compat" spec="^1.1.0" />
     <plugin name="cordova-plugin-console" spec="^1.0.5" />
     <plugin name="cordova-plugin-device" spec="^1.1.4" />
     <plugin name="cordova-plugin-facebook4" spec="^1.7.4">
@@ -66,7 +68,7 @@
         <variable name="APP_NAME" value="Annonces-go" />
     </plugin>
     <plugin name="cordova-plugin-geolocation" spec="^2.4.3" />
-    <plugin name="cordova-plugin-googleplus" spec="~5.1.1">
+    <plugin name="cordova-plugin-googleplus" spec="^5.1.1">
         <variable name="REVERSED_CLIENT_ID" value="240356183666-isqpe199edhl77u7bn5e5m847ffsokh2.apps.googleusercontent.co" />
     </plugin>
     <plugin name="cordova-plugin-inappbrowser" spec="^1.7.1" />

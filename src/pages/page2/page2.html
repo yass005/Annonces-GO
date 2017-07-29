@@ -15,7 +15,8 @@
 <ion-content>
 
   <ion-list>
-  <ion-item ion-item *ngFor="let item of items"  [navPush]="pushPage" [navParams]="item">
+  <ion-item ion-item *ngFor="let item of items | async"  [navPush]="pushPage" [navParams]="item.$key">
+
     <ion-thumbnail item-start>
       <img src="{{item.imageURL}}">
     </ion-thumbnail>
