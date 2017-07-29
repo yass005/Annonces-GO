@@ -26,9 +26,9 @@ export class AjoutAnnoncePage {
   private formBuilder: FormBuilder, private toastCtrl: ToastController, private camera: Camera,public actionSheetCtrl: ActionSheetController) {
 
      this.todo = this.formBuilder.group({
-      title: ['',  Validators.compose([Validators.minLength(20), Validators.required])],
+      title: ['',  Validators.compose([Validators.minLength(5), Validators.required])],
       categorie: ['', Validators.required],
-      description: ['', Validators.compose([Validators.minLength(50), Validators.required])],
+      description: ['', Validators.compose([Validators.minLength(20), Validators.required])],
     });
 
     this.Cats=categories;
@@ -66,7 +66,7 @@ presentToast() {
   });
 
   toast.onDidDismiss(() => {
-  //  this.todo.reset();
+    this.todo.reset();
   });
 
   toast.present();

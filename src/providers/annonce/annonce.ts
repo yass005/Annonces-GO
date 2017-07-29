@@ -42,7 +42,7 @@ export class AnnonceProvider {
 }
 
 getAnnonce(key : string) {
-  return this.db.list(`${this.profileProvider.userProfile}/Annonces/${key}`);
+  return this.db.object(`${this.profileProvider.userProfile}/Annonces/${key}`, { preserveSnapshot: true })
 }
 
 	getList_des_annonce(): FirebaseListObservable<any> {
@@ -50,15 +50,8 @@ getAnnonce(key : string) {
 		return this.items$
 	}
 
-    removeAnnonce(annonce :Annonce): Boolean{
-
-         const position = annonces.indexOf(annonce);
-
-         if(position>=0){
-         annonces.splice(position,1);
-          return true;
-    }
-    return false;
+    removeAnnonce(annonce :Annonce){
+this.items$.remove(annonce.key)
 
     }
 

@@ -17,9 +17,9 @@
 
 
 <ion-content class="cards-bg">
-
+    <div *ngIf="annonce">
     <ion-card>
-    <div>
+    <div *ngIf="annonce.imageURL">
         <img src="{{annonce.imageURL}}"/>
     </div>
 
@@ -53,5 +53,5 @@
 
   </ion-card>
 
-
+</div>
 </ion-content>

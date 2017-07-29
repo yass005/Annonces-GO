@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/Rx';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { Annonce } from '../../model/annonce';
@@ -14,15 +15,30 @@ import { AnnonceProvider } from '../../providers/annonce/annonce';
   templateUrl: 'annonce-details.html',
 })
 export class AnnonceDetailsPage {
-annonce : any
+ itemObservable:Observable<any>
+ public annonce: Annonce ;
   constructor(public navCtrl: NavController, public navParams: NavParams,public annonceProvider :AnnonceProvider, private toastCtrl: ToastController) {
-     this.annonce= annonceProvider.getAnnonce(this.navParams.get('item.$key'));
-     console.log(this.annonce);
+this.itemObservable=this.annonceProvider.getAnnonce(this.navParams.get('AnnoncesId'));
+console.log(this.annonce);
   }
 
-  ionViewDidLoad() {
+ ionViewDidEnter() {
+ this.itemObservable.subscribe(snapshot => {
+
+   if (snapshot.val() != null) {
+
+  this.annonce=snapshot.val()
+ this.annonce.key=snapshot.key
+   }
+}, Error => {
+  console.log(Error.message)
+
+});
+
     console.log('ionViewDidLoad AnnonceDetailsPage');
   }
+
+
 share(annonce){
 
 }
@@ -41,6 +57,7 @@ presentToast() {
   });
 
   toast.onDidDismiss(() => {
+
    this.navCtrl.pop();
   });
 

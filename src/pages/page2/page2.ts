@@ -5,6 +5,8 @@ import { AjoutAnnoncePage } from '../ajout-annonce/ajout-annonce';
 import { Annonce } from '../../model/annonce';
 import { AnnonceDetailsPage } from '../annonce-details/annonce-details';
 import { FirebaseListObservable } from 'angularfire2/database';
+
+
 @Component({
   selector: 'page-page2',
   templateUrl: 'page2.html'
@@ -34,5 +36,9 @@ this.pushPage = AnnonceDetailsPage;
 
     this.navCtrl.push(AjoutAnnoncePage);
     }
+
+goToEventDetail(AnnonceId){
+this.navCtrl.push(AnnonceDetailsPage, { 'AnnoncesId': AnnonceId });
+}
 
 }
