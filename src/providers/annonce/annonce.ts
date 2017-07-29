@@ -50,9 +50,16 @@ getAnnonce(key : string) {
 		return this.items$
 	}
 
-    removeAnnonce(annonce :Annonce){
-this.items$.remove(annonce.key)
-
+  removeAnnonce(annonce :Annonce){
+this.items$.remove(annonce.key).then( () =>{
+firebase.storage().ref('/Users/').child(`${this.profileProvider.currentUser.uid}`).child(`${annonce.key}`)
+.child('Annonces.png').delete().then( () => console.log('ok'))
+.catch((error) =>{
+  console.log(error);
+})
+}).catch((error) =>{
+  console.log(error);
+})
     }
 
      ADD(annonce: Annonce ): void {
