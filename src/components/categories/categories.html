@@ -1,0 +1,7 @@
+ <ion-item>
+    <ion-label stacked>Catégorie</ion-label>
+    <ion-select >
+      <ion-option  *ngFor=" let categorie of items | async "> <ion-icon name="{{categorie.icon}}"></ion-icon>{{categorie.nom}}</ion-option>
+
+    </ion-select>
+  </ion-item>

@@ -25,6 +25,8 @@ import { AnnonceProvider } from '../providers/annonce/annonce';
 import { AjoutAnnoncePage } from '../pages/ajout-annonce/ajout-annonce';
 import { AnnonceDetailsPage } from '../pages/annonce-details/annonce-details';
 import { Camera } from '@ionic-native/camera';
+import { CategorieProvider } from '../providers/categorie/categorie';
+import { CategoriesComponent } from '../components/categories/categories';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyB6s6vyLqyo9EaN2xqDpHa0WBu4tKFzwgo",
@@ -51,9 +53,8 @@ class CameraMock extends Camera {
     ResetPasswordPage,
     ProfilePage,
     AjoutAnnoncePage,
-    AnnonceDetailsPage
-
-
+    AnnonceDetailsPage,
+    CategoriesComponent
   ],
   imports: [
     BrowserModule,
@@ -89,6 +90,7 @@ AjoutAnnoncePage
    // Camera,
     { provide: Camera, useClass: CameraMock},
     AnnonceProvider,
+    CategorieProvider,
 
   ]
 })
