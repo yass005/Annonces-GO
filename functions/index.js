@@ -1,7 +1,7 @@
 const functions = require('firebase-functions');
 //const geolocation = require('node-geolocation');
 const NodeGeocoder = require('node-geocoder');
-
+const nodemailer = require('nodemailer');
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
@@ -10,12 +10,23 @@ const NodeGeocoder = require('node-geocoder');
 //  response.send("Hello from Firebase!");
 // });
 
+
+const gmailEmail = encodeURIComponent(functions.config().gmail.email);
+const gmailPassword = encodeURIComponent(functions.config().gmail.password);
+const mailTransport = nodemailer.createTransport(
+`smtps://${gmailEmail}:${gmailPassword}@smtp.gmail.com`);
+
+var mailOptions = {
+   from: 'badrenyassine@gmail.com',
+   to: 'badrenyassine@gmail.com',
+  subject: 'Sending Email using Node.js',
+  text: 'That was easy!'
+};
 const options = {
   provider: 'google',
-
   // Optional depending on the providers
   httpAdapter: 'https', // Default
-  apiKey: 'AIzaSyAtWwBc4doPXuI2VWMp_0U3_wEmrGENrdE', // for Mapquest, OpenCage, Google Premier
+  apiKey: 'AIzaSyAtWwBc4doPXuI2VWMp_0U3_wEmrGENrdE', // for Google Premier
   formatter: null // 'gpx', 'string', ...
 };
 
@@ -24,6 +35,7 @@ const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 
 exports.createProfile = functions.auth.user().onCreate(event => {
+
   return admin.database().ref(`/userProfile/${event.data.uid}`).set({
     firstName: "",
     lastName: "",
@@ -39,7 +51,19 @@ exports.createProfile = functions.auth.user().onCreate(event => {
     },
     email: event.data.email
 
+  }).then( res => {
+    transporter.sendMail(mailOptions, (error, info) => {
+  if (error) {
+    console.log(error);
+  } else {
+    console.log('Email sent: ' + info.response);
+  }
+});
+  }).catch( err => {
+    console.log(err);
   });
+
+
 });
 
 

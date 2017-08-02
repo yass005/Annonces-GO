@@ -28,7 +28,7 @@ console.log(this.annonce);
    if (snapshot.val() != null) {
 
   this.annonce=snapshot.val()
- this.annonce.key=snapshot.key
+  this.annonce.key=snapshot.key
    }
 }, Error => {
   console.log(Error.message)
