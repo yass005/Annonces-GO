@@ -14,6 +14,7 @@
 
 
 <ion-content padding>
+
   <form [formGroup]="todo" (ngSubmit)="logForm()">
       <ion-item>
         <ion-label stacked>Titre</ion-label>
@@ -22,12 +23,9 @@
       <ion-item class="error-message" *ngIf="!todo.controls.title.valid ">
 <p>Your title needs more than 20 characters.</p>
 </ion-item>
-      <ion-item>
+
     <ion-label stacked>Catégorie</ion-label>
-    <ion-select formControlName="categorie">
-      <ion-option   *ngFor=" let categorie of Cats " value="{{categorie.nom}}">{{categorie.nom}}</ion-option>
-    </ion-select>
-  </ion-item>
+    <categories ></categories>
       <ion-item class="error-message" *ngIf="!todo.controls.categorie.valid ">
 <p>plz select an catégorie.</p>
 </ion-item>

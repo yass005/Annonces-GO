@@ -1,3 +1,5 @@
+import { CategoriesComponent } from './../../components/categories/categories';
+import { CategorieProvider } from './../../providers/categorie/categorie';
 import { Component } from '@angular/core';
 import {ActionSheetController, IonicPage,  NavController,  NavParams,  ToastController} from 'ionic-angular';
 import { AnnonceProvider } from '../../providers/annonce/annonce';
@@ -6,6 +8,8 @@ import { categorie } from '../../model/categorie';
 import { categories } from '../../model/cats';
 import {Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Camera, CameraOptions } from '@ionic-native/camera';
+
+
 /**
  * Generated class for the AjoutAnnoncePage page.
  *
@@ -23,7 +27,8 @@ export class AjoutAnnoncePage {
    public guestPicture: string = null;
    Cats: categorie[]
   constructor(public navCtrl: NavController, public navParams: NavParams,public  annonceProvider : AnnonceProvider,
-  private formBuilder: FormBuilder, private toastCtrl: ToastController, private camera: Camera,public actionSheetCtrl: ActionSheetController) {
+  private formBuilder: FormBuilder, private toastCtrl: ToastController, private camera: Camera,public actionSheetCtrl: ActionSheetController,
+) {
 
      this.todo = this.formBuilder.group({
       title: ['',  Validators.compose([Validators.minLength(5), Validators.required])],
@@ -32,6 +37,7 @@ export class AjoutAnnoncePage {
     });
 
     this.Cats=categories;
+   // console.log(categorieProvider.items$);
   }
 
   ionViewDidLoad() {
