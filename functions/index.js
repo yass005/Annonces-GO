@@ -17,8 +17,8 @@ const mailTransport = nodemailer.createTransport(
 `smtps://${gmailEmail}:${gmailPassword}@smtp.gmail.com`);
 
 var mailOptions = {
-   from: 'badrenyassine@gmail.com',
-   to: 'badrenyassine@gmail.com',
+   from: '"Spammy Corp." <noreply@firebase.com>',
+  to: 'yassine.badren@heig-vd.ch',
   subject: 'Sending Email using Node.js',
   text: 'That was easy!'
 };
@@ -52,7 +52,7 @@ exports.createProfile = functions.auth.user().onCreate(event => {
     email: event.data.email
 
   }).then( res => {
-    transporter.sendMail(mailOptions, (error, info) => {
+    transporter.sendMail(mailOptions, (error, info) =>{
   if (error) {
     console.log(error);
   } else {
@@ -60,6 +60,7 @@ exports.createProfile = functions.auth.user().onCreate(event => {
   }
 });
   }).catch( err => {
+
     console.log(err);
   });
 

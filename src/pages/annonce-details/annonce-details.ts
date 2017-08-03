@@ -15,7 +15,7 @@ import { AnnonceProvider } from '../../providers/annonce/annonce';
   templateUrl: 'annonce-details.html',
 })
 export class AnnonceDetailsPage {
- itemObservable:Observable<any>
+ itemObservable: Observable<any>
  public annonce: Annonce ;
   constructor(public navCtrl: NavController, public navParams: NavParams,public annonceProvider :AnnonceProvider, private toastCtrl: ToastController) {
 this.itemObservable=this.annonceProvider.getAnnonce(this.navParams.get('AnnoncesId'));

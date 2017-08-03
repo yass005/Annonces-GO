@@ -19,7 +19,6 @@ export class Page2 {
   constructor(public navCtrl: NavController, public navParams: NavParams,public  Annonces : AnnonceProvider) {
 
 this.items=Annonces.items$;
-this.pushPage = AnnonceDetailsPage;
     // If we navigated to this page, we will have an item available as a nav param
     this.selectedItem = navParams.get('item');
 

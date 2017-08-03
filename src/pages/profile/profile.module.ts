@@ -3,6 +3,7 @@ import { IonicPageModule } from 'ionic-angular';
 import { ProfilePage } from './profile';
 import { LoginPage } from '../login/login';
 
+
 @NgModule({
   declarations: [
     ProfilePage,

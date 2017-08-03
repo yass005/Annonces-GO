@@ -2,6 +2,8 @@
 //service pour la geston du profile de utilisateur//
 import { Injectable } from '@angular/core';
 import firebase from 'firebase'
+import { FirebaseListObservable, AngularFireDatabase } from 'angularfire2/database';
+import { Observable } from 'rxjs/Rx';
 
 /*
   Generated class for the ProfileProvider provider.
@@ -13,8 +15,8 @@ import firebase from 'firebase'
 export class ProfileProvider {
   public userProfile: firebase.database.Reference;
   public currentUser: firebase.User;
-
-  constructor() {
+   categoriesPromises = []
+  constructor(private db: AngularFireDatabase) {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.currentUser = user;
@@ -26,6 +28,47 @@ export class ProfileProvider {
   getUserProfile(): firebase.database.Reference {
     return this.userProfile;
   }
+
+ /* getFavoris():  firebase.database.Reference {
+    return this.userProfile.child("Favoris");
+
+  }*/
+RemoveFavoris(key : string)  {
+this.db.list(`/userProfile/${this.currentUser.uid}/Favoris/${key}`).remove();
+
+}
+
+getFavoris() :FirebaseListObservable<any>
+
+
+// tslint:disable-next-line:one-line
+{
+
+ return  this.db.list(`/userProfile/${this.currentUser.uid}/Favoris`);
+  /* .switchMap( favoris => {
+    let keys = (favoris.$keys)
+     return this.db.list('categories')
+    .map(categories => {
+    return  categories.filter( categorie =>  { return (categorie.$key===keys)
+
+
+    } )
+    })
+ });*/
+
+//return this.db.list(`/userProfile/${this.currentUser.uid}/Favoris`);
+
+
+ /*this.userProfile.child('Favoris').once('value').then(userSnap => {
+    userSnap.forEach(fav => {
+         const k = fav.key
+          this.categoriesPromises.push(firebase.database().ref(`categories/${k}`).once('value'))
+         }) })
+          .catch(err => { if (err) throw err })
+
+          return this.categoriesPromises*/
+}
+
 
   updateName(firstName: string, lastName: string): firebase.Promise<void> {
     return this.userProfile.update({
@@ -40,6 +83,12 @@ export class ProfileProvider {
       Lat: lat,
       Long: long,
     });
+
+  }
+
+    AddFavoris(key: string): firebase.Promise<void> {
+    var hopperRef = this.userProfile.child("Favoris");
+    return hopperRef.child(key).set (true);
 
   }
 

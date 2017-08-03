@@ -1,5 +1,5 @@
 import { FirebaseListObservable } from 'angularfire2/database';
-import { Component } from '@angular/core';
+import { Component, Output } from '@angular/core';
 import { CategorieProvider } from './../../providers/categorie/categorie';
 import { categorie } from '../../model/categorie';
 
@@ -20,6 +20,7 @@ export class CategoriesComponent {
   constructor(private categorieProvider : CategorieProvider) {
     console.log('Hello CategoriesComponent Component');
     this.items = categorieProvider.items$;
+
   }
 
 }

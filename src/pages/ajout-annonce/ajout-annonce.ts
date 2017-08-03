@@ -8,6 +8,7 @@ import { categorie } from '../../model/categorie';
 import { categories } from '../../model/cats';
 import {Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Camera, CameraOptions } from '@ionic-native/camera';
+import { FirebaseListObservable } from 'angularfire2/database';
 
 
 /**
@@ -25,18 +26,19 @@ export class AjoutAnnoncePage {
   private todo : FormGroup;
    public ann : Annonce=null;
    public guestPicture: string = null;
-   Cats: categorie[]
+   Cats: FirebaseListObservable<categorie[]>;
   constructor(public navCtrl: NavController, public navParams: NavParams,public  annonceProvider : AnnonceProvider,
-  private formBuilder: FormBuilder, private toastCtrl: ToastController, private camera: Camera,public actionSheetCtrl: ActionSheetController,
+  private formBuilder: FormBuilder, private toastCtrl: ToastController, private camera: Camera,public actionSheetCtrl: ActionSheetController,public categorieProvider : CategorieProvider
 ) {
 
      this.todo = this.formBuilder.group({
       title: ['',  Validators.compose([Validators.minLength(5), Validators.required])],
       categorie: ['', Validators.required],
       description: ['', Validators.compose([Validators.minLength(20), Validators.required])],
+
     });
 
-    this.Cats=categories;
+    this.Cats=categorieProvider.items$;
    // console.log(categorieProvider.items$);
   }
 
@@ -50,7 +52,7 @@ logForm(){
     this.ann={
   titre : this.todo.value.title,
   description : this.todo.value.description,
-  categorie: { nom: this.todo.value.categorie, icon : "test"},
+  categorie:  this.todo.value.categorie,
   imageURL:this.guestPicture,
   location  : {lat:0, lng:0}
 }

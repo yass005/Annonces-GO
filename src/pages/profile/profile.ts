@@ -9,6 +9,8 @@ import { LoginPage } from '../login/login';
 import { MyApp } from '../../app/app.component';
 import { Page2 } from '../page2/page2';
 import { LocationTrackerProvider } from '../../providers/location-tracker/location-tracker';
+import { ListesFavorisPage } from '../listes-favoris/listes-favoris';
+import { MesFavorisPage } from '../mes-favoris/mes-favoris';
 
 @IonicPage({
   name: 'profile'
@@ -246,6 +248,11 @@ export class ProfilePage {
   annonces(){
     this.navCtrl.push(Page2)
   }
+
+   MesFavoris(){
+    this.navCtrl.push(MesFavorisPage)
+  }
+
 
   start_stop(){
    this.check ? this.LocationTracker.startTracking() :  this.LocationTracker.stopTracking();
