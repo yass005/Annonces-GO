@@ -29,7 +29,7 @@ import { CategorieProvider } from '../providers/categorie/categorie';
 import { CategoriesComponent } from '../components/categories/categories';
 import { ListesFavorisPage } from '../pages/listes-favoris/listes-favoris';
 import { MesFavorisPage } from '../pages/mes-favoris/mes-favoris';
-
+import { SocialSharing } from '@ionic-native/social-sharing';
 export const firebaseConfig = {
   apiKey: "AIzaSyB6s6vyLqyo9EaN2xqDpHa0WBu4tKFzwgo",
     authDomain: "annonces-go.firebaseapp.com",
@@ -96,6 +96,7 @@ AjoutAnnoncePage
    // Camera,
     { provide: Camera, useClass: CameraMock},
     AnnonceProvider,
+    SocialSharing,
     CategorieProvider,
 
   ]

@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { Annonce } from '../../model/annonce';
 import { AnnonceProvider } from '../../providers/annonce/annonce';
+import { SocialSharing } from '@ionic-native/social-sharing';
 /**
  * Generated class for the AnnonceDetailsPage page.
  *
@@ -14,10 +15,12 @@ import { AnnonceProvider } from '../../providers/annonce/annonce';
   selector: 'page-annonce-details',
   templateUrl: 'annonce-details.html',
 })
+
 export class AnnonceDetailsPage {
  itemObservable: Observable<any>
  public annonce: Annonce ;
-  constructor(public navCtrl: NavController, public navParams: NavParams,public annonceProvider :AnnonceProvider, private toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams,public annonceProvider :AnnonceProvider, private toastCtrl: ToastController,
+  private socialSharing: SocialSharing) {
 this.itemObservable=this.annonceProvider.getAnnonce(this.navParams.get('AnnoncesId'));
 console.log(this.annonce);
   }
@@ -39,10 +42,35 @@ console.log(this.annonce);
   }
 
 
-share(annonce){
-
+share(){
+    this.socialSharing.share(this.annonce.titre, this.annonce.description, this.annonce.imageURL, "A URL to share").then(() => {
+      console.log("shareSheetShare: Success");
+    }).catch(() => {
+      console.error("shareSheetShare: failed");
+    });
 }
+  smsShare() {
+    this.socialSharing.shareViaSMS("shareViaSMS", "mobile-no").then(() => {
+      console.log("shareViaSMS: Success");
+    }).catch(() => {
+      console.error("shareViaSMS: failed");
+    });
+  }
+  whatsappShare() {
+    this.socialSharing.shareViaWhatsApp(this.annonce.description, this.annonce.imageURL, "null").then(() => {
+      console.log("shareViaWhatsApp: Success");
+    }).catch(() => {
+      console.error("shareViaWhatsApp: failed");
+    });
+  }
+  facebookShare() {
+    this.socialSharing.shareViaFacebook(this.annonce.description, this.annonce.imageURL, "null").then(() => {
+      console.log("shareViaFacebook: Success");
+    }).catch(() => {
+      console.error("shareViaFacebook: failed");
+    });
 
+  }
 suprimmer(annonce : Annonce){
 
   this.annonceProvider.removeAnnonce(annonce);
