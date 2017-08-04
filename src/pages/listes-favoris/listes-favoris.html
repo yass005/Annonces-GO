@@ -16,12 +16,13 @@
 <ion-content padding>
 
   <ion-list>
-<ion-item-sliding #item>
+
   <ion-item *ngFor=" let categorie of items | async ">
      {{categorie.nom}}
         <ion-icon name="{{categorie.icon}}" item-end> </ion-icon>
-         <ion-icon color="primary"name="add-circle" item-end (click)="AddFavoris(categorie.$key, categorie.nom)"></ion-icon>
+         <ion-icon color="primary"name="add-circle" item-end (click)="AddFavoris(categorie.$key, categorie.nom)" *ngIf="!include(categorie.$key)"></ion-icon>
+            <ion-icon name="checkbox" color="secondary" *ngIf="include(categorie.$key)" item-end></ion-icon>
   </ion-item>
-      </ion-item-sliding >
+
 </ion-list>
 </ion-content>

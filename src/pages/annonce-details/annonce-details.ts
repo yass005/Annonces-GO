@@ -49,7 +49,7 @@ share(){
       console.error("shareSheetShare: failed");
     });
 }
-  smsShare() {
+ /* smsShare() {
     this.socialSharing.shareViaSMS("shareViaSMS", "mobile-no").then(() => {
       console.log("shareViaSMS: Success");
     }).catch(() => {
@@ -71,6 +71,15 @@ share(){
     });
 
   }
+
+  TwitterShare() {
+    this.socialSharing.shareViaTwitter(this.annonce.description, this.annonce.imageURL, "null").then(() => {
+      console.log("shareViaFacebook: Success");
+    }).catch(() => {
+      console.error("shareViaFacebook: failed");
+    });
+
+  }*/
 suprimmer(annonce : Annonce){
 
   this.annonceProvider.removeAnnonce(annonce);

@@ -1,4 +1,3 @@
-
 import { Component } from '@angular/core';
 import {ToastController, IonicPage,  NavController,  NavParams} from 'ionic-angular';
 import { ListesFavorisPage } from '../listes-favoris/listes-favoris';
@@ -21,17 +20,15 @@ import { FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/d
 })
 export class MesFavorisPage {
 
-  item: any;
-  items$: FirebaseListObservable<any[]>;
 
-    categorie : categorie[]
+  items$:  Observable<any>
+
   constructor(public navCtrl: NavController, public navParams: NavParams,  public profileProvider: ProfileProvider, public categorieProvider : CategorieProvider
   ,public toastCtrl:  ToastController )
   {
      this.profileProvider.getFavoris();
 
      //  this.profileProvider.getFavoris();
-     console.log(this.profileProvider.categoriesPromises.map(data => {return data}));
   //  this.categorie);
     //console.log(this.categorieProvider.categorie);
 
@@ -39,28 +36,38 @@ export class MesFavorisPage {
   }
 
    ionViewWillEnter() {
-    this.categorie=[];
    this.items$ = this.profileProvider.getFavoris();
-   this.items$.subscribe( items => {
-    items.forEach( item => {
-      this.categorieProvider.getNom(item.$key).on('value', Snapshot => {
+   this.items$.subscribe( favoris => {
+    //collect everything into one array
+   let favorisIDs =  favoris.map( favori => { return favori.$key } )
+   this.items$=  this.categorieProvider.items$.map( categories => {
+      return  categories.filter( categorie => {
+      return favorisIDs.includes(categorie.$key)
+    }
+    )
+
+   }
+   )
+ }
+)
+     /* this.categorieProvider.getNom(item.$key).on('value', Snapshot => {
         if  (this.categorie.length< items.length) {
         this.categorie.push({key: Snapshot.key, icon:Snapshot.val().icon , nom:Snapshot.val().nom}) ;
         }
 
     });
-   console.log(item.$key);
-}
-)
-   })
-  console.log(this.categorie);
 
-    console.log('ionViewDidLoad AnnonceDetailsPage');
-  }
+   console.log(this.categorieProvider.items$);*/
 
-  ionViewDidLoad() {
 
-  }
+
+
+   }
+
+
+
+
+
  /*ionViewDidEnter() {
  this.itemObservable.subscribe(snapshot => {
 
@@ -82,10 +89,8 @@ export class MesFavorisPage {
     this.navCtrl.push(ListesFavorisPage);
   }
 
-  removeItem(key : string, i, nom){
-
-    this.profileProvider.RemoveFavoris(key);
-    this.categorie.splice(i,1);
+  removeItem(key : string,  nom){
+  this.profileProvider.RemoveFavoris(key);
   this.presentToast(nom);
   }
 
@@ -97,7 +102,6 @@ export class MesFavorisPage {
   });
 
   toast.onDidDismiss(() => {
-this.navCtrl.pop();
   });
 
   toast.present();

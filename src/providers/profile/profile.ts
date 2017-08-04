@@ -45,6 +45,7 @@ getFavoris() :FirebaseListObservable<any>
 {
 
  return  this.db.list(`/userProfile/${this.currentUser.uid}/Favoris`);
+
   /* .switchMap( favoris => {
     let keys = (favoris.$keys)
      return this.db.list('categories')

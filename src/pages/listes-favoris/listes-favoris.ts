@@ -19,11 +19,17 @@ import { ProfileProvider } from '../../providers/profile/profile';
 export class ListesFavorisPage {
 
   items: FirebaseListObservable<categorie[]>;
-
+  favorisIDs  : any
   constructor( public profileProvider: ProfileProvider,private categorieProvider : CategorieProvider  ,public toastCtrl:  ToastController ) {
     console.log('Hello CategoriesComponent Component');
     this.items = categorieProvider.items$;
+   this.profileProvider.getFavoris().subscribe( favoris => {
+    //collect everything into one array
+   this.favorisIDs =  favoris.map( favori => { return favori.$key } )
 
+   })
+
+   console.log(this.favorisIDs);
 }
 
 AddFavoris(key: string, nom){
@@ -43,6 +49,11 @@ AddFavoris(key: string, nom){
   });
 
   toast.present();
+}
+
+include(key: string) {
+
+   return this.favorisIDs.includes(key);
 }
 
 }
