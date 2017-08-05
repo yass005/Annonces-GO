@@ -22,35 +22,34 @@
     <div *ngIf="annonce.imageURL">
         <img src="{{annonce.imageURL}}"/>
     </div>
-
     <ion-card-content>
       <ion-card-title>
        {{annonce.titre}}
       </ion-card-title>
     <p>{{annonce.description}}</p>
     </ion-card-content>
-
+ <ion-grid>
    <ion-row >
-      <ion-col text-left>
+      <ion-col >
            <button ion-fab color="primary"><ion-icon name="create"></ion-icon></button>
-        <button ion-button clear small color="primary" icon-start>
-         <ion-icon name="create"></ion-icon>
+
           Modifier
-        </button>
+
       </ion-col>
-      <ion-col text-center>
-         <button ion-fab color="danger"><ion-icon name="trash"></ion-icon></button>
-        <button ion-button clear small color="danger" icon-start (click)="suprimmer(annonce)">
+      <ion-col >
+         <button ion-fab color="danger" (click)="suprimmer(annonce)"><ion-icon name="trash"></ion-icon></button>
+
           Suprimer
-        </button>
+
       </ion-col>
-      <ion-col text-right>
-    <button ion-fab color="secondary" (click)="share()"><ion-icon name="md-share" (click)="share()"></ion-icon></button>
-     <button ion-button clear small color="danger" icon-start >
-          Partager
-        </button>
+      <ion-col >
+      <button ion-fab color="secondary" (click)="share()"><ion-icon name="md-share" (click)="share()"></ion-icon></button>
+      Partager
+
+
       </ion-col>
     </ion-row>
+     </ion-grid>
   </ion-card>
 </div>
 </ion-content>
