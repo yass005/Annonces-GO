@@ -1,7 +1,7 @@
 const functions = require('firebase-functions');
 //const geolocation = require('node-geolocation');
 const NodeGeocoder = require('node-geocoder');
-const nodemailer = require('nodemailer');
+var nodemailer = require('nodemailer');
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
@@ -9,24 +9,27 @@ const nodemailer = require('nodemailer');
 // exports.helloWorld = functions.https.onRequest((request, response) => {
 //  response.send("Hello from Firebase!");
 // });
-
-
-const gmailEmail = encodeURIComponent(functions.config().gmail.email);
-const gmailPassword = encodeURIComponent(functions.config().gmail.password);
-const mailTransport = nodemailer.createTransport(
-`smtps://${gmailEmail}:${gmailPassword}@smtp.gmail.com`);
+var nodemailer = require('nodemailer');
+var transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'badrenyassine@gmail.com',
+    pass: 'poloman121'
+  }
+});
 
 var mailOptions = {
-   from: '"Spammy Corp." <noreply@firebase.com>',
+  from: 'badrenyassine@gmail.com',
   to: 'yassine.badren@heig-vd.ch',
   subject: 'Sending Email using Node.js',
   text: 'That was easy!'
 };
 const options = {
   provider: 'google',
+
   // Optional depending on the providers
   httpAdapter: 'https', // Default
-  apiKey: 'AIzaSyAtWwBc4doPXuI2VWMp_0U3_wEmrGENrdE', // for Google Premier
+  apiKey: 'AIzaSyAtWwBc4doPXuI2VWMp_0U3_wEmrGENrdE', // for Mapquest, OpenCage, Google Premier
   formatter: null // 'gpx', 'string', ...
 };
 
@@ -52,7 +55,7 @@ exports.createProfile = functions.auth.user().onCreate(event => {
     email: event.data.email
 
   }).then( res => {
-    transporter.sendMail(mailOptions, (error, info) =>{
+    transporter.sendMail(mailOptions, function(error, info){
   if (error) {
     console.log(error);
   } else {
@@ -83,6 +86,34 @@ exports.newPost = functions.database.ref('/userProfile/{userId}/Annonces/{Annonc
   if (!event.data.exists()) {
     return;
   }
+
+var eventSnapshot = event.data.val();
+var uid = event.auth.variable ? event.auth.variable.uid : null;
+event.auth.uid;
+  admin.database().ref(`/AnnoncesAValidé/${event.data.key}`).set({
+categorie: eventSnapshot.categorie,
+description: eventSnapshot.description,
+imageURL: eventSnapshot.imageURL,
+location: eventSnapshot.location,
+userId: uid,
+validé: false,
+titre: eventSnapshot.titre
+
+  }).then( res => {
+
+    transporter.sendMail(mailOptions, (error, info) =>{
+  if (error) {
+    console.log(error);
+  } else {
+    console.log('Email sent: ' + info.response);
+  }
+});
+  }).catch( err => {
+
+    console.log(err);
+  });
+
+
 
   const adress = event.data.ref.parent.parent.child('adress');
 
