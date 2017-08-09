@@ -54,15 +54,15 @@ exports.createProfile = functions.auth.user().onCreate(event => {
     },
     email: event.data.email
 
-  }).then( res => {
-    transporter.sendMail(mailOptions, function(error, info){
-  if (error) {
-    console.log(error);
-  } else {
-    console.log('Email sent: ' + info.response);
-  }
-});
-  }).catch( err => {
+  }).then(res => {
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
+  }).catch(err => {
 
     console.log(err);
   });
@@ -87,28 +87,27 @@ exports.newPost = functions.database.ref('/userProfile/{userId}/Annonces/{Annonc
     return;
   }
 
-var eventSnapshot = event.data.val();
-var uid = event.auth.variable ? event.auth.variable.uid : null;
-event.auth.uid;
+  var eventSnapshot = event.data.val();
+  var uid = event.auth.variable ? event.auth.variable.uid : null;
+  event.auth.uid;
   admin.database().ref(`/AnnoncesAValidé/${event.data.key}`).set({
-categorie: eventSnapshot.categorie,
-description: eventSnapshot.description,
-imageURL: eventSnapshot.imageURL,
-location: eventSnapshot.location,
-userId: uid,
-validé: false,
-titre: eventSnapshot.titre
+    categorie: eventSnapshot.categorie,
+    description: eventSnapshot.description,
+    imageURL: eventSnapshot.imageURL,
+    location: eventSnapshot.location,
+    userId: uid,
+    titre: eventSnapshot.titre
 
-  }).then( res => {
+  }).then(res => {
 
-    transporter.sendMail(mailOptions, (error, info) =>{
-  if (error) {
-    console.log(error);
-  } else {
-    console.log('Email sent: ' + info.response);
-  }
-});
-  }).catch( err => {
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
+  }).catch(err => {
 
     console.log(err);
   });
@@ -149,3 +148,33 @@ titre: eventSnapshot.titre
    )*/
 
 });
+
+
+exports.newAnnonces = functions.database.ref('/AnnoncesAValidé/{AnnoncesId}/validé').onCreate(event => {
+
+
+  if (!event.data.exists()) {
+    return;
+  }
+
+  var Annonce = event.data.ref.parent
+  Annonce.once("value")
+    .then(snapshot => {
+  return  admin.database().ref(`/Annonces/${snapshot.key}`).set({
+    categorie: snapshot.child("categorie").val(),
+    description: snapshot.child("description").val(),
+    imageURL: snapshot.child("imageURL").val(),
+    location: snapshot.child("location").val(),
+    userId: snapshot.child("userId").val(),
+    titre: snapshot.child("titre").val()
+      }).catch(err => console.log(err))
+    }).catch(err => console.log(err))
+
+})
+
+
+exports.finishValidate = functions.database.ref('/Annonces/{AnnoncesId}').onCreate(event => {
+
+ return  admin.database().ref(`/AnnoncesAValidé/${event.data.key}`).remove();
+
+})

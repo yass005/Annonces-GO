@@ -75,7 +75,6 @@ if (annonce.imageURL != null) {
   imageURL: 'http://placehold.it/100x60?text=F3',
   location : annonce.location,
 
-
 }).then(res => {
 firebase.storage().ref('/Users/').child(`${this.profileProvider.currentUser.uid}`).child(`${res.key}`)
   .child('Annonces.png')
