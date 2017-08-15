@@ -2,7 +2,7 @@ const functions = require('firebase-functions');
 //const geolocation = require('node-geolocation');
 const NodeGeocoder = require('node-geocoder');
 var nodemailer = require('nodemailer');
-
+const gcs = require('@google-cloud/storage')();
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
@@ -87,9 +87,8 @@ exports.newPost = functions.database.ref('/userProfile/{userId}/Annonces/{Annonc
     return;
   }
 
-  var eventSnapshot = event.data.val();
+ /* var eventSnapshot = event.data.val();
   var uid = event.auth.variable ? event.auth.variable.uid : null;
-  event.auth.uid;
   admin.database().ref(`/AnnoncesAValidé/${event.data.key}`).set({
     categorie: eventSnapshot.categorie,
     description: eventSnapshot.description,
@@ -110,8 +109,7 @@ exports.newPost = functions.database.ref('/userProfile/{userId}/Annonces/{Annonc
   }).catch(err => {
 
     console.log(err);
-  });
-
+  });*/
 
 
   const adress = event.data.ref.parent.parent.child('adress');
@@ -153,20 +151,19 @@ exports.newPost = functions.database.ref('/userProfile/{userId}/Annonces/{Annonc
 exports.newAnnonces = functions.database.ref('/AnnoncesAValidé/{AnnoncesId}/validé').onCreate(event => {
 
 
-  if (!event.data.exists()) {
-    return;
-  }
+
+//admin.database.ref('userProfile'/snapshot.child("userId").val()/Annonces/${snapshot.key/imageURL).
 
   var Annonce = event.data.ref.parent
   Annonce.once("value")
     .then(snapshot => {
-  return  admin.database().ref(`/Annonces/${snapshot.key}`).set({
-    categorie: snapshot.child("categorie").val(),
-    description: snapshot.child("description").val(),
-    imageURL: snapshot.child("imageURL").val(),
-    location: snapshot.child("location").val(),
-    userId: snapshot.child("userId").val(),
-    titre: snapshot.child("titre").val()
+      return admin.database().ref(`/Annonces/${snapshot.key}`).set({
+        categorie: snapshot.child("categorie").val(),
+        description: snapshot.child("description").val(),
+        imageURL: snapshot.child("imageURL").val(),
+        location: snapshot.child("location").val(),
+        userId: snapshot.child("userId").val(),
+        titre: snapshot.child("titre").val()
       }).catch(err => console.log(err))
     }).catch(err => console.log(err))
 
@@ -175,6 +172,45 @@ exports.newAnnonces = functions.database.ref('/AnnoncesAValidé/{AnnoncesId}/val
 
 exports.finishValidate = functions.database.ref('/Annonces/{AnnoncesId}').onCreate(event => {
 
- return  admin.database().ref(`/AnnoncesAValidé/${event.data.key}`).remove();
+  return admin.database().ref(`/AnnoncesAValidé/${event.data.key}`).remove().then(res =>
+    console.log(res)
+  ).catch(err => {
+
+    console.log(err);
+  })
+
+})
+
+exports.UpdateImage = functions.database.ref('/userProfile/{userId}/Annonces/{AnnoncesId}/imageURL').onUpdate(event => {
+
+ var Annonce = event.data.ref.parent
+ var uid = event.auth.variable ? event.auth.variable.uid : null;
+   Annonce.once("value")
+    .then(snapshot => {
+
+      return admin.database().ref(`//AnnoncesAValidé//${snapshot.key}`).set({
+        categorie: snapshot.child("categorie").val(),
+        description: snapshot.child("description").val(),
+        imageURL: snapshot.child("imageURL").val(),
+        location: snapshot.child("location").val(),
+        userId: uid,
+        titre: snapshot.child("titre").val()
+      }).then(res => {
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
+  }).catch(err => {
+
+    console.log(err);
+  });
+
+
+
+})
 
 })
