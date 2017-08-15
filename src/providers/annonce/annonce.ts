@@ -86,8 +86,10 @@ else {
   titre : annonce.titre,
   description : annonce.description,
   categorie: annonce.categorie,
-  imageURL: 'http://placehold.it/100x60?text=F3',
-  location : annonce.location,})
+  imageURL: '',
+  location : annonce.location,}).then(res => {
+    this.items$.update( res , { imageURL: 'http://placehold.it/100x60?text=F3'})
+  })
 
 }
      }
