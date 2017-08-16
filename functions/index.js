@@ -87,29 +87,29 @@ exports.newPost = functions.database.ref('/userProfile/{userId}/Annonces/{Annonc
     return;
   }
 
- /* var eventSnapshot = event.data.val();
-  var uid = event.auth.variable ? event.auth.variable.uid : null;
-  admin.database().ref(`/AnnoncesAValidé/${event.data.key}`).set({
-    categorie: eventSnapshot.categorie,
-    description: eventSnapshot.description,
-    imageURL: eventSnapshot.imageURL,
-    location: eventSnapshot.location,
-    userId: uid,
-    titre: eventSnapshot.titre
+  /* var eventSnapshot = event.data.val();
+   var uid = event.auth.variable ? event.auth.variable.uid : null;
+   admin.database().ref(`/AnnoncesAValidé/${event.data.key}`).set({
+     categorie: eventSnapshot.categorie,
+     description: eventSnapshot.description,
+     imageURL: eventSnapshot.imageURL,
+     location: eventSnapshot.location,
+     userId: uid,
+     titre: eventSnapshot.titre
 
-  }).then(res => {
+   }).then(res => {
 
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log('Email sent: ' + info.response);
-      }
-    });
-  }).catch(err => {
+     transporter.sendMail(mailOptions, (error, info) => {
+       if (error) {
+         console.log(error);
+       } else {
+         console.log('Email sent: ' + info.response);
+       }
+     });
+   }).catch(err => {
 
-    console.log(err);
-  });*/
+     console.log(err);
+   });*/
 
 
   const adress = event.data.ref.parent.parent.child('adress');
@@ -152,7 +152,7 @@ exports.newAnnonces = functions.database.ref('/AnnoncesAValidé/{AnnoncesId}/val
 
 
 
-//admin.database.ref('userProfile'/snapshot.child("userId").val()/Annonces/${snapshot.key/imageURL).
+  //admin.database.ref('userProfile'/snapshot.child("userId").val()/Annonces/${snapshot.key/imageURL).
 
   var Annonce = event.data.ref.parent
   Annonce.once("value")
@@ -183,9 +183,9 @@ exports.finishValidate = functions.database.ref('/Annonces/{AnnoncesId}').onCrea
 
 exports.UpdateImage = functions.database.ref('/userProfile/{userId}/Annonces/{AnnoncesId}/imageURL').onUpdate(event => {
 
- var Annonce = event.data.ref.parent
- var uid = event.auth.variable ? event.auth.variable.uid : null;
-   Annonce.once("value")
+  var Annonce = event.data.ref.parent
+  var uid = event.auth.variable ? event.auth.variable.uid : null;
+  Annonce.once("value")
     .then(snapshot => {
 
       return admin.database().ref(`//AnnoncesAValidé//${snapshot.key}`).set({
@@ -197,19 +197,29 @@ exports.UpdateImage = functions.database.ref('/userProfile/{userId}/Annonces/{An
         titre: snapshot.child("titre").val()
       }).then(res => {
 
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log('Email sent: ' + info.response);
-      }
-    });
-  }).catch(err => {
+        transporter.sendMail(mailOptions, (error, info) => {
+          if (error) {
+            console.log(error);
+          } else {
+            console.log('Email sent: ' + info.response);
+          }
+        });
+      }).catch(err => {
 
-    console.log(err);
-  });
+        console.log(err);
+      });
 
+
+    })
 
 })
 
+
+exports.DeleteAnnonce = functions.database.ref('/userProfile/{userId}/Annonces/{AnnoncesId}').onDelete(event => {
+
+  return admin.database().ref(`/Annonces/${event.data.key}`).remove().then(res =>
+    console.log(res)
+  ).catch(err => {
+    console.log(err);
+  })
 })
