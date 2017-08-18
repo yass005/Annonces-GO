@@ -40,8 +40,17 @@
 *ngIf="!todo.controls.description.valid">
 <p>Your description needs more than 20 characters.</p>
 </ion-item>
-   <ion-label >Photo</ion-label>
-    <button ion-button (click)="callMyAction()"  type="button"> <ion-icon class="photo" name="md-camera"></ion-icon></button>
+
+      <button
+            ion-button
+            icon-left
+            block
+            outline
+            type="button"
+            (click)="callMyAction()" >
+            <ion-icon name="camera"></ion-icon>
+            Photo
+          </button>
 <br>
       <button ion-button  block type="submit" [disabled]="!todo.valid">Ajouter</button>
     </form>

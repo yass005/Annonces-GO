@@ -34,8 +34,8 @@ export class ProfilePage {
 
   ionViewDidLoad(){
 
+
     this.profileProvider.getUserProfile().on('value', userProfileSnapshot => {
-      console.log(userProfileSnapshot.val());
       this.userProfile = userProfileSnapshot.val();
       this.birthDate = userProfileSnapshot.val().birthDate;
       this.userAdress = userProfileSnapshot.val().adress;
