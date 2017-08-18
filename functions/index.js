@@ -130,7 +130,17 @@ exports.newPost = functions.database.ref('/userProfile/{userId}/Annonces/{Annonc
         },
         //  Adress: adress
         //  location1: {Lat: res.lat , Long : loc.lon}
-      })
+      }).then(() => {
+
+        admin.database().ref(`/AnnoncesAValidé/${event.data.key}`).update({
+          location: {
+            Lat: res[0].latitude,
+            Long: res[0].longitude
+          },
+          //  Adress: adress
+          //  location1: {Lat: res.lat , Long : loc.lon}
+        })
+      }).catch(err => console.log(err))
     }).catch(err => console.log(err))
 
   /* const path = event.data.ref
@@ -144,7 +154,6 @@ exports.newPost = functions.database.ref('/userProfile/{userId}/Annonces/{Annonc
        }
 
    )*/
-
 });
 
 
@@ -188,7 +197,7 @@ exports.UpdateImage = functions.database.ref('/userProfile/{userId}/Annonces/{An
   Annonce.once("value")
     .then(snapshot => {
 
-      return admin.database().ref(`//AnnoncesAValidé//${snapshot.key}`).set({
+      return admin.database().ref(`/AnnoncesAValidé/${snapshot.key}`).set({
         categorie: snapshot.child("categorie").val(),
         description: snapshot.child("description").val(),
         imageURL: snapshot.child("imageURL").val(),

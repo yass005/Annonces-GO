@@ -11,6 +11,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
   templateUrl: 'app.html'
 })
 export class MyApp {
+
   @ViewChild(Nav) nav: Nav;
 
   rootPage: any ;

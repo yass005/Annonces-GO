@@ -17,14 +17,14 @@
 
   <form [formGroup]="todo" (ngSubmit)="logForm()">
       <ion-item>
-        <ion-label stacked>Titre</ion-label>
+      <ion-label floating>Titre</ion-label>
         <ion-input type="text" formControlName="title"></ion-input>
       </ion-item>
       <ion-item class="error-message" *ngIf="!todo.controls.title.valid ">
 <p>Your title needs more than 20 characters.</p>
 </ion-item>
  <ion-item>
-    <ion-label stacked>Catégorie</ion-label>
+    <ion-label floating>Catégorie</ion-label>
        <ion-select formControlName="categorie" >
       <ion-option   *ngFor=" let categorie of Cats | async " value="{{categorie.$key}}" >{{categorie.nom}}</ion-option>
       </ion-select>
@@ -33,17 +33,20 @@
 <p>plz select an catégorie.</p>
 </ion-item>
       <ion-item>
-        <ion-label stacked>Description</ion-label>
+        <ion-label floating>Description</ion-label>
         <ion-textarea formControlName="description"></ion-textarea>
       </ion-item>
       <ion-item class="error-message"
 *ngIf="!todo.controls.description.valid">
 <p>Your description needs more than 20 characters.</p>
 </ion-item>
-
-    <button ion-button (click)="callMyAction()"  type="button">Take photo</button>
+   <ion-label >Photo</ion-label>
+    <button ion-button (click)="callMyAction()"  type="button"> <ion-icon class="photo" name="md-camera"></ion-icon></button>
 <br>
-      <button ion-button type="submit" [disabled]="!todo.valid">Submit</button>
+      <button ion-button  block type="submit" [disabled]="!todo.valid">Ajouter</button>
     </form>
 
 </ion-content>
+
+
+

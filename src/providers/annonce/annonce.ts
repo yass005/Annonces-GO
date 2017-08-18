@@ -80,15 +80,20 @@ firebase.storage().ref('/Users/').child(`${this.profileProvider.currentUser.uid}
   .child('Annonces.png')
   .putString(annonce.imageURL, 'base64', {contentType: 'image/png'})
   .then((savedPicture) => this.items$.update( res , { imageURL: savedPicture.downloadURL}))
-}) }
+  .catch(err => console.log(err))
+}).catch(err => console.log(err))
+ }
 else {
   this.items$.push({
   titre : annonce.titre,
   description : annonce.description,
   categorie: annonce.categorie,
   imageURL: '',
-  location : annonce.location,}).then(res => {
-    this.items$.update( res , { imageURL: 'http://placehold.it/100x60?text=F3'})
+  location : annonce.location,})
+  .then(res => {this.items$
+    .update( res , { imageURL: 'http://placehold.it/100x60?text=F3'}) })
+    .catch(err => {
+    console.log(err)
   })
 
 }
