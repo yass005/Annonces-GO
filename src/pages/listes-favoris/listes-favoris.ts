@@ -4,7 +4,7 @@ import { FirebaseListObservable } from 'angularfire2/database';
 import { categorie } from '../../model/categorie';
 import { CategorieProvider } from '../../providers/categorie/categorie';
 import { ProfileProvider } from '../../providers/profile/profile';
-
+import { Subscription } from 'rxjs/Subscription';
 /**
  * Generated class for the ListesFavorisPage page.
  *
@@ -17,20 +17,37 @@ import { ProfileProvider } from '../../providers/profile/profile';
   templateUrl: 'listes-favoris.html',
 })
 export class ListesFavorisPage {
-
+  sub : Subscription
   items: FirebaseListObservable<categorie[]>;
   favorisIDs  : any
-  constructor( public profileProvider: ProfileProvider,private categorieProvider : CategorieProvider  ,public toastCtrl:  ToastController ) {
+  constructor( public profileProvider: ProfileProvider,private categorieProvider :
+    CategorieProvider  ,public toastCtrl:  ToastController ) {
+
     console.log('Hello CategoriesComponent Component');
-    this.items = categorieProvider.items$;
-   this.profileProvider.getFavoris().subscribe( favoris => {
+
+}
+ ionViewWillEnter() {
+if (this.profileProvider.currentUser)
+  {
+   this.items = this.categorieProvider.items$;
+   this.sub=this.profileProvider.getFavoris().subscribe( favoris => {
     //collect everything into one array
    this.favorisIDs =  favoris.map( favori => { return favori.$key } )
 
    })
 
    console.log(this.favorisIDs);
+  }
+  else{
+this.sub.unsubscribe();
+  }
+ }
+
+ ionViewWillLeave(){
+if (this.sub.unsubscribe()){
+  console.log('ok');
 }
+  }
 
 AddFavoris(key: string, nom){
   this.profileProvider.AddFavoris(key)

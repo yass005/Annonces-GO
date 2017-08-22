@@ -6,6 +6,7 @@ import { Page2 } from '../pages/page2/page2';
 import { LoginPage} from '../pages/login/login';
 import { ProfilePage } from '../pages/profile/profile';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { MenuPage } from '../pages/menu/menu';
 
 @Component({
   templateUrl: 'app.html'
@@ -22,9 +23,9 @@ export class MyApp {
     this.initializeApp();
 
 
-    afAuth.authState.subscribe( user  => {
+     afAuth.authState.subscribe( user  => {
       if (user ){
-        this.rootPage = ProfilePage;
+        this.rootPage = MenuPage;
       } else {
         this.rootPage = LoginPage;
       }

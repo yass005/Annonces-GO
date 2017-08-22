@@ -23,7 +23,7 @@
 
 
   <ion-list>
-  <ion-item-sliding *ngFor=" let categorie of items$ | async " >
+  <ion-item-sliding *ngFor=" let categorie of itemsSubscription | async " >
   <ion-item >
      {{categorie.nom}}
         <ion-icon name="{{categorie.icon}}" item-end> </ion-icon>

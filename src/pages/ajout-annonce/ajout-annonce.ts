@@ -7,7 +7,7 @@ import { Annonce } from '../../model/annonce';
 import { categorie } from '../../model/categorie';
 import { categories } from '../../model/cats';
 import {Validators, FormBuilder, FormGroup } from '@angular/forms';
-import { Camera, CameraOptions } from '@ionic-native/camera';
+import { Camera } from '@ionic-native/camera';
 import { FirebaseListObservable } from 'angularfire2/database';
 
 
@@ -23,7 +23,7 @@ import { FirebaseListObservable } from 'angularfire2/database';
   templateUrl: 'ajout-annonce.html',
 })
 export class AjoutAnnoncePage {
-  private todo : FormGroup;
+  public todo : FormGroup;
    public ann : Annonce=null;
    public guestPicture: string = null;
    Cats: FirebaseListObservable<categorie[]>;
@@ -58,17 +58,17 @@ logForm(){
 }
 
 console.log( this.ann);
-this.annonceProvider.Ajouter_annonce(this.ann);
+this.annonceProvider.Ajouter_annonce(this.ann)
 
 console.log(this.annonceProvider.List_des_annonces());
- this.presentToast();
+ this.presentToast('Annonces was added successfully');
 
   }
 
 
-presentToast() {
+presentToast(message : string) {
   let toast = this.toastCtrl.create({
-    message: 'Annonces was added successfully',
+    message: message,
     duration: 3000,
     position: 'top'
   });
@@ -80,22 +80,39 @@ presentToast() {
   toast.present();
 }
 
-  callMyAction() {
 
+  takePicture(SourceType){
+  this.camera.getPicture({
+    quality : 50,
+    destinationType : this.camera.DestinationType.DATA_URL,
+    sourceType : SourceType,
+    allowEdit : true,
+    encodingType: this.camera.EncodingType.PNG,
+    targetWidth: 500,
+    targetHeight: 500,
+    saveToPhotoAlbum: true
+  }).then(imageData => {
+    this.guestPicture = imageData;
+  }, error => {
+     this.presentToast(error);
+  //  console.log("ERROR -> " + JSON.stringify(error));
+  });
+}
 
+  public presentActionSheet() {
     let actionSheet = this.actionSheetCtrl.create({
       title: 'Select Image Source',
       buttons: [
         {
           text: 'Load from Library',
           handler: () => {
-           this.camera.PictureSourceType.PHOTOLIBRARY;
+            this.takePicture(this.camera.PictureSourceType.PHOTOLIBRARY);
           }
         },
         {
           text: 'Use Camera',
           handler: () => {
-            this.camera.PictureSourceType.CAMERA;
+            this.takePicture(this.camera.PictureSourceType.CAMERA);
           }
         },
         {
@@ -104,26 +121,8 @@ presentToast() {
         }
       ]
     });
-    actionSheet.present()
-
-
-const options: CameraOptions = {
-     quality : 95,
-    destinationType : this.camera.DestinationType.DATA_URL,
-    allowEdit : true,
-    encodingType: this.camera.EncodingType.PNG,
-    targetWidth: 500,
-    targetHeight: 500,
-    saveToPhotoAlbum: true
-}
-
-this.camera.getPicture(options).then(imageData => {
-    this.guestPicture = imageData;
-    console.log(this.guestPicture);
-  }, error => {
-    console.log("ERROR -> " + JSON.stringify(error));
-  });
-}
+    actionSheet.present();
+  }
 
 
 }

@@ -25,6 +25,15 @@ export class CategorieProvider {
 
   }
 
+  GetAnnoncesParCatégoriePage(key: string)
 
+  {
+  return   this.db.list('Annonces',{
+    query: {
+      orderByChild: 'categorie',
+      equalTo: key
+    }
+  })
 
+  }
 }

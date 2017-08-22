@@ -91,14 +91,26 @@
       </ion-grid>
     </ion-item>
   </ion-list>
-<button color="primary" ion-button block (click)="annonces()">
-    mes annoonces
+   <ion-grid>
+      <ion-row>
+        <ion-col col-6>
+         <button color="primary" ion-button block (click)="annonces()">
+            <ion-icon name="locate">  Mes annoonces</ion-icon>
+          </button>
+        </ion-col>
+        <ion-col col-6>
+     <button color="fav" ion-button block (click)="MesFavoris()">
+            <ion-icon name="star">liste d’envies</ion-icon>
+          </button>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+          <button color="danger" ion-button block (click)="Delteuser()">
+     <ion-icon name="trash">    suprimmer mon compte </ion-icon>
   </button>
-<button color="fav" ion-button block (click)="MesFavoris()">
-     liste d’envies
-  </button>
-     <button color="danger" ion-button block (click)="Delteuser()">
-    suprimmer mon compte
-  </button>
+      </ion-row>
+   </ion-grid>
+
+
 
 </ion-content>

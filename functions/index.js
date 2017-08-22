@@ -164,6 +164,7 @@ exports.newAnnonces = functions.database.ref('/AnnoncesAValidé/{AnnoncesId}/val
   //admin.database.ref('userProfile'/snapshot.child("userId").val()/Annonces/${snapshot.key/imageURL).
 
   var Annonce = event.data.ref.parent
+
   Annonce.once("value")
     .then(snapshot => {
       return admin.database().ref(`/Annonces/${snapshot.key}`).set({
@@ -180,6 +181,9 @@ exports.newAnnonces = functions.database.ref('/AnnoncesAValidé/{AnnoncesId}/val
 
 
 exports.finishValidate = functions.database.ref('/Annonces/{AnnoncesId}').onCreate(event => {
+
+
+
 
   return admin.database().ref(`/AnnoncesAValidé/${event.data.key}`).remove().then(res =>
     console.log(res)
@@ -226,9 +230,30 @@ exports.UpdateImage = functions.database.ref('/userProfile/{userId}/Annonces/{An
 
 exports.DeleteAnnonce = functions.database.ref('/userProfile/{userId}/Annonces/{AnnoncesId}').onDelete(event => {
 
+
   return admin.database().ref(`/Annonces/${event.data.key}`).remove().then(res =>
     console.log(res)
   ).catch(err => {
     console.log(err);
   })
 })
+
+
+/*exports.deletePost = functions.database.ref('Posts/{pushId}').onWrite(event => {
+
+  const original = event.data.val()
+  const previous = event.data.previous.val()
+  const pushId = event.params.pushId
+
+  if (original === null)
+    return
+
+  const filePath = 'Posts/' + pushId + 'thumbnail.jpg'
+  const bucket = gcs.bucket('postsapp-12312')
+  const bucket = gcs.bucket(functions.config().firebase.storageBucket)
+  const file = bucket.file(filePath)
+  const pr = file.delete()
+
+
+  return pr
+});*/

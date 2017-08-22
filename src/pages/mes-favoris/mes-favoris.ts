@@ -1,9 +1,11 @@
+import { Subscription } from 'rxjs/Subscription';
 import { Component } from '@angular/core';
 import {ToastController, IonicPage,  NavController,  NavParams} from 'ionic-angular';
 import { ListesFavorisPage } from '../listes-favoris/listes-favoris';
 import { ProfileProvider } from '../../providers/profile/profile';
 import { CategorieProvider } from '../../providers/categorie/categorie';
 import { Observable } from 'rxjs/Rx';
+
 import { categorie } from '../../model/categorie';
 import { FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 
@@ -20,13 +22,13 @@ import { FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/d
 })
 export class MesFavorisPage {
 
-
+  sub : Subscription
   items$:  Observable<any>
-
+ itemsSubscription : Observable<any>
   constructor(public navCtrl: NavController, public navParams: NavParams,  public profileProvider: ProfileProvider, public categorieProvider : CategorieProvider
   ,public toastCtrl:  ToastController )
   {
-     this.profileProvider.getFavoris();
+  //   this.profileProvider.getFavoris();
 
      //  this.profileProvider.getFavoris();
   //  this.categorie);
@@ -34,13 +36,22 @@ export class MesFavorisPage {
 
 
   }
+ionViewDidLeave(){
+if (this.sub.unsubscribe()){
+  console.log('ok');
+}
+
+  }
+
 
    ionViewWillEnter() {
-   this.items$ = this.profileProvider.getFavoris();
-   this.items$.subscribe( favoris => {
+if (this.profileProvider.currentUser)
+  {
+  this.items$ = this.profileProvider.getFavoris();
+  this.sub= this.items$.subscribe( favoris => {
     //collect everything into one array
-   let favorisIDs =  favoris.map( favori => { return favori.$key } )
-   this.items$=  this.categorieProvider.items$.map( categories => {
+    let favorisIDs =  favoris.map( favori => { return favori.$key } )
+    this.itemsSubscription=  this.categorieProvider.items$.map( categories => {
       return  categories.filter( categorie => {
       return favorisIDs.includes(categorie.$key)
     }
@@ -50,6 +61,11 @@ export class MesFavorisPage {
    )
  }
 )
+  }
+else{
+this.sub.unsubscribe();
+  }
+
      /* this.categorieProvider.getNom(item.$key).on('value', Snapshot => {
         if  (this.categorie.length< items.length) {
         this.categorie.push({key: Snapshot.key, icon:Snapshot.val().icon , nom:Snapshot.val().nom}) ;
@@ -58,8 +74,6 @@ export class MesFavorisPage {
     });
 
    console.log(this.categorieProvider.items$);*/
-
-
 
 
    }

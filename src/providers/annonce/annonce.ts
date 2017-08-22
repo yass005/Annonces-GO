@@ -1,3 +1,4 @@
+import {LoadingController} from 'ionic-angular';
 import { Annonce } from './../../model/annonce';
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
@@ -20,7 +21,7 @@ export class AnnonceProvider {
   list : Annonce[];
   items$: FirebaseListObservable<any> = null; //  list of objects
   item: FirebaseObjectObservable<any> = null; //   single object
-  constructor(private db: AngularFireDatabase, public profileProvider : ProfileProvider) {
+  constructor(private db: AngularFireDatabase, public profileProvider : ProfileProvider,public loadingCtrl: LoadingController) {
     console.log('Hello AnnonceProvider Provider');
 
     this.list=annonces;
@@ -63,7 +64,9 @@ firebase.storage().ref('/Users/').child(`${this.profileProvider.currentUser.uid}
     }
 
      ADD(annonce: Annonce ): void {
-
+const loader = this.loadingCtrl.create({
+  content:'récupération de votre position'
+});
   // Writes user name and email to realtime db
   // useful if your app displays information about users or for admin features
 if (annonce.imageURL != null) {
@@ -76,10 +79,15 @@ if (annonce.imageURL != null) {
   location : annonce.location,
 
 }).then(res => {
+  loader.present();
 firebase.storage().ref('/Users/').child(`${this.profileProvider.currentUser.uid}`).child(`${res.key}`)
   .child('Annonces.png')
   .putString(annonce.imageURL, 'base64', {contentType: 'image/png'})
-  .then((savedPicture) => this.items$.update( res , { imageURL: savedPicture.downloadURL}))
+  .then((savedPicture) => {
+  this.items$.update( res , { imageURL: savedPicture.downloadURL})
+   loader.dismiss();
+  }
+  )
   .catch(err => console.log(err))
 }).catch(err => console.log(err))
  }

@@ -47,14 +47,18 @@
             block
             outline
             type="button"
-            (click)="callMyAction()" >
+            (click)="presentActionSheet()" >
             <ion-icon name="camera"></ion-icon>
             Photo
           </button>
+
+
 <br>
       <button ion-button  block type="submit" [disabled]="!todo.valid">Ajouter</button>
     </form>
-
+    <div *ngIf="!guestPicture">
+        <img  src="{{guestPicture}}">
+    </div>
 </ion-content>
 
 

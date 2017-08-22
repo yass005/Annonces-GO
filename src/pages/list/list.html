@@ -1,0 +1,36 @@
+<!--
+  Generated template for the ListPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>list</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content >
+
+
+
+<ion-card>
+  <ion-card-header color="primary">
+   Choisir une catégorie
+  </ion-card-header>
+
+  <ion-list>
+    <button ion-item *ngFor=" let categorie of items | async " (click)="goToEventDetail(categorie.$key)">
+         <ion-icon name="{{categorie.icon}}" item-start> </ion-icon>
+      {{categorie.nom}}
+       <ion-badge item-end>2</ion-badge>
+    </button>
+
+</ion-list>
+</ion-card>
+
+
+</ion-content>
