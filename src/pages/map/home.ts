@@ -1,10 +1,13 @@
+import { Annonce } from './../../model/annonce';
 import { Component } from '@angular/core';
 import { NavController, Platform } from 'ionic-angular'
 // Native components
 import { Geolocation } from '@ionic-native/geolocation';
 import { GoogleMaps, GoogleMap, GoogleMapsEvent, LatLng, CameraPosition, GoogleMapsAnimation, MarkerOptions, Marker } from '@ionic-native/google-maps';
 import { treeMap, TreeMappingMock } from '../../model/tri.mapping';
-
+import { CategorieProvider } from '../../providers/categorie/categorie';
+import { Observable } from 'rxjs/Rx';
+import { FirebaseListObservable } from 'angularfire2/database';
 // Mocks
 
 
@@ -16,20 +19,30 @@ const MARKER_SIZE = 30;
 })
 export class HomePage {
 
-  private list : treeMap[]
 
+  Annonce:  any[] = [];
 
-  constructor(public navCtrl: NavController, private geoLocation: Geolocation ,private googleMaps: GoogleMaps, public platform: Platform) {
+  constructor(public navCtrl: NavController, private geoLocation: Geolocation ,
+    private categorieProvider : CategorieProvider,
+    private googleMaps: GoogleMaps, public platform: Platform) {
+     this.categorieProvider.findAllAnnonces().subscribe(vals=> {
+      vals.forEach(val=> {
+      this.Annonce.push(val);
+      })
+
+   })
+    console.log(this.Annonce);
 
     // Data
-    this.list = TreeMappingMock;
-    console.log(this.list.length);
-    console.log(this.list);
+  //  this.list = TreeMappingMock;
+   // console.log(this.list.length);
+  //  console.log(this.list);
 
   }
 
 ngAfterViewInit() {
- this.loadMap();
+
+    this.loadMap();
 }
 loadMap() {
  // make sure to create following structure in your view.html file
@@ -64,21 +77,23 @@ loadMap() {
  map.one(GoogleMapsEvent.MAP_READY).then(
    () => {
      console.log('Map is ready!');
-       for(var tree of this.list) {
-          this.addMarkerOnMap(tree, map);
-        }
-     // Now you can add elements to the map like the marker
-   }
- );
 
+this.Annonce.forEach(item=>{
+  this.addMarkerOnMap(item , map);
+
+  })
+     }
+     )
+
+     // Now you can add elements to the map like the marker
  }
 
-  private addMarkerOnMap(tree: treeMap, map: GoogleMap) {
+  private addMarkerOnMap(item: any, map: GoogleMap) {
     // create LatLng object
-    let markerPosition: LatLng = new LatLng(tree.lat,tree.lng);
+    let markerPosition: LatLng = new LatLng(item.location.Lat,item.location.Long);
 
     let markerIcon = {
-		 'url': tree.globalImage,
+		 'url': item.imageURL,
 		 'size': {
 			 width: Math.round(MARKER_SIZE),
 			 height: Math.round(MARKER_SIZE)
@@ -87,8 +102,8 @@ loadMap() {
 
    let markerOptions: MarkerOptions = {
 			position: markerPosition,
-			title: tree.name,
-			snippet: 'Touch for more infos',
+			title: item.titre,
+			snippet: item.description,
 			animation: GoogleMapsAnimation.DROP,
 			icon: markerIcon
 		};

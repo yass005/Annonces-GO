@@ -1,9 +1,14 @@
+import * as _ from 'lodash';
+import * as lodash from 'lodash';
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireDatabaseModule, FirebaseObjectObservable, FirebaseListObservable } from 'angularfire2/database';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Rx';
 import { categorie } from '../../model/categorie';
 import firebase from 'firebase'
+import { Annonce } from '../../model/annonce';
+
+
 /*
   Generated class for the CategorieProvider provider.
 
@@ -36,4 +41,21 @@ export class CategorieProvider {
   })
 
   }
+getAnnonce(key : string) {
+  return this.db.object(`Annonces/${key}`, { preserveSnapshot: true })
+}
+
+  NombreAnnonces(key: string) {
+
+   return this.db.object(`categories/${key}/Annonces`).map(obj =>_.keys(obj).length )
+
+
+}
+
+findAllAnnonces(){
+
+  return this.db.list('Annonces');
+}
+
+
 }

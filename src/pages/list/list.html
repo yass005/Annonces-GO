@@ -23,10 +23,11 @@
   </ion-card-header>
 
   <ion-list>
-    <button ion-item *ngFor=" let categorie of items | async " (click)="goToEventDetail(categorie.$key)">
+    <button ion-item *ngFor=" let categorie of items | async " (click)="goToEventDetail(categorie.$key)" >
          <ion-icon name="{{categorie.icon}}" item-start> </ion-icon>
       {{categorie.nom}}
-       <ion-badge item-end>2</ion-badge>
+
+       <ion-badge item-end *ngIf="categorie.Annonces">{{getnbannonces(categorie.$key)}}</ion-badge>
     </button>
 
 </ion-list>

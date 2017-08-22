@@ -36,6 +36,7 @@ import { ListPage } from '../pages/list/list';
 import {GoogleMaps} from '@ionic-native/google-maps';
 import { HomePage } from '../pages/map/home';
 import { AnnoncesParCatégoriePage } from "../pages/annonces-par-cat\u00E9gorie/annonces-par-cat\u00E9gorie";
+import { AnnoncePage } from '../pages/annonce/annonce';
 export const firebaseConfig = {
   apiKey: "AIzaSyB6s6vyLqyo9EaN2xqDpHa0WBu4tKFzwgo",
     authDomain: "annonces-go.firebaseapp.com",
@@ -61,6 +62,7 @@ export const firebaseConfig = {
     MenuPage,
     ListPage,
     HomePage,
+    AnnoncePage,
     AnnoncesParCatégoriePage,
     CategoriesComponent
   ],
@@ -83,6 +85,7 @@ export const firebaseConfig = {
       MesFavorisPage,
       MenuPage,
       ListPage,
+      AnnoncePage,
       AnnoncesParCatégoriePage,
       AnnonceDetailsPage,
 ProfilePage,

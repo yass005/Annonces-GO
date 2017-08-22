@@ -182,8 +182,9 @@ exports.newAnnonces = functions.database.ref('/AnnoncesAValidé/{AnnoncesId}/val
 
 exports.finishValidate = functions.database.ref('/Annonces/{AnnoncesId}').onCreate(event => {
 
+  var eventSnapshot = event.data.val();
 
-
+  admin.database().ref(`/categories/${eventSnapshot.categorie}/Annonces`).child(event.data.key).set (true);
 
   return admin.database().ref(`/AnnoncesAValidé/${event.data.key}`).remove().then(res =>
     console.log(res)
@@ -205,7 +206,7 @@ exports.UpdateImage = functions.database.ref('/userProfile/{userId}/Annonces/{An
         categorie: snapshot.child("categorie").val(),
         description: snapshot.child("description").val(),
         imageURL: snapshot.child("imageURL").val(),
-        location: snapshot.child("location").val(),
+     //   location: snapshot.child("location").val(),
         userId: uid,
         titre: snapshot.child("titre").val()
       }).then(res => {
