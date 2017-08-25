@@ -3,6 +3,8 @@ import { ProfilePage } from './../profile/profile';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { HomePage } from '../map/home';
+import { RecherchePage } from '../recherche/recherche';
+import { AproposPage } from '../apropos/apropos';
 
 /**
  * Generated class for the MenuPage page.
@@ -23,7 +25,8 @@ export class MenuPage {
   tab1Root = ProfilePage;
   tab2Root = ListPage;
   tab3Root = HomePage;
-
+  tab4Root=RecherchePage
+  tab5Root=AproposPage
   constructor() {
 
   }
