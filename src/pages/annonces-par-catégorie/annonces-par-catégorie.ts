@@ -21,7 +21,7 @@ import { Loc } from '../../model/location';
 })
 export class AnnoncesParCatégoriePage {
 
- items: FirebaseListObservable<Annonce[]>;
+ items: Observable<any[]>;
    userPosition : Loc
   constructor(public navCtrl: NavController, public navParams: NavParams,
       private geoLocation: Geolocation,
@@ -32,8 +32,18 @@ export class AnnoncesParCatégoriePage {
            this.geoLocation.getCurrentPosition().then((resp) => {
 
      this.userPosition = {lat: resp.coords.latitude, lng: resp.coords.longitude};
-    console.log(this.userPosition);
-    }).catch((error) => {
+   return this.userPosition;
+    }).then(res => {
+
+      this.items=this.categorieProvider.GetAnnoncesParCatégoriePage(this.navParams.get('CategorieId')).map(Annonces=>{
+      return Annonces.filter(Annonce=>{
+        return !!Annonce.location
+      }).map(Annonce=>{
+      return {id : Annonce.$key,titre: Annonce.titre, image: Annonce.imageURL , distance: this.getDistanceBetweenPoints(res, Annonce.location.Lat, Annonce.location.Long,'km' ) }
+    })
+    })
+    })
+      .catch((error) => {
       console.log('Error getting location', error);
     });
   }

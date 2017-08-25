@@ -20,12 +20,12 @@
 
 <ion-content padding>
   <ion-list>
-  <ion-item ion-item *ngFor="let item of items | async" (click)=" onOpenMap(item.$key)">
+  <ion-item ion-item *ngFor="let item of items | async" (click)=" onOpenMap(item.id)">
 
     <ion-thumbnail item-start>
-      <img src="{{item.imageURL}}">
+      <img src="{{item.image}}">
     </ion-thumbnail>
-    <h2> {{item.titre}}<br> <span *ngIf="item.location" > Distance : {{ getDistanceBetweenPoints(userPosition,item.location.Lat, item.location.Long,'km')  |  number : '1.2-2' }} Km </span></h2>
+    <h2> {{item.titre}}<br> <span *ngIf="item.distance" > Distance : {{  item.distance |  number : '1.2-2' }} Km </span></h2>
     <button ion-button clear item-end>Voir</button>
   </ion-item>
 </ion-list>
