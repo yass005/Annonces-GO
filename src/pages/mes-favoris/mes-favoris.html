@@ -8,11 +8,10 @@
 
   <ion-navbar>
     <ion-title>mesFavoris</ion-title>
-     <ion-buttons end>
-      <button ion-button icon-only (click)="AjoutFavoris()">
-        <ion-icon name="add"></ion-icon>
-      </button>
-    </ion-buttons>
+    <ion-fab middle  right >
+      <button ion-fab mini (click)="AjoutFavoris()"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
+
   </ion-navbar>
 
 </ion-header>

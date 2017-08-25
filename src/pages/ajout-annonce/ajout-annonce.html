@@ -21,7 +21,7 @@
         <ion-input type="text" formControlName="title"></ion-input>
       </ion-item>
       <ion-item class="error-message" *ngIf="!todo.controls.title.valid ">
-<p>Your title needs more than 20 characters.</p>
+<p>Choisissez un titre  de 10 caractères au minimum.</p>
 </ion-item>
  <ion-item>
     <ion-label floating>Catégorie</ion-label>
@@ -30,7 +30,7 @@
       </ion-select>
      </ion-item>
       <ion-item class="error-message" *ngIf="!todo.controls.categorie.valid ">
-<p>plz select an catégorie.</p>
+<p>Choisissez une catégorie.</p>
 </ion-item>
       <ion-item>
         <ion-label floating>Description</ion-label>
@@ -38,7 +38,7 @@
       </ion-item>
       <ion-item class="error-message"
 *ngIf="!todo.controls.description.valid">
-<p>Your description needs more than 20 characters.</p>
+<p>Choisissez une description  de 20 caractères au minimum..</p>
 </ion-item>
 
       <button

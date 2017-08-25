@@ -1,7 +1,7 @@
 import { CategoriesComponent } from './../../components/categories/categories';
 import { CategorieProvider } from './../../providers/categorie/categorie';
 import { Component } from '@angular/core';
-import {ActionSheetController, IonicPage,  NavController,  NavParams,  ToastController} from 'ionic-angular';
+import {AlertController, ActionSheetController,  IonicPage,   NavController,   NavParams,   ToastController} from 'ionic-angular';
 import { AnnonceProvider } from '../../providers/annonce/annonce';
 import { Annonce } from '../../model/annonce';
 import { categorie } from '../../model/categorie';
@@ -28,11 +28,13 @@ export class AjoutAnnoncePage {
    public guestPicture: string = null;
    Cats: FirebaseListObservable<categorie[]>;
   constructor(public navCtrl: NavController, public navParams: NavParams,public  annonceProvider : AnnonceProvider,
-  private formBuilder: FormBuilder, private toastCtrl: ToastController, private camera: Camera,public actionSheetCtrl: ActionSheetController,public categorieProvider : CategorieProvider
+  private formBuilder: FormBuilder, private toastCtrl: ToastController,
+  private alertCtrl: AlertController,
+   private camera: Camera,public actionSheetCtrl: ActionSheetController,public categorieProvider : CategorieProvider
 ) {
 
      this.todo = this.formBuilder.group({
-      title: ['',  Validators.compose([Validators.minLength(5), Validators.required])],
+      title: ['',  Validators.compose([Validators.minLength(10), Validators.required])],
       categorie: ['', Validators.required],
       description: ['', Validators.compose([Validators.minLength(20), Validators.required])],
 
@@ -67,17 +69,17 @@ console.log(this.annonceProvider.List_des_annonces());
 
 
 presentToast(message : string) {
-  let toast = this.toastCtrl.create({
+  let toast1 = this.toastCtrl.create({
     message: message,
     duration: 3000,
     position: 'top'
   });
 
-  toast.onDidDismiss(() => {
+  toast1.onDidDismiss(() => {
     this.todo.reset();
   });
 
-  toast.present();
+  toast1.present();
 }
 
 
@@ -94,7 +96,7 @@ presentToast(message : string) {
   }).then(imageData => {
     this.guestPicture = imageData;
   }, error => {
-     this.presentToast(error);
+     this.presentAlert(error);
   //  console.log("ERROR -> " + JSON.stringify(error));
   });
 }
@@ -123,6 +125,13 @@ presentToast(message : string) {
     });
     actionSheet.present();
   }
-
+  presentAlert(message : string) {
+    let alert = this.alertCtrl.create({
+      title: 'Camera',
+      subTitle: message,
+      buttons: ['ok']
+    });
+    alert.present();
+  }
 
 }

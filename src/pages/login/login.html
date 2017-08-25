@@ -17,7 +17,7 @@ loginForm.controls.email.dirty">
 <ion-item class="error-message"
 *ngIf="!loginForm.controls.email.valid &&
 loginForm.controls.email.dirty">
-<p>Please enter a valid email.</p>
+<p>Entrez votre adresse e-mail correctement.</p>
 </ion-item>
 <ion-item>
 <ion-label stacked>Password</ion-label>
@@ -28,7 +28,7 @@ placeholder="Mot de passe"
 </ion-item>
 <ion-item class="error-message"
 *ngIf="!loginForm.controls.password.valid && loginForm.controls.password.dirty">
-<p>Your password needs more than 6 characters.</p>
+<p>Choisissez un mot de passe de 6 caractères au minimum</p>
 </ion-item>
 <button ion-button block type="submit" [disabled]="!loginForm.valid">
 Login
