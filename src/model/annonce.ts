@@ -7,5 +7,6 @@ export interface Annonce {
   description : string
   categorie: categorie
   imageURL?: string
+  userId?: string
   location? : Loc
 }

@@ -63,6 +63,7 @@ loadMap() {
       let userPosition: LatLng = new LatLng(resp.coords.latitude, resp.coords.longitude);
 
       let position: CameraPosition = {
+
         target: userPosition,
         zoom: 14,
         tilt: 0
@@ -76,6 +77,7 @@ loadMap() {
  // create ne
  // listen to MAP_READY event
  // You must wait for this event to fire before adding something to the map or modifying it in anyway
+ map.setMyLocationEnabled(true);
  map.one(GoogleMapsEvent.MAP_READY).then(
    () => {
      console.log('Map is ready!');
@@ -105,7 +107,7 @@ this.Annonce.forEach(item=>{
    let markerOptions: MarkerOptions = {
 			position: markerPosition,
       title: item.titre,
-			animation: GoogleMapsAnimation.DROP,
+			animation: GoogleMapsAnimation.BOUNCE,
 			icon: markerIcon
 		};
 
@@ -113,7 +115,7 @@ this.Annonce.forEach(item=>{
     map.addMarker(markerOptions)
 		.then((marker: Marker) => {
       marker.showInfoWindow()
-      marker.addEventListener('click').subscribe(() => { this.onOpenMap(item.$key); });
+   //   marker.addEventListener('click').subscribe(() => { this.onOpenMap(item.$key); });
     })
 
   }

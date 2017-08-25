@@ -1,6 +1,6 @@
-import {Geolocation} from '@ionic-native/geolocation';
+import { Geolocation } from '@ionic-native/geolocation';
 import { Component } from '@angular/core';
-import {ModalController, ViewController,  IonicPage,   NavController,   NavParams} from 'ionic-angular';
+import { ModalController, ViewController, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Observable } from 'rxjs/Rx';
 import { Annonce } from '../../model/annonce';
 import { FirebaseListObservable } from 'angularfire2/database';
@@ -21,31 +21,31 @@ import { Loc } from '../../model/location';
 })
 export class AnnoncesParCatégoriePage {
 
- items: Observable<any[]>;
-   userPosition : Loc
+  items: Observable<any[]>;
+  userPosition: Loc
   constructor(public navCtrl: NavController, public navParams: NavParams,
-      private geoLocation: Geolocation,
-     private categorieProvider : CategorieProvider,private modalCtrl: ModalController) {
+    private geoLocation: Geolocation,
+    private categorieProvider: CategorieProvider, private modalCtrl: ModalController) {
 
-    this.items=this.categorieProvider.GetAnnoncesParCatégoriePage(this.navParams.get('CategorieId'));
+    this.items = this.categorieProvider.GetAnnoncesParCatégoriePage(this.navParams.get('CategorieId'));
     console.log(this.items);
-           this.geoLocation.getCurrentPosition().then((resp) => {
+    this.geoLocation.getCurrentPosition().then((resp) => {
 
-     this.userPosition = {lat: resp.coords.latitude, lng: resp.coords.longitude};
-   return this.userPosition;
+      this.userPosition = { lat: resp.coords.latitude, lng: resp.coords.longitude };
+      return this.userPosition;
     }).then(res => {
 
-      this.items=this.categorieProvider.GetAnnoncesParCatégoriePage(this.navParams.get('CategorieId')).map(Annonces=>{
-      return Annonces.filter(Annonce=>{
-        return !!Annonce.location
-      }).map(Annonce=>{
-      return {id : Annonce.$key,titre: Annonce.titre, image: Annonce.imageURL , distance: this.getDistanceBetweenPoints(res, Annonce.location.Lat, Annonce.location.Long,'km' ) }
-    })
-    })
+      this.items = this.categorieProvider.GetAnnoncesParCatégoriePage(this.navParams.get('CategorieId')).map(Annonces => {
+        return Annonces.filter(Annonce => {
+          return !!Annonce.location
+        }).map(Annonce => {
+          return { id: Annonce.$key, titre: Annonce.titre, image: Annonce.imageURL, distance: this.getDistanceBetweenPoints(res, Annonce.location.Lat, Annonce.location.Long, 'km') }
+        })
+      })
     })
       .catch((error) => {
-      console.log('Error getting location', error);
-    });
+        console.log('Error getting location', error);
+      });
   }
 
   ionViewDidLoad() {
@@ -53,42 +53,42 @@ export class AnnoncesParCatégoriePage {
   }
 
 
-    onOpenMap(key : string){
+  onOpenMap(key: string) {
     const modal = this.modalCtrl.create(AnnoncePage,
-      {Id: key});
+      { Id: key });
 
-     modal.present();
+    modal.present();
 
   }
 
-     getDistanceBetweenPoints(start, endlat, endlng , units){
+  getDistanceBetweenPoints(start, endlat, endlng, units) {
 
-        let earthRadius = {
-            miles: 3958.8,
-            km: 6371
-        };
+    let earthRadius = {
+      miles: 3958.8,
+      km: 6371
+    };
 
-        let R = earthRadius[units || 'km'];
-        let lat1 = start.lat;
-        let lon1 = start.lng;
-        let lat2 = endlat;
-        let lon2 = endlng;
+    let R = earthRadius[units || 'km'];
+    let lat1 = start.lat;
+    let lon1 = start.lng;
+    let lat2 = endlat;
+    let lon2 = endlng;
 
-        let dLat = this.toRad((lat2 - lat1));
-        let dLon = this.toRad((lon2 - lon1));
-        let a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(this.toRad(lat1)) * Math.cos(this.toRad(lat2)) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
-        let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        let d = R * c;
+    let dLat = this.toRad((lat2 - lat1));
+    let dLon = this.toRad((lon2 - lon1));
+    let a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(this.toRad(lat1)) * Math.cos(this.toRad(lat2)) *
+      Math.sin(dLon / 2) *
+      Math.sin(dLon / 2);
+    let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    let d = R * c;
 
-        return d;
+    return d;
 
-    }
+  }
 
-    toRad(x){
-        return x * Math.PI / 180;
-    }
+  toRad(x) {
+    return x * Math.PI / 180;
+  }
 
 }

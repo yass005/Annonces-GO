@@ -24,6 +24,7 @@
        {{annonce.titre}}
       </ion-card-title>
     <p>{{annonce.description}}</p>
+
     </ion-card-content>
   </ion-card>
 </div>
@@ -32,4 +33,10 @@
           block
           color="primary"
           (click)="onAbort()">retour</button>
-</ion-content>>
+          <button
+          ion-button
+          block
+          color="primary"
+          (click)="email(annonce.userId, annonce.titre)">Contact</button>
+
+</ion-content>
