@@ -1,6 +1,6 @@
 import { Annonce } from './../../model/annonce';
 import { Component } from '@angular/core';
-import { NavController, Platform } from 'ionic-angular'
+import { NavController, Platform, ModalController } from 'ionic-angular'
 // Native components
 import { Geolocation } from '@ionic-native/geolocation';
 import { GoogleMaps, GoogleMap, GoogleMapsEvent, LatLng, CameraPosition, GoogleMapsAnimation, MarkerOptions, Marker } from '@ionic-native/google-maps';
@@ -8,6 +8,7 @@ import { treeMap, TreeMappingMock } from '../../model/tri.mapping';
 import { CategorieProvider } from '../../providers/categorie/categorie';
 import { Observable } from 'rxjs/Rx';
 import { FirebaseListObservable } from 'angularfire2/database';
+import { AnnoncePage } from '../annonce/annonce';
 // Mocks
 
 
@@ -22,16 +23,17 @@ export class HomePage {
 
   Annonce:  any[] = [];
 
-  constructor(public navCtrl: NavController, private geoLocation: Geolocation ,
+  constructor(public navCtrl: NavController, private geoLocation: Geolocation ,private modalCtrl: ModalController,
     private categorieProvider : CategorieProvider,
     private googleMaps: GoogleMaps, public platform: Platform) {
-     this.categorieProvider.findAllAnnonces().subscribe(vals=> {
-      vals.forEach(val=> {
-      this.Annonce.push(val);
-      })
+     this.categorieProvider.findAllAnnonces().map(vals=> { return vals.map(val => {
+       return val
+     })
 
-   })
-    console.log(this.Annonce);
+ }).subscribe(Annonces => {
+   this.Annonce=Annonces
+   console.log(this.Annonce);
+ })
 
     // Data
   //  this.list = TreeMappingMock;
@@ -102,16 +104,23 @@ this.Annonce.forEach(item=>{
 
    let markerOptions: MarkerOptions = {
 			position: markerPosition,
-			title: item.titre,
-			snippet: item.description,
+      title: item.titre,
 			animation: GoogleMapsAnimation.DROP,
 			icon: markerIcon
 		};
 
+
     map.addMarker(markerOptions)
 		.then((marker: Marker) => {
-			marker.showInfoWindow();
-		});
+      marker.showInfoWindow()
+      marker.addEventListener('click').subscribe(() => { this.onOpenMap(item.$key); });
+    })
+
+  }
+
+    onOpenMap(key : string){
+    const modal = this.modalCtrl.create(AnnoncePage,{Id: key});
+     modal.present();
 
   }
 }

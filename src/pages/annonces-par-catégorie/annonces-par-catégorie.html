@@ -7,7 +7,12 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>annoncesParCatégorie</ion-title>
+    <ion-title>Annonces</ion-title>
+    <ion-toolbar>
+<ion-searchbar [(ngModel)]="searchQuery" (ionInput)="getParks($event)"
+(ionClear)="resetList($event)">
+</ion-searchbar>
+</ion-toolbar>
   </ion-navbar>
 
 </ion-header>
@@ -20,8 +25,8 @@
     <ion-thumbnail item-start>
       <img src="{{item.imageURL}}">
     </ion-thumbnail>
-    <h2> {{item.titre}}</h2>
-    <button ion-button clear item-end>View</button>
+    <h2> {{item.titre}}<br> <span *ngIf="item.location" > Distance : {{ getDistanceBetweenPoints(userPosition,item.location.Lat, item.location.Long,'km')  |  number : '1.2-2' }} Km </span></h2>
+    <button ion-button clear item-end>Voir</button>
   </ion-item>
 </ion-list>
 </ion-content>

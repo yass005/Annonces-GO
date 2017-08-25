@@ -6,6 +6,8 @@ import { categorie } from '../../model/categorie';
 import { CategorieProvider } from '../../providers/categorie/categorie';
 import { AnnoncesParCatégoriePage } from "../annonces-par-cat\u00E9gorie/annonces-par-cat\u00E9gorie";
 import { Observable } from 'rxjs/Rx';
+import { Geolocation } from '@ionic-native/geolocation';
+import { Loc } from '../../model/location';
 /**
  * Generated class for the ListPage page.
  *
@@ -21,9 +23,13 @@ export class ListPage {
    items: FirebaseListObservable<any[]>;
     ref: Observable<any[]>;
 
-      annoncesCount:  any[] = [];
-  constructor(private categorieProvider : CategorieProvider, public navCtrl: NavController, public navParams: NavParams) {
+
+  annoncesCount:  any[] = [];
+  constructor(private categorieProvider : CategorieProvider, public navCtrl: NavController,
+    public navParams: NavParams) {
     this.items = categorieProvider.items$;
+
+
 
   }
 
@@ -55,11 +61,6 @@ getnbannonces(key: string){
   })
 }
 
- /* getUsersData(key: string) {
 
-    this.ref=this.categorieProvider.NombreAnnonces(key);
-    console.log(this.ref);
-
-  }*/
 
 }

@@ -45,12 +45,6 @@ getAnnonce(key : string) {
   return this.db.object(`Annonces/${key}`, { preserveSnapshot: true })
 }
 
-  NombreAnnonces(key: string) {
-
-   return this.db.object(`categories/${key}/Annonces`).map(obj =>_.keys(obj).length )
-
-
-}
 
 findAllAnnonces(){
 

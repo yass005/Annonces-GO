@@ -32,6 +32,7 @@ console.log(this.annonce);
 
   this.annonce=snapshot.val()
   this.annonce.key=snapshot.key
+
    }
 }, Error => {
   console.log(Error.message)
