@@ -1,7 +1,8 @@
+import { AnnoncePage } from './../annonce/annonce';
 import { FirebaseListObservable } from 'angularfire2/database';
 import { CategorieProvider } from './../../providers/categorie/categorie';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 
 /**
  * Generated class for the RecherchePage page.
@@ -20,7 +21,9 @@ export class RecherchePage {
   searchQuery: string;
   public ALLAnnonces : any[];
   filtred: any[];
-  constructor(private categorieProvider : CategorieProvider,public navCtrl: NavController, public navParams: NavParams) {
+  constructor(private categorieProvider : CategorieProvider,
+     private modalCtrl: ModalController,
+    public navCtrl: NavController, public navParams: NavParams) {
 
     this.categorieProvider.findAllAnnonces().do(console.log)
     .subscribe(
@@ -35,6 +38,14 @@ export class RecherchePage {
   search(text ){
 
         this.filtred= this.ALLAnnonces.filter(Annonce => Annonce.titre.includes(text));
+      }
+
+      onOpenMap(key: string) {
+        const modal = this.modalCtrl.create(AnnoncePage,
+          { Id: key });
+
+        modal.present();
+
       }
 
 }

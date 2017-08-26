@@ -21,7 +21,7 @@
 
 
     <ion-list>
-    <ion-item ion-item *ngFor="let item of filtred " >
+    <ion-item ion-item *ngFor="let item of filtred " (click)=" onOpenMap(item.$key)" >
 
       <ion-thumbnail item-start>
         <img src="{{item.imageURL}}">
