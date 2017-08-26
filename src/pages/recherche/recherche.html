@@ -9,8 +9,7 @@
   <ion-navbar>
     <ion-title>Recherche</ion-title>
         <ion-toolbar>
-<ion-searchbar [(ngModel)]="searchQuery" (ionInput)="getParks($event)"
-(ionClear)="resetList($event)">
+<ion-searchbar [(ngModel)]="searchQuery" (ionInput)="search(searchQuery)">
 </ion-searchbar>
 </ion-toolbar>
   </ion-navbar>
@@ -18,6 +17,19 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
 
-</ion-content>
+
+    <ion-list>
+    <ion-item ion-item *ngFor="let item of filtred " >
+
+      <ion-thumbnail item-start>
+        <img src="{{item.imageURL}}">
+      </ion-thumbnail>
+      <h2> {{item.titre}}</h2>
+      <button ion-button clear item-end>Voir</button>
+    </ion-item>
+  </ion-list>
+
+  </ion-content>
+

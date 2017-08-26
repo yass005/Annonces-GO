@@ -87,31 +87,6 @@ exports.newPost = functions.database.ref('/userProfile/{userId}/Annonces/{Annonc
     return;
   }
 
-  /* var eventSnapshot = event.data.val();
-   var uid = event.auth.variable ? event.auth.variable.uid : null;
-   admin.database().ref(`/AnnoncesAValidé/${event.data.key}`).set({
-     categorie: eventSnapshot.categorie,
-     description: eventSnapshot.description,
-     imageURL: eventSnapshot.imageURL,
-     location: eventSnapshot.location,
-     userId: uid,
-     titre: eventSnapshot.titre
-
-   }).then(res => {
-
-     transporter.sendMail(mailOptions, (error, info) => {
-       if (error) {
-         console.log(error);
-       } else {
-         console.log('Email sent: ' + info.response);
-       }
-     });
-   }).catch(err => {
-
-     console.log(err);
-   });*/
-
-
   const adress = event.data.ref.parent.parent.child('adress');
 
   adress.once("value")
@@ -128,8 +103,7 @@ exports.newPost = functions.database.ref('/userProfile/{userId}/Annonces/{Annonc
           Lat: res[0].latitude,
           Long: res[0].longitude
         },
-        //  Adress: adress
-        //  location1: {Lat: res.lat , Long : loc.lon}
+
       }).then(() => {
 
         admin.database().ref(`/AnnoncesAValidé/${event.data.key}`).update({
@@ -137,23 +111,12 @@ exports.newPost = functions.database.ref('/userProfile/{userId}/Annonces/{Annonc
             Lat: res[0].latitude,
             Long: res[0].longitude
           },
-          //  Adress: adress
-          //  location1: {Lat: res.lat , Long : loc.lon}
+
         })
       }).catch(err => console.log(err))
     }).catch(err => console.log(err))
 
-  /* const path = event.data.ref
 
-   // only execute function on creation
-
-
-     return event.data.ref.update(
-       {
-       location: {Lat: loc.lat , Long : loc.lon}
-       }
-
-   )*/
 });
 
 
@@ -184,7 +147,7 @@ exports.finishValidate = functions.database.ref('/Annonces/{AnnoncesId}').onCrea
 
   var eventSnapshot = event.data.val();
 
-  admin.database().ref(`/categories/${eventSnapshot.categorie}/Annonces`).child(event.data.key).set (true);
+  admin.database().ref(`/categories/${eventSnapshot.categorie}/Annonces`).child(event.data.key).set(true);
 
   return admin.database().ref(`/AnnoncesAValidé/${event.data.key}`).remove().then(res =>
     console.log(res)
@@ -206,7 +169,7 @@ exports.UpdateImage = functions.database.ref('/userProfile/{userId}/Annonces/{An
         categorie: snapshot.child("categorie").val(),
         description: snapshot.child("description").val(),
         imageURL: snapshot.child("imageURL").val(),
-     //   location: snapshot.child("location").val(),
+        //   location: snapshot.child("location").val(),
         userId: uid,
         titre: snapshot.child("titre").val()
       }).then(res => {

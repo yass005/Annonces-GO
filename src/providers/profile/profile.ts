@@ -29,10 +29,7 @@ export class ProfileProvider {
     return this.userProfile;
   }
 
- /* getFavoris():  firebase.database.Reference {
-    return this.userProfile.child("Favoris");
 
-  }*/
 RemoveFavoris(key : string)  {
 this.db.list(`/userProfile/${this.currentUser.uid}/Favoris/${key}`).remove();
 
@@ -46,28 +43,6 @@ getFavoris() :FirebaseListObservable<any>
 
  return  this.db.list(`/userProfile/${this.currentUser.uid}/Favoris`);
 
-  /* .switchMap( favoris => {
-    let keys = (favoris.$keys)
-     return this.db.list('categories')
-    .map(categories => {
-    return  categories.filter( categorie =>  { return (categorie.$key===keys)
-
-
-    } )
-    })
- });*/
-
-//return this.db.list(`/userProfile/${this.currentUser.uid}/Favoris`);
-
-
- /*this.userProfile.child('Favoris').once('value').then(userSnap => {
-    userSnap.forEach(fav => {
-         const k = fav.key
-          this.categoriesPromises.push(firebase.database().ref(`categories/${k}`).once('value'))
-         }) })
-          .catch(err => { if (err) throw err })
-
-          return this.categoriesPromises*/
 }
 
 
@@ -99,15 +74,16 @@ getFavoris() :FirebaseListObservable<any>
        numéro: num,
        rue: rue,
       ville: ville
-    }).then(res => console.log(res)).
-    catch(err => console.log(err))
+    }).then(res => console.log(res))
+    .catch(err => console.log(err))
 
   }
 
   updateDOB(birthDate: string): firebase.Promise<any> {
     return this.userProfile.update({
       birthDate: birthDate,
-    });
+    }).then(res => console.log(res))
+    .catch(err => console.log(err))
   }
 
   updateEmail(newEmail: string, password: string): firebase.Promise<any> {

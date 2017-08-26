@@ -46,9 +46,9 @@ getAnnonce(key : string) {
 }
 
 
-findAllAnnonces(){
+findAllAnnonces():Observable <any[]>{
 
-  return this.db.list('Annonces');
+  return this.db.list('Annonces')
 }
 
 
