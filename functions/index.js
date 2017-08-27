@@ -165,7 +165,7 @@ exports.UpdateImage = functions.database.ref('/userProfile/{userId}/Annonces/{An
   Annonce.once("value")
     .then(snapshot => {
 
-      return admin.database().ref(`/AnnoncesAValidé/${snapshot.key}`).set({
+      return admin.database().ref(`/AnnoncesAValidé/${snapshot.key}`).update({
         categorie: snapshot.child("categorie").val(),
         description: snapshot.child("description").val(),
         imageURL: snapshot.child("imageURL").val(),
@@ -193,11 +193,13 @@ exports.UpdateImage = functions.database.ref('/userProfile/{userId}/Annonces/{An
 
 
 exports.DeleteAnnonce = functions.database.ref('/userProfile/{userId}/Annonces/{AnnoncesId}').onDelete(event => {
-
+  var eventSnapshot = event.data.previous.val();
 
   return admin.database().ref(`/Annonces/${event.data.key}`).remove().then(res =>
     console.log(res)
-  ).catch(err => {
+  ).then(()=>{
+  return admin.database().ref(`/categories/${eventSnapshot.categorie}/Annonces`).child(event.data.key).remove();
+  }).catch(err => {
     console.log(err);
   })
 })
