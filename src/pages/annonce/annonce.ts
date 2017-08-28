@@ -5,6 +5,10 @@ import { Observable } from 'rxjs/Rx';
 import { CategorieProvider } from '../../providers/categorie/categorie';
 import { EmailComposer } from '@ionic-native/email-composer';
 import firebase from 'firebase'
+import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator';
+import { Loc } from '../../model/location';
+
+
 /**
  * Generated class for the AnnoncePage page.
  *
@@ -19,10 +23,14 @@ import firebase from 'firebase'
 export class AnnoncePage {
  itemObservable: Observable<any>
   public annonce: Annonce ;
+  userPosition: Loc
   constructor(public navCtrl: NavController, public navParams: NavParams,
+    private launchNavigator: LaunchNavigator,
      private emailComposer: EmailComposer,
     private categorieProvider : CategorieProvider,private viewCtrl: ViewController) {
   this.itemObservable=this.categorieProvider.getAnnonce(this.navParams.get('Id'));
+  this.userPosition=this.navParams.get('Position');
+  console.log(this.userPosition);
   }
 
   ionViewDidLoad() {
@@ -70,4 +78,14 @@ email(key, titre)
     console.log(err)
   })
 }
+navigate(Destinations: any){
+  console.log(Destinations)
+  this.launchNavigator.navigate(`${Destinations.Lat}, ${Destinations.Long}`, {
+    start: `${this.userPosition.lat}, ${this.userPosition.lng}`
+}).catch(err=> {
+  console.log(err);
+})
+
+}
+
 }

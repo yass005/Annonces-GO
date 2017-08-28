@@ -69,15 +69,18 @@ loadMap() {
         tilt: 0
       };
 
-      map.moveCamera(position);
-
+      map.moveCamera(position).then(()=>{
+        let item={imageURL:"assets/Img/placeholder.png",titre:"Ma Position",location:{Lat: userPosition.lat ,Long:userPosition.lng}}
+        this.addMarkerOnMap(item , map)
+      })
     }).catch((error) => {
       console.log('Error getting location', error);
     });
+
  // create ne
  // listen to MAP_READY event
  // You must wait for this event to fire before adding something to the map or modifying it in anyway
- map.setMyLocationEnabled(true);
+
  map.one(GoogleMapsEvent.MAP_READY).then(
    () => {
      console.log('Map is ready!');

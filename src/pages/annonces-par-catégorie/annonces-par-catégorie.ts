@@ -55,7 +55,7 @@ export class AnnoncesParCatégoriePage {
 
   onOpenMap(key: string) {
     const modal = this.modalCtrl.create(AnnoncePage,
-      { Id: key });
+      { Id: key, Position : this.userPosition  });
 
     modal.present();
 

@@ -228,7 +228,28 @@ export class ProfilePage {
     });
     alert.present();
   }
-
+  presentConfirm() {
+    let alert = this.alertCtrl.create({
+      title: 'Supprimer votre compte',
+      message: 'La suppression de votre compte  a une incidence sur toutes les données associées à ce compte. Êtes-vous sûr de vouloir supprimer définitivement votre compte ? ',
+      buttons: [
+        {
+          text: 'Annuler',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Oui',
+          handler: () => {
+            this.Delteuser()
+          }
+        }
+      ]
+    });
+    alert.present();
+  }
   showMessage(message: string) {
     this.loading.dismiss().then(() => {
       let alert = this.alertCtrl.create({

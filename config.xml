@@ -87,4 +87,5 @@
     <plugin name="cordova-plugin-x-socialsharing" spec="^5.1.8" />
     <plugin name="cordova-universal-links-plugin" spec="^1.2.1" />
     <plugin name="ionic-plugin-keyboard" spec="^2.2.1" />
+    <plugin name="uk.co.workingedge.phonegap.plugin.launchnavigator" spec="^4.0.4" />
 </widget>
