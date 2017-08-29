@@ -6,11 +6,9 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>mesFavoris</ion-title>
-    <ion-fab middle  right >
-      <button ion-fab mini (click)="AjoutFavoris()"><ion-icon name="add"></ion-icon></button>
-  </ion-fab>
+  <ion-navbar color="personal">
+    <ion-title>Mes favoris</ion-title>
+
 
   </ion-navbar>
 
@@ -36,5 +34,8 @@
     </ion-item-options>
 
   </ion-item-sliding>
+  <ion-fab right bottom>
+    <button ion-fab color="personal" (click)="AjoutFavoris()"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
 </ion-list>
 </ion-content>

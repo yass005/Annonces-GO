@@ -1,10 +1,7 @@
 <ion-header>
   <ion-navbar color="primary">
 
-    <ion-title>Page Two</ion-title>
-  <ion-fab middle  right >
-    <button ion-fab mini (click)="AjoutAnnonce()"><ion-icon name="add"></ion-icon></button>
-</ion-fab>
+    <ion-title>Mes Annonces Two</ion-title>
 
 
   </ion-navbar>
@@ -22,6 +19,9 @@
     <h2> {{item.titre}}</h2>
     <button ion-button clear item-end>View</button>
   </ion-item>
+  <ion-fab right bottom>
+    <button ion-fab color="personal" (click)="AjoutAnnonce()"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
 </ion-list>
 
 </ion-content>
