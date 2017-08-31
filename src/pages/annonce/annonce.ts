@@ -7,7 +7,8 @@ import { EmailComposer } from '@ionic-native/email-composer';
 import firebase from 'firebase'
 import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator';
 import { Loc } from '../../model/location';
-
+import { ProfileProvider } from '../../providers/profile/profile';
+import { Subscription } from 'rxjs/Subscription';
 
 /**
  * Generated class for the AnnoncePage page.
@@ -24,8 +25,11 @@ export class AnnoncePage {
  itemObservable: Observable<any>
   public annonce: Annonce ;
   userPosition: Loc
+
+  sub : Subscription
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private launchNavigator: LaunchNavigator,
+private profileProvider: ProfileProvider,
      private emailComposer: EmailComposer,
     private categorieProvider : CategorieProvider,private viewCtrl: ViewController) {
   this.itemObservable=this.categorieProvider.getAnnonce(this.navParams.get('Id'));
@@ -37,8 +41,16 @@ export class AnnoncePage {
     console.log('ionViewDidLoad AnnoncePage');
   }
 
+  ionViewDidLeave(){
+    if (this.sub.unsubscribe()){
+      console.log('ok');
+    }
+
+      }
  ionViewDidEnter() {
- this.itemObservable.subscribe(snapshot => {
+  if (this.profileProvider.currentUser)
+    {
+ this.sub=this.itemObservable.subscribe(snapshot => {
 
    if (snapshot.val() != null) {
 
@@ -50,8 +62,12 @@ export class AnnoncePage {
   console.log(Error.message)
 
 });
-
+}
+else{
+this.sub.unsubscribe();
+  }
     console.log('ionViewDidLoad AnnonceDetailsPage');
+
   }
 
       onAbort(){

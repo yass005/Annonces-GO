@@ -8,6 +8,7 @@ import { AnnoncesParCatégoriePage } from "../annonces-par-cat\u00E9gorie/annonc
 import { Observable } from 'rxjs/Rx';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Loc } from '../../model/location';
+import { Subscription } from 'rxjs/Subscription';
 /**
  * Generated class for the ListPage page.
  *
@@ -21,8 +22,7 @@ import { Loc } from '../../model/location';
 })
 export class ListPage {
    items: FirebaseListObservable<any[]>;
-    ref: Observable<any[]>;
-
+    sub : Subscription
 
   annoncesCount:  any[] = [];
   constructor(private categorieProvider : CategorieProvider, public navCtrl: NavController,
@@ -32,10 +32,15 @@ export class ListPage {
 
 
   }
+  ionViewDidLeave(){
+    if (this.sub.unsubscribe()){
+      console.log('ok');
+    }
 
+      }
   ionViewDidEnter() {
     console.log('ionViewDidLoad ListPage');
-   this.items.map(cats=>{
+    this.sub=this.items.map(cats=>{
       return cats.filter(cat=>{
         return !!cat.Annonces
       }).map(cat=>{
@@ -49,7 +54,9 @@ export class ListPage {
   }
 
   goToEventDetail(categorieId){
-this.navCtrl.push(AnnoncesParCatégoriePage, { 'CategorieId': categorieId });
+this.navCtrl.push(AnnoncesParCatégoriePage, { 'CategorieId': categorieId }).catch(err => {
+  console.log(err);
+})
 }
 
 
