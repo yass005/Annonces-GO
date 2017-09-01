@@ -9,7 +9,7 @@ import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-na
 import { Loc } from '../../model/location';
 import { ProfileProvider } from '../../providers/profile/profile';
 import { Subscription } from 'rxjs/Subscription';
-
+import { GeolocationProvider } from '../../providers/geolocation/geolocation';
 /**
  * Generated class for the AnnoncePage page.
  *
@@ -24,17 +24,17 @@ import { Subscription } from 'rxjs/Subscription';
 export class AnnoncePage {
  itemObservable: Observable<any>
   public annonce: Annonce ;
-  userPosition: Loc
   contienposition: boolean=true;
   sub : Subscription
   constructor(public navCtrl: NavController, public navParams: NavParams,
+    private GeolocationService : GeolocationProvider,
     private launchNavigator: LaunchNavigator,
 private profileProvider: ProfileProvider,
      private emailComposer: EmailComposer,
     private categorieProvider : CategorieProvider,private viewCtrl: ViewController) {
   this.itemObservable=this.categorieProvider.getAnnonce(this.navParams.get('Id'));
-  this.userPosition=this.navParams.get('Position');
-  console.log(this.userPosition);
+
+  console.log(this.GeolocationService.UserPosition);
   }
 
   ionViewDidLoad() {
@@ -93,7 +93,7 @@ email(key, titre)
 navigate(Destinations: any){
   console.log(Destinations)
   this.launchNavigator.navigate(`${Destinations.Lat}, ${Destinations.Long}`, {
-    start: `${this.userPosition.lat}, ${this.userPosition.lng}`
+    start: `${this.GeolocationService.UserPosition.lat}, ${this.GeolocationService.UserPosition.lng}`
 }).catch(err=> {
   console.log(err);
 })

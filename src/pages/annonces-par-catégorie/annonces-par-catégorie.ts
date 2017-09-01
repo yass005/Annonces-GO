@@ -1,4 +1,3 @@
-import { Geolocation } from '@ionic-native/geolocation';
 import { Component } from '@angular/core';
 import { ModalController, ViewController, IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Observable } from 'rxjs/Rx';
@@ -9,6 +8,8 @@ import { AnnoncePage } from '../annonce/annonce';
 import { Loc } from '../../model/location';
 import { Subscription } from 'rxjs/Subscription';
 import { ProfileProvider } from '../../providers/profile/profile';
+import { GeolocationProvider } from '../../providers/geolocation/geolocation';
+
 
 /**
  * Generated class for the AnnoncesParCatégoriePage page.
@@ -28,24 +29,20 @@ export class AnnoncesParCatégoriePage {
   annoncesDistance:  any[] = [];
   sub : Subscription
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    private geoLocation: Geolocation,
     private categorieProvider: CategorieProvider,
+    private GeolocationService : GeolocationProvider,
     private profileProvider: ProfileProvider,
     private modalCtrl: ModalController) {
 
     this.AnnoncesParCategorie = this.categorieProvider.GetAnnoncesParCatégoriePage(this.navParams.get('CategorieId')).distinctUntilChanged();
     console.log(this.AnnoncesParCategorie);
-    this.geoLocation.getCurrentPosition().then((resp) => {
 
-      this.userPosition = { lat: resp.coords.latitude, lng: resp.coords.longitude };
-      return this.userPosition;
-    }).then(res => {
 
       this.sub=this.AnnoncesParCategorie.map(Annonces => {
         return Annonces.filter(Annonce => {
           return !!Annonce.location
         }).map(Annonce => {
-          return { id: Annonce.$key,  distance: this.getDistanceBetweenPoints(res, Annonce.location.Lat, Annonce.location.Long, 'km') }
+          return { id: Annonce.$key,  distance: this.GeolocationService.getDistanceBetweenPoints(Annonce.location, 'km') }
         })
       }).subscribe(val=>{
         this.annoncesDistance=val;
@@ -55,10 +52,6 @@ export class AnnoncesParCatégoriePage {
       }
     )
 
-    })
-      .catch((error) => {
-        console.log('Error getting location', error);
-      });
   }
 
   ngOnDestroy() {
@@ -86,34 +79,5 @@ export class AnnoncesParCatégoriePage {
    }
 
 
-  getDistanceBetweenPoints(start, endlat, endlng, units) {
-
-    let earthRadius = {
-      miles: 3958.8,
-      km: 6371
-    };
-
-    let R = earthRadius[units || 'km'];
-    let lat1 = start.lat;
-    let lon1 = start.lng;
-    let lat2 = endlat;
-    let lon2 = endlng;
-
-    let dLat = this.toRad((lat2 - lat1));
-    let dLon = this.toRad((lon2 - lon1));
-    let a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(this.toRad(lat1)) * Math.cos(this.toRad(lat2)) *
-      Math.sin(dLon / 2) *
-      Math.sin(dLon / 2);
-    let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    let d = R * c;
-
-    return d;
-
-  }
-
-  toRad(x) {
-    return x * Math.PI / 180;
-  }
 
 }

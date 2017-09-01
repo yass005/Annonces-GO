@@ -4,7 +4,7 @@ import { CategorieProvider } from './../../providers/categorie/categorie';
 import { Component, OnDestroy } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { Subscription } from 'rxjs/Subscription';
-
+import { GeolocationProvider } from '../../providers/geolocation/geolocation';
 
 
 /**

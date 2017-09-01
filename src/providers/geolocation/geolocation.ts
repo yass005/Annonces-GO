@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
 import { Platform } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Geolocation } from '@ionic-native/geolocation';
@@ -14,7 +13,7 @@ import { Loc } from '../../model/location';
 @Injectable()
 export class GeolocationProvider {
   UserPosition: Loc
-  constructor(public http: Http,
+  constructor(
     private platform: Platform,
   private geoLocation: Geolocation,
   public nativeGeocoder: NativeGeocoder,
@@ -46,21 +45,19 @@ AdressTolatitudelongitude(adress: string){
 //Claculte de la distance entre 2 point gps et retourne la valeur par rapport
 //a unité donné en paramétre KM ou mile fonction bvasé sur la formule de haversine
 // important cette formuale calcule la distance mais pas le chemin
-getDistanceBetweenPoints(start: Loc, end: Loc, units)
+getDistanceBetweenPoints( Destination: Loc, units)
+
 {
   let earthRadius = {
     miles: 3958.8,
     km: 6371
   };
-return new  Promise( (resolve, reject)=>
-
-  {
 
       let R = earthRadius[units || 'km'];
-      let lat1 = start.lat;
-      let lon1 = start.lng;
-      let lat2 = end.lat;
-      let lon2 = end.lng;
+      let lat1 = this.UserPosition.lat;
+      let lon1 = this.UserPosition.lng;
+      let lat2 = Destination.lat;
+      let lon2 = Destination.lng;
 
       let dLat = this.toRad((lat2 - lat1));
       let dLon = this.toRad((lon2 - lon1));
@@ -70,15 +67,13 @@ return new  Promise( (resolve, reject)=>
         Math.sin(dLon / 2);
       let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
       let d = R * c;
-      if (d!=null) {
-        resolve("Stuff worked!");
-      }
-      else {
-        reject(Error("It broke"));
-      }
-      return d;
-  })
-    }
+
+       return  d
+
+
+  }
+
+
 //  convert degrees to radians
     toRad(x) {
       return x * Math.PI / 180;
