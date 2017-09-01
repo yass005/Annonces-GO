@@ -25,7 +25,7 @@ export class AnnoncePage {
  itemObservable: Observable<any>
   public annonce: Annonce ;
   userPosition: Loc
-
+  contienposition: boolean=true;
   sub : Subscription
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private launchNavigator: LaunchNavigator,
@@ -57,6 +57,7 @@ private profileProvider: ProfileProvider,
   this.annonce=snapshot.val()
   console.log(this.annonce);
   this.annonce.key=snapshot.key
+  this.annonce.location ? this.contienposition=true : this.contienposition=false;
    }
 }, Error => {
   console.log(Error.message)

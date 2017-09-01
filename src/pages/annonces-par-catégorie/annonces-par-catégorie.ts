@@ -7,6 +7,8 @@ import { FirebaseListObservable } from 'angularfire2/database';
 import { CategorieProvider } from '../../providers/categorie/categorie';
 import { AnnoncePage } from '../annonce/annonce';
 import { Loc } from '../../model/location';
+import { Subscription } from 'rxjs/Subscription';
+import { ProfileProvider } from '../../providers/profile/profile';
 
 /**
  * Generated class for the AnnoncesParCatégoriePage page.
@@ -21,28 +23,39 @@ import { Loc } from '../../model/location';
 })
 export class AnnoncesParCatégoriePage {
 
-  items: Observable<any[]>;
+  AnnoncesParCategorie: Observable<any[]>;
   userPosition: Loc
+  annoncesDistance:  any[] = [];
+  sub : Subscription
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private geoLocation: Geolocation,
     private categorieProvider: CategorieProvider,
+    private profileProvider: ProfileProvider,
     private modalCtrl: ModalController) {
 
-    this.items = this.categorieProvider.GetAnnoncesParCatégoriePage(this.navParams.get('CategorieId'));
-    console.log(this.items);
+    this.AnnoncesParCategorie = this.categorieProvider.GetAnnoncesParCatégoriePage(this.navParams.get('CategorieId')).distinctUntilChanged();
+    console.log(this.AnnoncesParCategorie);
     this.geoLocation.getCurrentPosition().then((resp) => {
 
       this.userPosition = { lat: resp.coords.latitude, lng: resp.coords.longitude };
       return this.userPosition;
     }).then(res => {
 
-      this.items = this.categorieProvider.GetAnnoncesParCatégoriePage(this.navParams.get('CategorieId')).map(Annonces => {
+      if (this.profileProvider.currentUser)
+        {
+      this.sub=this.AnnoncesParCategorie.map(Annonces => {
         return Annonces.filter(Annonce => {
           return !!Annonce.location
         }).map(Annonce => {
-          return { id: Annonce.$key, titre: Annonce.titre, image: Annonce.imageURL, distance: this.getDistanceBetweenPoints(res, Annonce.location.Lat, Annonce.location.Long, 'km') }
+          return { id: Annonce.$key,  distance: this.getDistanceBetweenPoints(res, Annonce.location.Lat, Annonce.location.Long, 'km') }
         })
+      }).subscribe(val=>{
+        this.annoncesDistance=val;
+        console.log(  this.annoncesDistance);
       })
+    }else {
+      this.sub.unsubscribe()
+    }
     })
       .catch((error) => {
         console.log('Error getting location', error);
@@ -52,7 +65,10 @@ export class AnnoncesParCatégoriePage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad AnnoncesParCatégoriePage');
   }
+  ionViewDidLeave(){
+    this.sub.unsubscribe()
 
+      }
 
   onOpenMap(key: string) {
     const modal = this.modalCtrl.create(AnnoncePage,
@@ -61,6 +77,15 @@ export class AnnoncesParCatégoriePage {
     modal.present();
 
   }
+  getDistanceFromMe(key: string){
+    return this.annoncesDistance.filter(Annonce=>{
+       return Annonce.id===key
+     }).map(Annonce=>{
+       return Number(Annonce.distance).toFixed(2)
+
+     })
+   }
+
 
   getDistanceBetweenPoints(start, endlat, endlng, units) {
 

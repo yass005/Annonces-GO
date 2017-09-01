@@ -16,12 +16,12 @@
 
 <ion-content padding>
   <ion-list>
-  <ion-item ion-item *ngFor="let item of items | async" (click)=" onOpenMap(item.id)">
+  <ion-item ion-item *ngFor="let Annonce of AnnoncesParCategorie | async" (click)=" onOpenMap(Annonce.$key)">
 
     <ion-thumbnail item-start>
-      <img src="{{item.image}}">
+      <img src="{{Annonce.imageURL}}">
     </ion-thumbnail>
-    <h2> {{item.titre}}<br> <span *ngIf="item.distance" > Distance : {{  item.distance |  number : '1.2-2' }} Km </span></h2>
+    <h2> {{Annonce.titre}}<br> <span *ngIf="Annonce.location" > Distance : {{ getDistanceFromMe(Annonce.$key)  }} Km </span></h2>
     <button ion-button clear item-end>Voir</button>
   </ion-item>
 </ion-list>
