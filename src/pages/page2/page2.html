@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar color="primary">
 
-    <ion-title>Mes Annonces Two</ion-title>
+    <ion-title>Mes Annonces </ion-title>
 
 
   </ion-navbar>
@@ -11,13 +11,13 @@
 
 
   <ion-list>
-  <ion-item ion-item *ngFor="let item of items | async"  (click)="goToEventDetail(item.$key)">
+  <ion-item ion-item *ngFor="let Annonce of MesAnnonces | async"  (click)="goToEventDetail(Annonce.$key)">
 
     <ion-thumbnail item-start>
-      <img src="{{item.imageURL}}">
+      <img src="{{Annonce.imageURL}}">
     </ion-thumbnail>
-    <h2> {{item.titre}}</h2>
-    <button ion-button clear item-end>View</button>
+    <h2> {{Annonce.titre}}</h2>
+    <button ion-button clear item-end>Voir</button>
   </ion-item>
 
 </ion-list>

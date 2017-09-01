@@ -9,6 +9,7 @@ import { CategorieProvider } from '../../providers/categorie/categorie';
 import { Observable } from 'rxjs/Rx';
 import { FirebaseListObservable } from 'angularfire2/database';
 import { AnnoncePage } from '../annonce/annonce';
+import { Subscription } from 'rxjs/Subscription';
 // Mocks
 
 
@@ -22,11 +23,11 @@ export class HomePage {
 
 
   Annonce:  any[] = [];
-
+  sub : Subscription
   constructor(public navCtrl: NavController, private geoLocation: Geolocation ,private modalCtrl: ModalController,
     private categorieProvider : CategorieProvider,
     private googleMaps: GoogleMaps, public platform: Platform) {
-     this.categorieProvider.findAllAnnonces().map(Annonces=> { return Annonces.filter(Annonce => {
+      this.sub=this.categorieProvider.findAllAnnonces().map(Annonces=> { return Annonces.filter(Annonce => {
        return !!Annonce.location
      })
 
@@ -41,7 +42,9 @@ export class HomePage {
   //  console.log(this.list);
 
   }
-
+  ngOnDestroy() {
+    this.sub.unsubscribe();
+      }
 ngAfterViewInit() {
 
     this.loadMap();

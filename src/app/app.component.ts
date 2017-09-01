@@ -25,9 +25,9 @@ export class MyApp {
 
      afAuth.authState.subscribe( user  => {
       if (user ){
-        this.rootPage = MenuPage;
+        this.nav.setRoot( MenuPage);
       } else {
-        this.rootPage = LoginPage;
+        this.nav.setRoot(LoginPage);
       }
     });
   }

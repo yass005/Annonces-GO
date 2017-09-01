@@ -41,8 +41,6 @@ export class AnnoncesParCatégoriePage {
       return this.userPosition;
     }).then(res => {
 
-      if (this.profileProvider.currentUser)
-        {
       this.sub=this.AnnoncesParCategorie.map(Annonces => {
         return Annonces.filter(Annonce => {
           return !!Annonce.location
@@ -52,23 +50,24 @@ export class AnnoncesParCatégoriePage {
       }).subscribe(val=>{
         this.annoncesDistance=val;
         console.log(  this.annoncesDistance);
-      })
-    }else {
-      this.sub.unsubscribe()
-    }
+      }, err => {
+        console.log(err.message)
+      }
+    )
+
     })
       .catch((error) => {
         console.log('Error getting location', error);
       });
   }
 
+  ngOnDestroy() {
+    this.sub.unsubscribe();
+    console.log('ok');
+      }
   ionViewDidLoad() {
     console.log('ionViewDidLoad AnnoncesParCatégoriePage');
   }
-  ionViewDidLeave(){
-    this.sub.unsubscribe()
-
-      }
 
   onOpenMap(key: string) {
     const modal = this.modalCtrl.create(AnnoncePage,

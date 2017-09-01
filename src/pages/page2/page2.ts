@@ -14,11 +14,11 @@ import { FirebaseListObservable } from 'angularfire2/database';
 export class Page2 {
   selectedItem: any;
   icons: string[];
-  items: FirebaseListObservable<any[]>;
+  MesAnnonces: FirebaseListObservable<any[]>;
   pushPage: any;
   constructor(public navCtrl: NavController, public navParams: NavParams,public  Annonces : AnnonceProvider) {
 
-this.items=Annonces.items$;
+this.MesAnnonces=Annonces.items$;
     // If we navigated to this page, we will have an item available as a nav param
     this.selectedItem = navParams.get('item');
 

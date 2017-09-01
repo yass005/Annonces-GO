@@ -41,6 +41,7 @@ import { RecherchePage } from '../pages/recherche/recherche';
 import { AproposPage } from '../pages/apropos/apropos';
 import { EmailComposer } from '@ionic-native/email-composer';
 import { LaunchNavigator } from '@ionic-native/launch-navigator';
+import { GeolocationProvider } from '../providers/geolocation/geolocation';
 export const firebaseConfig = {
   apiKey: "AIzaSyB6s6vyLqyo9EaN2xqDpHa0WBu4tKFzwgo",
     authDomain: "annonces-go.firebaseapp.com",
@@ -119,6 +120,7 @@ AjoutAnnoncePage
     AnnonceProvider,
     SocialSharing,
     CategorieProvider,
+    GeolocationProvider,
 
   ]
 })

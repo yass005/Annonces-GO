@@ -48,8 +48,7 @@ private profileProvider: ProfileProvider,
 
       }
  ionViewDidEnter() {
-  if (this.profileProvider.currentUser)
-    {
+
  this.sub=this.itemObservable.subscribe(snapshot => {
 
    if (snapshot.val() != null) {
@@ -63,11 +62,7 @@ private profileProvider: ProfileProvider,
   console.log(Error.message)
 
 });
-}
-else{
-this.sub.unsubscribe();
-  }
-    console.log('ionViewDidLoad AnnonceDetailsPage');
+
 
   }
 
@@ -104,5 +99,7 @@ navigate(Destinations: any){
 })
 
 }
-
+ngOnDestroy() {
+  this.sub.unsubscribe();
+    }
 }

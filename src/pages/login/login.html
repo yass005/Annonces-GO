@@ -30,7 +30,7 @@ placeholder="Mot de passe"
 *ngIf="!loginForm.controls.password.valid && loginForm.controls.password.dirty">
 <p>Choisissez un mot de passe de 6 caractères au minimum</p>
 </ion-item>
-<button ion-button block type="submit" [disabled]="!loginForm.valid">
+<button color="personal" ion-button block type="submit" [disabled]="!loginForm.valid">
 Login
 </button>
 </form>

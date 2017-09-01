@@ -47,7 +47,7 @@ export class ProfilePage {
 
   logOut(): void {
     this.authProvider.logout();
-    this.navCtrl.setRoot(MyApp);
+    //this.navCtrl.setRoot(MyApp);
 
   }
 

@@ -32,12 +32,7 @@ export class ListPage {
 
 
   }
-  ionViewDidLeave(){
-    if (this.sub.unsubscribe()){
-      console.log('ok');
-    }
 
-      }
   ionViewDidEnter() {
     console.log('ionViewDidLoad ListPage');
     this.sub=this.items.map(cats=>{
@@ -49,6 +44,8 @@ export class ListPage {
     }).subscribe(val=>{
       this.annoncesCount=val;
       console.log(  this.annoncesCount);
+    }, Error => {
+      console.log(Error.message)
     })
 
   }
@@ -58,6 +55,10 @@ this.navCtrl.push(AnnoncesParCatégoriePage, { 'CategorieId': categorieId }).cat
   console.log(err);
 })
 }
+
+ngOnDestroy() {
+  this.sub.unsubscribe();
+    }
 
 
 getnbannonces(key: string){

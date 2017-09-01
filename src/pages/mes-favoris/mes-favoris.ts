@@ -35,17 +35,10 @@ export class MesFavorisPage {
 
 
   }
-ionViewDidLeave(){
-if (this.sub.unsubscribe()){
-  console.log('ok');
-}
-
-  }
 
 
    ionViewWillEnter() {
-if (this.profileProvider.currentUser)
-  {
+
   this.items$ = this.profileProvider.getFavoris();
   this.sub= this.items$.subscribe( favoris => {
     //collect everything into one array
@@ -60,10 +53,7 @@ if (this.profileProvider.currentUser)
    )
  }
 )
-  }
-else{
-this.sub.unsubscribe();
-  }
+
 
      /* this.categorieProvider.getNom(item.$key).on('value', Snapshot => {
         if  (this.categorie.length< items.length) {
@@ -96,7 +86,9 @@ this.sub.unsubscribe();
 
     console.log('ionViewDidLoad AnnonceDetailsPage');
   }*/
-
+  ngOnDestroy() {
+    this.sub.unsubscribe();
+      }
 
   AjoutFavoris(){
     this.navCtrl.push(ListesFavorisPage);

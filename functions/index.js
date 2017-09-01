@@ -91,25 +91,25 @@ exports.newPost = functions.database.ref('/userProfile/{userId}/Annonces/{Annonc
 
   adress.once("value")
     .then(snapshot => {
-      rue = snapshot.child("rue").val(); // {first:"Ada",last:"Lovelace"}
-      numéro = snapshot.child("numéro").val(); // "Ada"
-      ville = snapshot.child("ville").val(); // "Lovelace"
+      rue = snapshot.child("rue").val();
+      numéro = snapshot.child("numéro").val();
+      ville = snapshot.child("ville").val();
       Geo = rue + " " + rue + " " + ville;
       return geocoder.geocode(Geo)
     })
     .then(res => {
       return event.data.ref.update({
         location: {
-          Lat: res[0].latitude,
-          Long: res[0].longitude
+          lat: res[0].latitude,
+          lng: res[0].longitude
         },
 
       }).then(() => {
 
         admin.database().ref(`/AnnoncesAValidé/${event.data.key}`).update({
           location: {
-            Lat: res[0].latitude,
-            Long: res[0].longitude
+            lat: res[0].latitude,
+            lng: res[0].longitude
           },
 
         })

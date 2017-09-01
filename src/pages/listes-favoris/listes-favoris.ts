@@ -27,8 +27,7 @@ export class ListesFavorisPage {
 
 }
  ionViewWillEnter() {
-if (this.profileProvider.currentUser)
-  {
+
    this.items = this.categorieProvider.items$;
    this.sub=this.profileProvider.getFavoris().subscribe( favoris => {
     //collect everything into one array
@@ -38,16 +37,11 @@ if (this.profileProvider.currentUser)
 
    console.log(this.favorisIDs);
   }
-  else{
-this.sub.unsubscribe();
-  }
- }
 
- ionViewWillLeave(){
-if (this.sub.unsubscribe()){
-  console.log('ok');
-}
-  }
+  ngOnDestroy() {
+    this.sub.unsubscribe();
+      }
+
 
 AddFavoris(key: string, nom){
   this.profileProvider.AddFavoris(key)
