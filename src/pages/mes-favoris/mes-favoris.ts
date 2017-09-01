@@ -5,7 +5,6 @@ import { ListesFavorisPage } from '../listes-favoris/listes-favoris';
 import { ProfileProvider } from '../../providers/profile/profile';
 import { CategorieProvider } from '../../providers/categorie/categorie';
 import { Observable } from 'rxjs/Rx';
-
 import { categorie } from '../../model/categorie';
 import { FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 

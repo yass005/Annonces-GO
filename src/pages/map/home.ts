@@ -26,8 +26,8 @@ export class HomePage {
   constructor(public navCtrl: NavController, private geoLocation: Geolocation ,private modalCtrl: ModalController,
     private categorieProvider : CategorieProvider,
     private googleMaps: GoogleMaps, public platform: Platform) {
-     this.categorieProvider.findAllAnnonces().map(vals=> { return vals.map(val => {
-       return val
+     this.categorieProvider.findAllAnnonces().map(Annonces=> { return Annonces.filter(Annonce => {
+       return !!Annonce.location
      })
 
  }).subscribe(Annonces => {

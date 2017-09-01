@@ -25,7 +25,8 @@ export class AnnoncesParCatégoriePage {
   userPosition: Loc
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private geoLocation: Geolocation,
-    private categorieProvider: CategorieProvider, private modalCtrl: ModalController) {
+    private categorieProvider: CategorieProvider,
+    private modalCtrl: ModalController) {
 
     this.items = this.categorieProvider.GetAnnoncesParCatégoriePage(this.navParams.get('CategorieId'));
     console.log(this.items);
@@ -55,7 +56,7 @@ export class AnnoncesParCatégoriePage {
 
   onOpenMap(key: string) {
     const modal = this.modalCtrl.create(AnnoncePage,
-      { Id: key, Position : this.userPosition  });
+      { Id: key, Position: this.userPosition });
 
     modal.present();
 
