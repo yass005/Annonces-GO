@@ -43,6 +43,7 @@ export class MesFavorisPage {
   this.sub= this.items$.subscribe( favoris => {
     //collect everything into one array
     let favorisIDs =  favoris.map( favori => { return favori.$key } )
+    console.log(favorisIDs);
     this.itemsSubscription=  this.categorieProvider.items$.map( categories => {
       return  categories.filter( categorie => {
       return favorisIDs.includes(categorie.$key)

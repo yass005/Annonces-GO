@@ -73,7 +73,7 @@ loadMap() {
       };
 
       map.moveCamera(position).then(()=>{
-        let item={imageURL:"assets/Img/placeholder.png",titre:"Ma Position",location:{Lat: userPosition.lat ,Long:userPosition.lng}}
+        let item={imageURL:"assets/Img/placeholder.png",titre:"Ma Position",location:{lat: userPosition.lat ,lng:userPosition.lng}}
         this.addMarkerOnMap(item , map)
       })
     }).catch((error) => {

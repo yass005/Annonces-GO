@@ -8,6 +8,7 @@ import { ProfilePage } from '../pages/profile/profile';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { MenuPage } from '../pages/menu/menu';
 import { FCM } from '@ionic-native/fcm';
+import { TestPage } from '../pages/test/test';
 @Component({
   templateUrl: 'app.html'
 })

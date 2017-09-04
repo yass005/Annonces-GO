@@ -60,11 +60,11 @@ getFavoris() :FirebaseListObservable<any>
     });
   }
 
-  updatePosition(lat: number, long: number): firebase.Promise<void> {
+  updatePosition(lat: number, lng: number): firebase.Promise<void> {
     var hopperRef = this.userProfile.child("position");
     return hopperRef.update({
       Lat: lat,
-      Long: long,
+      Long: lng,
     });
 
   }

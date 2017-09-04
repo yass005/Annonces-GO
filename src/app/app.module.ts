@@ -42,6 +42,7 @@ import { AproposPage } from '../pages/apropos/apropos';
 import { EmailComposer } from '@ionic-native/email-composer';
 import { LaunchNavigator } from '@ionic-native/launch-navigator';
 import { GeolocationProvider } from '../providers/geolocation/geolocation';
+import { TestPage } from '../pages/test/test';
 
 
 export const firebaseConfig = {
@@ -67,6 +68,7 @@ export const firebaseConfig = {
     ListesFavorisPage,
     MesFavorisPage,
     MenuPage,
+    TestPage,
     ListPage,
     AproposPage,
     HomePage,
@@ -96,6 +98,7 @@ export const firebaseConfig = {
       AproposPage,
       MenuPage,
       ListPage,
+      TestPage,
       AnnoncePage,
       AnnoncesParCatégoriePage,
       AnnonceDetailsPage,

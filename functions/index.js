@@ -1,3 +1,4 @@
+import { Annonce } from './../src/model/annonce';
 const functions = require('firebase-functions');
 //const geolocation = require('node-geolocation');
 const NodeGeocoder = require('node-geocoder');
@@ -193,6 +194,7 @@ exports.UpdateImage = functions.database.ref('/userProfile/{userId}/Annonces/{An
 
 
 exports.DeleteAnnonce = functions.database.ref('/userProfile/{userId}/Annonces/{AnnoncesId}').onDelete(event => {
+
   var eventSnapshot = event.data.previous.val();
 
   return admin.database().ref(`/Annonces/${event.data.key}`).remove().then(res =>
@@ -203,6 +205,83 @@ exports.DeleteAnnonce = functions.database.ref('/userProfile/{userId}/Annonces/{
     console.log(err);
   })
 })
+
+
+exports.sendWeightUpdate = functions.database
+.ref('/userProfile/{userId}/position').onWrite(event => {
+
+  const UserPosition = event.data.val();
+  const UserId = event.params.userId;
+  const UserFavoris = event.data.ref.parent.child('Favoris');
+  UserFavoris.once("value").then((snapshot) => {
+    if (snapshot.exists()) {
+      let favorisIDs =   Object.keys(snapshot.val())
+      console.log(favorisIDs)
+      return  admin.database().ref('/Annonces').once(Annonces => {
+           Annonces.forEach(childSnapshot=> {
+          if (  favorisIDs.includes(childSnapshot.val().categorie) && (this.getDistanceBetweenPoints(this.Userposition, childSnapshot.val().location, 'km' ))<=0.5) {
+            console.log(childSnapshot.val())
+          }
+          })
+
+
+      }).then( result => {
+
+        if (result.lenght> 0 ) {
+
+        }
+        return;
+      })
+
+      // update
+    } else {
+        // Exit when the user dont have a list of favoris is deleted.
+        return;
+    }
+
+
+});
+
+
+
+});
+
+getDistanceBetweenPoints( UserPosition, Destination, units)
+
+{
+
+
+  let earthRadius = {
+    miles: 3958.8,
+    km: 6371
+  };
+
+      let R = earthRadius[units || 'km'];
+      let lat1 = this.UserPosition.lat;
+      let lon1 = this.UserPosition.lng;
+      let lat2 = Destination.lat;
+      let lon2 = Destination.lng;
+
+      let dLat = this.toRad((lat2 - lat1));
+      let dLon = this.toRad((lon2 - lon1));
+      let a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(this.toRad(lat1)) * Math.cos(this.toRad(lat2)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+      let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      let d = R * c;
+
+       return  d
+
+
+  }
+
+
+
+  toRad(x)
+  {
+    return x * Math.PI / 180;
+  }
 
 
 /*exports.deletePost = functions.database.ref('Posts/{pushId}').onWrite(event => {
