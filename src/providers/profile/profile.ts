@@ -1,4 +1,5 @@
 
+
 //service pour la geston du profile de utilisateur//
 import { Injectable } from '@angular/core';
 import firebase from 'firebase'
@@ -30,8 +31,14 @@ export class ProfileProvider {
   }
 
 
-RemoveFavoris(key : string)  {
-this.db.list(`/userProfile/${this.currentUser.uid}/Favoris/${key}`).remove();
+RemoveFavoris(key : string) : firebase.Promise<any>{
+ return this.db.list(`/userProfile/${this.currentUser.uid}/Favoris/${key}`).remove()
+ .then(()=> {
+   console.log('remove ok')
+ })
+ .catch(ERR => {
+   console.log(ERR)
+ })
 
 }
 

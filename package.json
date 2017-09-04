@@ -27,6 +27,7 @@
         "@ionic-native/core": "3.12.1",
         "@ionic-native/email-composer": "^4.1.0",
         "@ionic-native/facebook": "^4.1.0",
+        "@ionic-native/fcm": "^4.2.1",
         "@ionic-native/geolocation": "^4.1.0",
         "@ionic-native/google-maps": "^4.1.0",
         "@ionic-native/google-plus": "^4.1.0",
@@ -38,6 +39,7 @@
         "@ionic/storage": "2.0.1",
         "angularfire2": "^4.0.0-rc.1",
         "cordova-android": "^6.2.3",
+        "cordova-android-play-services-gradle-release": "0.0.2",
         "cordova-plugin-actionsheet": "^2.3.3",
         "cordova-plugin-browsertab": "^0.2.0",
         "cordova-plugin-buildinfo": "^1.1.0",
@@ -50,6 +52,7 @@
         "cordova-plugin-email-composer": "^0.8.7",
         "cordova-plugin-facebook": "^0.2.2",
         "cordova-plugin-facebook4": "^1.7.4",
+        "cordova-plugin-fcm": "^2.1.2",
         "cordova-plugin-geolocation": "^2.4.3",
         "cordova-plugin-googlemaps": "git+https://github.com/mapsplugin/cordova-plugin-googlemaps.git#multiple_maps",
         "cordova-plugin-googleplus": "^5.1.1",
@@ -128,7 +131,9 @@
                 "API_KEY_FOR_ANDROID": "AIzaSyAsUim3BnKEZfbBH9SSWjpvsBphmBpkfhw"
             },
             "cordova-plugin-email-composer": {},
-            "uk.co.workingedge.phonegap.plugin.launchnavigator": {}
+            "uk.co.workingedge.phonegap.plugin.launchnavigator": {},
+            "cordova-android-play-services-gradle-release": {},
+            "cordova-plugin-fcm": {}
         },
         "platforms": [
             "android"

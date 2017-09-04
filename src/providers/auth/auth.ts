@@ -5,6 +5,7 @@ import firebase from 'firebase/app';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { Facebook } from '@ionic-native/facebook';
 import { Observable } from 'rxjs/Rx';
+import { FCM } from '@ionic-native/fcm';
 /*
   Generated class for the AuthProvider provider.
 
@@ -20,7 +21,9 @@ export class AuthProvider {
   providerGoogle = new firebase.auth.GoogleAuthProvider();*/
   public   user: Observable<firebase.User>;
 
-  constructor(private afAuth: AngularFireAuth, private afDatabase : AngularFireDatabase, public googlePlus : GooglePlus, public facebook : Facebook) {
+  constructor(private afAuth: AngularFireAuth, private afDatabase : AngularFireDatabase,
+    public fcm: FCM,
+    public googlePlus : GooglePlus, public facebook : Facebook) {
     this.user = afAuth.authState;
   }
 //création d'un nouveau utilisateur avec email e mot de passe et mise a jour de email dans la base
@@ -49,7 +52,8 @@ return this.afAuth.auth.sendPasswordResetEmail(email);
 }
 
   loginUser(email: string, password: string): firebase.Promise<any> {
-    return this.afAuth.auth.signInWithEmailAndPassword(email, password);
+    return this.afAuth.auth.signInWithEmailAndPassword(email, password)
+    .then(()=> { this.updateToker(this.afAuth.auth.currentUser.uid);})
   }
 // impossible d'utiliser authetification native une cle hash et demander et impossible de
 //la générer le plugin disponible genere aussi une erreur lor du  tests ur emulateur ou device
@@ -63,6 +67,7 @@ return this.afAuth.auth.sendPasswordResetEmail(email);
 
         this.afAuth.auth.signInWithCredential(facebookCredential)
         .then((success) => { console.log("Firebase success: " + JSON.stringify(success)); })
+        .then(()=> { this.updateToker(this.afAuth.auth.currentUser.uid);})
         .catch((error) => { console.log("Firebase failure: " + JSON.stringify(error)); });
 
       })
@@ -78,12 +83,26 @@ return this.afAuth.auth.sendPasswordResetEmail(email);
       const credential = firebase.auth.GoogleAuthProvider.credential(res.idToken);
 
       this.afAuth.auth.signInWithCredential(credential)
-        .then( success => { console.log("Firebase success: " + JSON.stringify(success)); })
+        .then( success => { console.log("Firebase success: " + JSON.stringify(success)); }).then(()=> {
+          this.updateToker(this.afAuth.auth.currentUser.uid);
+        })
         .catch( error => console.log("Firebase failure: " + JSON.stringify(error)));
       })
     .catch(err => console.error("Error: ", err));
   }
 
+  updateToker(userUid){
+
+        this.fcm.getToken()
+        .then(token => {
+        this.afDatabase.object(`/userProfile/${userUid}/`).update({
+        token: token
+        })
+      }).catch(err=> {
+        console.log(err)
+      })
+
+    }
 
  /* faceLogin() {
 

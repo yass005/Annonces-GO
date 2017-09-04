@@ -22,8 +22,8 @@ const MARKER_SIZE = 30;
 export class HomePage {
 
 
-  Annonce:  any[] = [];
-  sub : Subscription
+  Annonce:  Annonce[] = [];
+    sub : Subscription
   constructor(public navCtrl: NavController, private geoLocation: Geolocation ,private modalCtrl: ModalController,
     private categorieProvider : CategorieProvider,
     private googleMaps: GoogleMaps, public platform: Platform) {
@@ -100,7 +100,7 @@ this.Annonce.forEach(item=>{
 
   private addMarkerOnMap(item: any, map: GoogleMap) {
     // create LatLng object
-    let markerPosition: LatLng = new LatLng(item.location.Lat,item.location.Long);
+    let markerPosition: LatLng = new LatLng(item.location.lat,item.location.lng);
 
     let markerIcon = {
 		 'url': item.imageURL,
@@ -126,9 +126,4 @@ this.Annonce.forEach(item=>{
 
   }
 
-    onOpenMap(key : string){
-    const modal = this.modalCtrl.create(AnnoncePage,{Id: key});
-     modal.present();
-
-  }
 }

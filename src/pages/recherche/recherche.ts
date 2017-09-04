@@ -29,7 +29,7 @@ export class RecherchePage {
      private modalCtrl: ModalController,
     public navCtrl: NavController, public navParams: NavParams) {
 
-    this.sub=this.categorieProvider.findAllAnnonces().do(console.log)
+    this.sub=this.categorieProvider.findAllAnnonces().distinctUntilChanged().do(console.log)
     .subscribe(
       value => {
         this.ALLAnnonces = this.filtred=value

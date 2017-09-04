@@ -73,7 +73,7 @@ export class AnnoncesParCatégoriePage {
     return this.annoncesDistance.filter(Annonce=>{
        return Annonce.id===key
      }).map(Annonce=>{
-       return Number(Annonce.distance).toFixed(2)
+       return Number(Annonce.distance).toFixed(3)
 
      })
    }

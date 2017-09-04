@@ -1,4 +1,4 @@
-
+import { FCM } from '@ionic-native/fcm';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
@@ -42,6 +42,8 @@ import { AproposPage } from '../pages/apropos/apropos';
 import { EmailComposer } from '@ionic-native/email-composer';
 import { LaunchNavigator } from '@ionic-native/launch-navigator';
 import { GeolocationProvider } from '../providers/geolocation/geolocation';
+
+
 export const firebaseConfig = {
   apiKey: "AIzaSyB6s6vyLqyo9EaN2xqDpHa0WBu4tKFzwgo",
     authDomain: "annonces-go.firebaseapp.com",
@@ -112,6 +114,7 @@ AjoutAnnoncePage
     Geolocation,
   LaunchNavigator,
     GoogleMaps,
+    FCM,
     Facebook,
     NativeGeocoder,
     GooglePlus,
@@ -121,6 +124,7 @@ AjoutAnnoncePage
     SocialSharing,
     CategorieProvider,
     GeolocationProvider,
+
 
   ]
 })

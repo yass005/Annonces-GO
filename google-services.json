@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "240356183666",
+    "firebase_url": "https://annonces-go.firebaseio.com",
+    "project_id": "annonces-go",
+    "storage_bucket": "annonces-go.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:240356183666:android:ed9a6556ba77f52c",
+        "android_client_info": {
+          "package_name": "io.ionic.starter27815611"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "240356183666-es8i46fbmh7f1qre3m07mgn3quneffae.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "io.ionic.starter27815611",
+            "certificate_hash": "cb9c3ba751430a427e65818d7c88ae4820b84a04"
+          }
+        },
+        {
+          "client_id": "240356183666-isqpe199edhl77u7bn5e5m847ffsokh2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAO6XG1VMFawaBin8Ixe-JKRyVe4F2WXkI"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "240356183666-isqpe199edhl77u7bn5e5m847ffsokh2.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "240356183666-bf8dj3hehui13h36ku4pqcng5idlvqp5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "io.ionic.starter278156"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
