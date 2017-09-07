@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ModalController, ViewController, IonicPage, NavController, NavParams } from 'ionic-angular';
+import { ModalController, ViewController, IonicPage, NavController, NavParams, LoadingController, Loading } from 'ionic-angular';
 import { Observable } from 'rxjs/Rx';
 import { Annonce } from '../../model/annonce';
 import { FirebaseListObservable } from 'angularfire2/database';
@@ -28,34 +28,49 @@ export class AnnoncesParCatégoriePage {
   userPosition: Loc
   annoncesDistance:  any[] = [];
   sub : Subscription
+  public loading: Loading;
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private categorieProvider: CategorieProvider,
     private GeolocationService : GeolocationProvider,
     private profileProvider: ProfileProvider,
+    public loadingCtrl: LoadingController,
     private modalCtrl: ModalController) {
 
-    this.AnnoncesParCategorie = this.categorieProvider.GetAnnoncesParCatégoriePage(this.navParams.get('CategorieId')).distinctUntilChanged();
-    console.log(this.AnnoncesParCategorie);
+     this.AnnoncesParCategorie = this.categorieProvider.GetAnnoncesParCatégoriePage(this.navParams.get('CategorieId'));
+      this.GeolocationService.Position().then(res=> {
+        console.log(res);
+        return res
+      }).then(()=> {
+        this.sub=this.AnnoncesParCategorie.map(Annonces => {
+                return Annonces.filter(Annonce => {
+                  return !!Annonce.location
+                }).map(Annonce => {
+                  return { id: Annonce.$key,  distance: this.GeolocationService.getDistanceBetweenPoints(Annonce.location, 'km') }
+                })
+              }).subscribe(val=>{
+                this.annoncesDistance=val;
+                console.log(  this.annoncesDistance);
+              }, err => {
+                console.log(err.message)
+              }
+            )
 
-
-      this.sub=this.AnnoncesParCategorie.map(Annonces => {
-        return Annonces.filter(Annonce => {
-          return !!Annonce.location
-        }).map(Annonce => {
-          return { id: Annonce.$key,  distance: this.GeolocationService.getDistanceBetweenPoints(Annonce.location, 'km') }
-        })
-      }).subscribe(val=>{
-        this.annoncesDistance=val;
-        console.log(  this.annoncesDistance);
-      }, err => {
-        console.log(err.message)
+      }).then(()=>{
+        this.loading.dismiss();
       }
-    )
+    ).catch(err => {
+      console.log(err)
+      this.loading.dismiss();
+    })
 
+      this.loading = this.loadingCtrl.create();
+      this.loading.present();
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
+    this.sub.unsubscribe(), err => {
+      console.log(err.message)
+    }
     console.log('ok');
       }
   ionViewDidLoad() {

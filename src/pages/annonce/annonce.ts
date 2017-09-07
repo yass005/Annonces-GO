@@ -90,9 +90,9 @@ email(key, titre)
     console.log(err)
   })
 }
-navigate(Destinations: any){
-  console.log(Destinations)
-  this.launchNavigator.navigate(`${Destinations.Lat}, ${Destinations.Long}`, {
+navigate(){
+
+  this.launchNavigator.navigate(`${this.annonce.location.lat}, ${this.annonce.location.lng}`, {
     start: `${this.GeolocationService.UserPosition.lat}, ${this.GeolocationService.UserPosition.lng}`
 }).catch(err=> {
   console.log(err);

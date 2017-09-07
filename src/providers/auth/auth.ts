@@ -5,7 +5,7 @@ import firebase from 'firebase/app';
 import { GooglePlus } from '@ionic-native/google-plus';
 import { Facebook } from '@ionic-native/facebook';
 import { Observable } from 'rxjs/Rx';
-import { FCM } from '@ionic-native/fcm';
+import { Firebase } from '@ionic-native/firebase';
 /*
   Generated class for the AuthProvider provider.
 
@@ -22,7 +22,7 @@ export class AuthProvider {
   public   user: Observable<firebase.User>;
 
   constructor(private afAuth: AngularFireAuth, private afDatabase : AngularFireDatabase,
-    public fcm: FCM,
+    public firebase: Firebase,
     public googlePlus : GooglePlus, public facebook : Facebook) {
     this.user = afAuth.authState;
   }
@@ -93,7 +93,7 @@ return this.afAuth.auth.sendPasswordResetEmail(email);
 
   updateToker(userUid){
 
-        this.fcm.getToken()
+        this.firebase.getToken()
         .then(token => {
         this.afDatabase.object(`/userProfile/${userUid}/`).update({
         token: token

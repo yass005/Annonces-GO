@@ -34,6 +34,11 @@ export class GeolocationProvider {
 
 }
 
+
+Position(): Promise<any>{
+
+  return   this.geoLocation.getCurrentPosition()
+}
 //
 AdressTolatitudelongitude(adress: string){
 

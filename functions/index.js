@@ -1,4 +1,4 @@
-import { Annonce } from './../src/model/annonce';
+
 const functions = require('firebase-functions');
 //const geolocation = require('node-geolocation');
 const NodeGeocoder = require('node-geocoder');
@@ -207,30 +207,49 @@ exports.DeleteAnnonce = functions.database.ref('/userProfile/{userId}/Annonces/{
 })
 
 
-exports.sendWeightUpdate = functions.database
-.ref('/userProfile/{userId}/position').onWrite(event => {
+exports.sendWeightUpdate = functions.database.ref('/userProfile/{userId}/position').onWrite(event => {
 
-  const UserPosition = event.data.val();
+
   const UserId = event.params.userId;
+  var UserPosition = event.data.val();
+  var LastUserPosition = event.data.previous.val();
+ if (getDistanceBetweenPoints(UserPosition, LastUserPosition, 'km' ) <= 0.5 ){
+  return
+ }
   const UserFavoris = event.data.ref.parent.child('Favoris');
   UserFavoris.once("value").then((snapshot) => {
     if (snapshot.exists()) {
       let favorisIDs =   Object.keys(snapshot.val())
       console.log(favorisIDs)
-      return  admin.database().ref('/Annonces').once(Annonces => {
+      return  admin.database().ref('/Annonces').once("value").then(Annonces => {
+
            Annonces.forEach(childSnapshot=> {
-          if (  favorisIDs.includes(childSnapshot.val().categorie) && (this.getDistanceBetweenPoints(this.Userposition, childSnapshot.val().location, 'km' ))<=0.5) {
+            console.log(childSnapshot.val(), UserPosition , childSnapshot.val().location )
+          if (  favorisIDs.includes(childSnapshot.val().categorie) && childSnapshot.val().location && (getDistanceBetweenPoints(UserPosition, childSnapshot.val().location, 'km' ))<=0.5) {
             console.log(childSnapshot.val())
+            const payload = {
+              "notification":{
+              "title": `une annonce qui vous interesse est a proximité `,
+              "body": `${childSnapshot.val().titre}`,
+              "sound":"default",
+              },
+              "data":{ "AnnonceId": childSnapshot.key }
+              };
+
+              event.data.ref.parent.child('token').once("value").then(token=> {
+                console.log(token.val());
+                return admin.messaging().sendToDevice(token.val(), payload).catch(err=> {
+                  console.log(err);
+                })
+              })
+
           }
           })
 
 
-      }).then( result => {
+      }).catch( err => {
 
-        if (result.lenght> 0 ) {
-
-        }
-        return;
+    console.log(err);
       })
 
       // update
@@ -246,7 +265,92 @@ exports.sendWeightUpdate = functions.database
 
 });
 
-getDistanceBetweenPoints( UserPosition, Destination, units)
+
+exports.AddUserToker = functions.database.ref('/userProfile/{userId}/Favoris/{categoriesId}').onWrite(event => {
+
+
+  //exit when data is deleted
+  if (!event.data.exists()) {
+    return;
+  }
+
+  const UserId = event.params.userId;
+  const categoriesId= event.params.categoriesId;
+
+  return admin.database().ref(`/userProfile/${UserId}/`).child('token').once("value").then(token=> {
+    console.log(token.val());
+      return admin.database().ref(`/categories/${categoriesId}/UsersTokens`).child(token.val()).set(true)
+  }).catch(err=>{
+    console.log(err);
+  })
+
+})
+
+
+exports.DeleteUserToker = functions.database.ref('/userProfile/{userId}/Favoris/{categoriesId}').onDelete(event => {
+
+  const UserId = event.params.userId;
+  const categoriesId= event.data.previous.key;
+
+   admin.database().ref(`/userProfile/${UserId}/`).child('token').once("value").then(token=> {
+    return admin.database().ref(`/categories/${categoriesId}/UsersTokens/${token.val()}`).remove()
+  }).catch(err => {
+    console.log(err)
+  })
+
+})
+
+exports.NotifUserFavoris = functions.database.ref('/categories/{categoriesId}/Annonces/{AnnonceId}').onWrite(event => {
+
+
+   //exit when data is deleted
+  if (!event.data.exists()) {
+    return;
+  }
+
+
+  const categoriesId= event.params.categoriesId;
+  const AnnonceId = event.params.AnnonceId;
+  var Tokens = event.data.ref.parent.parent.child('UsersTokens');
+
+  Tokens.once("value").then((snapshot) => {
+
+    if (snapshot.exists()) {
+      admin.database().ref(`/categories/${categoriesId}`).child('nom').once("value").then(nom=> {
+
+        let payload = {
+          "notification":{
+          "title": `une nouvelle annonce vient d'être ` ,
+          "body": `une annonce dans ${nom.val()}`,
+          "sound":"default",
+          },
+          "data":{ "AnnonceId": AnnonceId}
+          };
+
+        return payload
+
+      }).then( payload => {
+        const ListeTokes =   Object.keys(snapshot.val())
+        return admin.messaging().sendToDevice(ListeTokes, payload).catch(err => {
+          console.log(err);
+        })
+      }).catch(err => {
+        console.log(err);
+      })
+
+  }
+  else {
+    return;
+  }
+
+}).catch(err=> {
+  console.log(err);
+})
+
+})
+
+
+function getDistanceBetweenPoints( UserPosition, Destination, units)
 
 {
 
@@ -257,15 +361,15 @@ getDistanceBetweenPoints( UserPosition, Destination, units)
   };
 
       let R = earthRadius[units || 'km'];
-      let lat1 = this.UserPosition.lat;
-      let lon1 = this.UserPosition.lng;
+      let lat1 = UserPosition.lat;
+      let lon1 = UserPosition.lng;
       let lat2 = Destination.lat;
       let lon2 = Destination.lng;
 
-      let dLat = this.toRad((lat2 - lat1));
-      let dLon = this.toRad((lon2 - lon1));
+      let dLat = toRad((lat2 - lat1));
+      let dLon = toRad((lon2 - lon1));
       let a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(this.toRad(lat1)) * Math.cos(this.toRad(lat2)) *
+        Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
         Math.sin(dLon / 2) *
         Math.sin(dLon / 2);
       let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
@@ -278,7 +382,7 @@ getDistanceBetweenPoints( UserPosition, Destination, units)
 
 
 
-  toRad(x)
+  function toRad(x)
   {
     return x * Math.PI / 180;
   }

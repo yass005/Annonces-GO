@@ -21,8 +21,13 @@ Userposition: any
 
   }
   ionViewDidLoad(){
-    this.profile.userProfile.child('position').once('value', Snapshot => {
+  /*  this.profile.userProfile.child('position').once('value', Snapshot => {
       this.Userposition=Snapshot.val()
+      console.log(Snapshot.val());
+
+    })
+
+    this.profile.userProfile.child('token').once('value', Snapshot => {
       console.log(Snapshot.val());
 
     })
@@ -36,17 +41,17 @@ Userposition: any
           Annonces.forEach(childSnapshot=> {
           if (  favorisIDs.includes(childSnapshot.val().categorie) && (this.getDistanceBetweenPoints(this.Userposition, childSnapshot.val().location, 'km' ))<=0.5) {
             console.log(childSnapshot.val())
+            console.log(childSnapshot.key)
           }
           })
 
-       /*   let Annonce=Annonces.val()
-           console.log(Annonce.val)*/
+
         })
       }
       else {
         console.log('the user dont have a favoris exit code 1')
       }
-    })
+    })*/
   }
 
 

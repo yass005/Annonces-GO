@@ -63,8 +63,8 @@ getFavoris() :FirebaseListObservable<any>
   updatePosition(lat: number, lng: number): firebase.Promise<void> {
     var hopperRef = this.userProfile.child("position");
     return hopperRef.update({
-      Lat: lat,
-      Long: lng,
+      lat: lat,
+      lng: lng,
     });
 
   }

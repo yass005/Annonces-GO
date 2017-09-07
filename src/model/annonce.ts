@@ -4,8 +4,8 @@ import { Loc } from './location';
 export interface Annonce {
   key?: string;
   titre : string;
-  description : string
-  categorie: categorie
+  description? : string
+  categorie?: categorie
   imageURL?: string
   userId?: string
   location? : Loc

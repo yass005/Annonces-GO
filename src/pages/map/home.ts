@@ -73,7 +73,7 @@ loadMap() {
       };
 
       map.moveCamera(position).then(()=>{
-        let item={imageURL:"assets/Img/placeholder.png",titre:"Ma Position",location:{lat: userPosition.lat ,lng:userPosition.lng}}
+        let item={imageURL:"/assets/Img/placeholder.png",titre:"Ma Position",location:{lat: userPosition.lat ,lng:userPosition.lng}}
         this.addMarkerOnMap(item , map)
       })
     }).catch((error) => {
@@ -113,6 +113,7 @@ this.Annonce.forEach(item=>{
    let markerOptions: MarkerOptions = {
 			position: markerPosition,
       title: item.titre,
+    //  snippet:  item.titre,
 			animation: GoogleMapsAnimation.BOUNCE,
 			icon: markerIcon
 		};
@@ -120,8 +121,8 @@ this.Annonce.forEach(item=>{
 
     map.addMarker(markerOptions)
 		.then((marker: Marker) => {
-      marker.showInfoWindow()
-   //   marker.addEventListener('click').subscribe(() => { this.onOpenMap(item.$key); });
+      marker.showInfoWindow();
+    //  marker.addEventListener(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {  alert(item.titre); });*/
     })
 
   }

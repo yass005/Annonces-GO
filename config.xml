@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="io.ionic.starter27815611" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Annonces-Go  Test</name>
+    <name>Annonces-Go crach</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
     <content src="index.html" />
@@ -69,10 +69,10 @@
         <variable name="APP_ID" value="833319713510346" />
         <variable name="APP_NAME" value="Annonces-go" />
     </plugin>
-    <plugin name="cordova-plugin-fcm" spec="^2.1.2" />
+    <plugin name="cordova-plugin-firebase" spec="^0.1.24" />
     <plugin name="cordova-plugin-geolocation" spec="^2.4.3" />
-    <plugin name="cordova-plugin-googlemaps" spec="git+https://github.com/mapsplugin/cordova-plugin-googlemaps.git#multiple_maps">
-        <variable name="API_KEY_FOR_ANDROID" value="AIzaSyAsUim3BnKEZfbBH9SSWjpvsBphmBpkfhw" />
+    <plugin name="cordova-plugin-googlemaps" spec="~1.4.3">
+        <variable name="API_KEY_FOR_ANDROID" value="AIzaSyAO6XG1VMFawaBin8Ixe-JKRyVe4F2WXkI" />
     </plugin>
     <plugin name="cordova-plugin-googleplus" spec="^5.1.1">
         <variable name="REVERSED_CLIENT_ID" value="240356183666-isqpe199edhl77u7bn5e5m847ffsokh2.apps.googleusercontent.co" />
