@@ -1,8 +1,12 @@
+/*---------------------------AppModule  -------------------------   */
+/* le root module de l'application  nommé par convention AppModule */
+/*----------------------------------------------------------------*/
+/*import des différents plugin,services et composants  */
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
-import { Page2 } from '../pages/page2/page2';
+import { MesAnnonces } from '../pages/MesAnnonces/MesAnnonces';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth'
@@ -14,7 +18,6 @@ import { LoginPage } from '../pages/login/login';
 import { ResetPasswordPage } from '../pages/reset-password/reset-password';
 import { ProfileProvider } from '../providers/profile/profile';
 import { ProfilePage } from '../pages/profile/profile';
-import { AuthServiceMock } from '../providers/auth-service-mock/auth-service-mock';
 import { LocationTrackerProvider } from '../providers/location-tracker/location-tracker';
 import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
 import { Geolocation } from '@ionic-native/geolocation';
@@ -32,7 +35,7 @@ import { MesFavorisPage } from '../pages/mes-favoris/mes-favoris';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { MenuPage } from '../pages/menu/menu';
 import { ListPage } from '../pages/list/list';
-import {GoogleMaps} from '@ionic-native/google-maps';
+import { GoogleMaps } from '@ionic-native/google-maps';
 import { HomePage } from '../pages/map/home';
 import { AnnoncesParCatégoriePage } from "../pages/annonces-par-cat\u00E9gorie/annonces-par-cat\u00E9gorie";
 import { AnnoncePage } from '../pages/annonce/annonce';
@@ -43,20 +46,17 @@ import { LaunchNavigator } from '@ionic-native/launch-navigator';
 import { GeolocationProvider } from '../providers/geolocation/geolocation';
 import { TestPage } from '../pages/test/test';
 import { Firebase } from '@ionic-native/firebase';
-export const firebaseConfig = {
-  apiKey: "AIzaSyB6s6vyLqyo9EaN2xqDpHa0WBu4tKFzwgo",
-    authDomain: "annonces-go.firebaseapp.com",
-    databaseURL: "https://annonces-go.firebaseio.com",
-    projectId: "annonces-go",
-    storageBucket: "annonces-go.appspot.com",
-    messagingSenderId: "240356183666"
-};
+import { firebaseConfig } from '../environments/firebase.config';
+
+
 
 
 @NgModule({
+  /*declarations – Dans cette propriété,   on déclare les classes
+   de vue de notre module.(components, directives et pipes);*/
   declarations: [
     MyApp,
-    Page2,
+    MesAnnonces,
     RegisterPage,
     LoginPage,
     ResetPasswordPage,
@@ -75,45 +75,54 @@ export const firebaseConfig = {
     RecherchePage,
     CategoriesComponent
   ],
+
+  /*imports – Cette propriété permet de déclarer les modules dont dépend notre module;*/
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp, {}, { links: [] }),
-     AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireModule.initializeApp(firebaseConfig),
     AngularFireDatabaseModule,
     AngularFireAuthModule
   ],
+  // bootstrap – Définit le root component qui contiendra l'ensemble des autres components. Seul le root module peut déclarer cette propriété;
   bootstrap: [IonicApp],
+  /* entryComponents – Cette propriété permet de déclarer tous les components qui sont chargés impérativement,
+    c'est-à-dire dynamiquement sans être déclarés dans un template. */
   entryComponents: [
     MyApp,
-    Page2,
+    MesAnnonces,
     RegisterPage,
     LoginPage,
     HomePage,
     RecherchePage,
-      ResetPasswordPage,
-      ListesFavorisPage,
-      MesFavorisPage,
-      AproposPage,
-      MenuPage,
-      ListPage,
-      TestPage,
-      AnnoncePage,
-      AnnoncesParCatégoriePage,
-      AnnonceDetailsPage,
-ProfilePage,
-AjoutAnnoncePage
+    ResetPasswordPage,
+    ListesFavorisPage,
+    MesFavorisPage,
+    AproposPage,
+    MenuPage,
+    ListPage,
+    TestPage,
+    AnnoncePage,
+    AnnoncesParCatégoriePage,
+    AnnonceDetailsPage,
+    ProfilePage,
+    AjoutAnnoncePage
   ],
+  /*
+ providers – Dans cette propriété, on  déclare les services et les plugins
+  ces derniers contribueront à alimenter la collection globlale
+   des services accessibles par tous les composants de l'application;
+   */
   providers: [
     StatusBar,
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     AuthProvider,
     ProfileProvider,
-    AuthServiceMock,
     BackgroundGeolocation,
     EmailComposer,
     Geolocation,
-  LaunchNavigator,
+    LaunchNavigator,
     GoogleMaps,
     Firebase,
     Facebook,

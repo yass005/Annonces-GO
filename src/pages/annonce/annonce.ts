@@ -4,7 +4,6 @@ import { Annonce } from '../../model/annonce';
 import { Observable } from 'rxjs/Rx';
 import { CategorieProvider } from '../../providers/categorie/categorie';
 import { EmailComposer } from '@ionic-native/email-composer';
-import firebase from 'firebase'
 import { LaunchNavigator, LaunchNavigatorOptions } from '@ionic-native/launch-navigator';
 import { Loc } from '../../model/location';
 import { ProfileProvider } from '../../providers/profile/profile';
@@ -29,12 +28,14 @@ export class AnnoncePage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private GeolocationService : GeolocationProvider,
     private launchNavigator: LaunchNavigator,
-private profileProvider: ProfileProvider,
-     private emailComposer: EmailComposer,
+    private profileProvider: ProfileProvider,
+    private emailComposer: EmailComposer,
     private categorieProvider : CategorieProvider,private viewCtrl: ViewController) {
   this.itemObservable=this.categorieProvider.getAnnonce(this.navParams.get('Id'));
 
   console.log(this.GeolocationService.UserPosition);
+
+
   }
 
   ionViewDidLoad() {
@@ -72,11 +73,14 @@ private profileProvider: ProfileProvider,
 
 email(key, titre)
 {
-  let mail: string
-  firebase.database().ref(`/userProfile/${key}/email`).once('value').then( snapshot=> {
-    mail= snapshot.val();
+
+  this.profileProvider.GetEmail(key).then(res => {
+   return res
+  }).then(res => {
+   let mail=res.val();
     console.log(mail)
-  }).then(()=> {
+    return mail
+  }).then(mail=> {
       let email = {
         to: mail,
         cc: '',
@@ -84,7 +88,7 @@ email(key, titre)
         body: '',
         isHtml: true
       };
-      this.emailComposer.open(email);
+    return   this.emailComposer.open(email);
     }
   ).catch(err=> {
     console.log(err)

@@ -11,7 +11,7 @@
 
 
   <ion-list>
-  <ion-item ion-item *ngFor="let Annonce of MesAnnonces | async"  (click)="goToEventDetail(Annonce.$key)">
+  <ion-item ion-item *ngFor="let Annonce of MesAnnonces | async"  (click)="goToDetailAnnonce(Annonce.$key)">
 
     <ion-thumbnail item-start>
       <img src="{{Annonce.imageURL}}">

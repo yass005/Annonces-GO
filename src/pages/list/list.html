@@ -6,7 +6,7 @@
 -->
 <ion-header>
   <ion-navbar color="primary">
-    <ion-title>list</ion-title>
+    <ion-title>Liste</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -22,13 +22,11 @@
   </ion-card-header>
 
   <ion-list>
-    <button ion-item *ngFor=" let categorie of items | async " (click)="goToEventDetail(categorie.$key)" >
+    <button ion-item *ngFor=" let categorie of categories | async " (click)="GoToAnnoncesParCategorie(categorie.$key,categorie.nom)" >
          <ion-icon name="{{categorie.icon}}" item-start> </ion-icon>
       {{categorie.nom}}
-
        <ion-badge item-end *ngIf="categorie.Annonces">{{getnbannonces(categorie.$key)}}</ion-badge>
     </button>
-
 </ion-list>
 </ion-card>
 

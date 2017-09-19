@@ -1,6 +1,6 @@
 export  interface categorie {
 
-  key?: string;
+  $key?: string;
   icon?: string;
   nom: string;
 }

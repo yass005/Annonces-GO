@@ -1,3 +1,4 @@
+<!-- vue de la la page d'enregistrement -->
 <ion-header>
 <ion-navbar color="primary">
 <ion-title>
@@ -19,7 +20,7 @@ signupForm.controls.email.dirty">
 <ion-item class="error-message"
 *ngIf="!signupForm.controls.email.valid &&
 signupForm.controls.email.dirty">
-<p>Please enter a valid email.</p>
+<p>Veuillez entrer une adresse email valide svp!</p>
 </ion-item>
 <ion-item>
 <ion-label stacked>Mot de passe</ion-label>
@@ -33,7 +34,7 @@ signupForm.controls.password.dirty">
 <ion-item class="error-message"
 *ngIf="!signupForm.controls.password.valid &&
 signupForm.controls.password.dirty">
-<p>Your password needs more than 6 characters.</p>
+<p>Choisissez un mot de passe de 6 caractères au minimum</p>
 </ion-item>
 <ion-item>
 <ion-label stacked>Confirmer le mot de passe</ion-label>
@@ -46,10 +47,10 @@ signupForm.controls.Confirmpassword.dirty">
 <ion-item class="error-message"
 *ngIf="!signupForm.controls.Confirmpassword.valid &&
 signupForm.controls.Confirmpassword.dirty">
-<p>passwords Not Match </p>
+<p>Les 2 mots de passe sont différents</p>
 </ion-item>
-<button ion-button block type="submit" [disabled]="!signupForm.valid">
-Create an Account
+<button ion-button block type="submit" [disabled]="!signupForm.valid" color="personal">
+  Créer un compte
 </button>
 </form>
 </ion-content>

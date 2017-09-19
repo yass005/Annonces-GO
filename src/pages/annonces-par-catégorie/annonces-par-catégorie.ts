@@ -29,6 +29,7 @@ export class AnnoncesParCatégoriePage {
   annoncesDistance:  any[] = [];
   sub : Subscription
   public loading: Loading;
+  titre; string;
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private categorieProvider: CategorieProvider,
     private GeolocationService : GeolocationProvider,
@@ -36,44 +37,52 @@ export class AnnoncesParCatégoriePage {
     public loadingCtrl: LoadingController,
     private modalCtrl: ModalController) {
 
-     this.AnnoncesParCategorie = this.categorieProvider.GetAnnoncesParCatégoriePage(this.navParams.get('CategorieId'));
-      this.GeolocationService.Position().then(res=> {
-        console.log(res);
-        return res
-      }).then(()=> {
-        this.sub=this.AnnoncesParCategorie.map(Annonces => {
-                return Annonces.filter(Annonce => {
-                  return !!Annonce.location
-                }).map(Annonce => {
-                  return { id: Annonce.$key,  distance: this.GeolocationService.getDistanceBetweenPoints(Annonce.location, 'km') }
-                })
-              }).subscribe(val=>{
-                this.annoncesDistance=val;
-                console.log(  this.annoncesDistance);
-              }, err => {
-                console.log(err.message)
-              }
-            )
-
-      }).then(()=>{
-        this.loading.dismiss();
-      }
-    ).catch(err => {
-      console.log(err)
-      this.loading.dismiss();
-    })
-
-      this.loading = this.loadingCtrl.create();
-      this.loading.present();
+    this.AnnoncesParCategorie = this.categorieProvider.GetAnnoncesParCatégoriePage(this.navParams.get('CategorieId'));
+    this.titre=this.navParams.get('categorieName');
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe(), err => {
+    if(this.sub){ this.sub.unsubscribe(), err => {
       console.log(err.message)
     }
-    console.log('ok');
+    console.log('ok');}
+
       }
+
+
   ionViewDidLoad() {
+    console.log(this.titre)
+    this.GeolocationService.Position().then(res=> {
+      console.log(res);
+      return res
+    }).then(()=> {
+      this.sub=this.AnnoncesParCategorie.map(Annonces => {
+              return Annonces.filter(Annonce => {
+                return !!Annonce.location
+              }).map(Annonce => {
+                return { id: Annonce.$key,  distance: this.GeolocationService.getDistanceBetweenPoints(Annonce.location, 'km') }
+              })
+            }).subscribe(val=>{
+              this.annoncesDistance=val;
+              console.log(  this.annoncesDistance);
+            }, err => {
+              console.log(err.message)
+            }
+          )
+
+    }).then(()=>{
+      this.loading.dismiss();
+    }
+  ).catch(err => {
+    console.log(err)
+    this.loading.dismiss();
+  })
+
+    this.loading = this.loadingCtrl.create({
+      content: 'Chargement en cours,...',
+      duration: 5000
+    });
+    this.loading.present();
     console.log('ionViewDidLoad AnnoncesParCatégoriePage');
   }
 

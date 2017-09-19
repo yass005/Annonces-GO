@@ -1,3 +1,7 @@
+/*-------------Menu principale de l'application ionic  -----------------------*/
+/*	 cette représente le Menu principale de l'application                    */
+/*	  permet a l'utilisateur  la navigation vers les different section      */
+/*-------------------------------------------------------------------------*/
 import { ListPage } from './../list/list';
 import { ProfilePage } from './../profile/profile';
 import { Component } from '@angular/core';

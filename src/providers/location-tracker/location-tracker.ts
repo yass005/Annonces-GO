@@ -1,4 +1,9 @@
-import { ModalController, ViewController, IonicPage, NavController, NavParams, LoadingController, Loading } from 'ionic-angular';
+/*---------------------------Service pour Le tracking de la  Geolocation--------  */
+/* Service LocationTrackerProvider qui gère les foncion de tracking de position  */
+/*ce service permet de récupérer la position de l'utilisateur  et de la mettre  */
+/* a jour en temps réel dans firebase                                          */
+/*-------------------------------------------------------------------------   */
+import { ModalController, ViewController, IonicPage, NavController,  LoadingController, Loading } from 'ionic-angular';
 import { Injectable, NgZone } from '@angular/core';
 import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
 import { Geolocation, Geoposition } from '@ionic-native/geolocation';
@@ -23,13 +28,13 @@ adress: string = "";
   constructor(public zone: NgZone, public backgroundGeolocation :BackgroundGeolocation,
     public loadingCtrl: LoadingController,
     public geolocation : Geolocation,
-  public nativeGeocoder: NativeGeocoder, public profileProvider : ProfileProvider) {
+    public nativeGeocoder: NativeGeocoder, public profileProvider : ProfileProvider) {
     console.log('Hello LocationTrackerProvider Provider');
   }
-
+// Background Tracking
 startTracking() {
 
-  // Background Tracking
+  // Background Tracking option
 
   let config = {
     desiredAccuracy: 0,
@@ -67,7 +72,10 @@ startTracking() {
     console.log(err)
   })
 
-  this.loading = this.loadingCtrl.create();
+  this.loading = this.loadingCtrl.create({
+    content:'chargement en cours...',
+    duration: 5000
+  });
   this.loading.present();
 
   // Foreground Tracking

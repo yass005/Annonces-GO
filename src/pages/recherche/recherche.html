@@ -9,7 +9,9 @@
   <ion-navbar color="primary">
     <ion-title>Recherche</ion-title>
         <ion-toolbar>
-<ion-searchbar [(ngModel)]="searchQuery" (ionInput)="search(searchQuery)">
+<ion-searchbar [(ngModel)]="searchQuery" (ionInput)="search(searchQuery)"
+placeholder="Taper un titre"
+>
 </ion-searchbar>
 </ion-toolbar>
   </ion-navbar>
@@ -21,12 +23,12 @@
 
 
     <ion-list>
-    <ion-item ion-item *ngFor="let item of filtred " (click)=" onOpenMap(item.$key)" >
+    <ion-item ion-item *ngFor="let annonce of filtredAnnonce " (click)=" onOpenMap(annonce.$key)" >
 
       <ion-thumbnail item-start>
-        <img src="{{item.imageURL}}">
+        <img src="{{annonce.imageURL}}">
       </ion-thumbnail>
-      <h2> {{item.titre}}</h2>
+      <h2> {{annonce.titre}}</h2>
       <button ion-button clear item-end>Voir</button>
     </ion-item>
   </ion-list>

@@ -6,7 +6,7 @@ import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angu
 import { Subscription } from 'rxjs/Subscription';
 import { GeolocationProvider } from '../../providers/geolocation/geolocation';
 
-
+import { Annonce } from '../../model/annonce';
 /**
  * Generated class for the RecherchePage page.
  *
@@ -20,19 +20,20 @@ import { GeolocationProvider } from '../../providers/geolocation/geolocation';
   templateUrl: 'recherche.html',
 })
 export class RecherchePage {
-  items: FirebaseListObservable<any[]>;
+  annonces: FirebaseListObservable<Annonce[]>;
   searchQuery: string;
-  public ALLAnnonces : any[];
-  filtred: any[];
+  public ALLAnnonces : Annonce[];
+  filtredAnnonce: Annonce[];
   sub : Subscription
   constructor(private categorieProvider : CategorieProvider,
      private modalCtrl: ModalController,
     public navCtrl: NavController, public navParams: NavParams) {
 
-    this.sub=this.categorieProvider.findAllAnnonces().distinctUntilChanged().do(console.log)
+    this.sub=this.categorieProvider.findAllAnnonces()
     .subscribe(
       value => {
-        this.ALLAnnonces = this.filtred=value
+        console.log(value)
+        this.ALLAnnonces = this.filtredAnnonce=value
     }
        , Error => {
         console.log(Error.message)
@@ -52,7 +53,7 @@ export class RecherchePage {
 
   search(text ){
 
-        this.filtred= this.ALLAnnonces.filter(Annonce => Annonce.titre.includes(text));
+        this.filtredAnnonce= this.ALLAnnonces.filter(Annonce => Annonce.titre.includes(text));
       }
 
       onOpenMap(key: string) {

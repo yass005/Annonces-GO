@@ -8,5 +8,6 @@ export interface Annonce {
   categorie?: categorie
   imageURL?: string
   userId?: string
+  createdAt?: Date;
   location? : Loc
 }

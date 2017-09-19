@@ -1,3 +1,7 @@
+/*-------------Menu principale des Categories  ------------------------------------*/
+/*cette page représente le des Categories de l'application  permet a l'utilisateur*/
+/*	    la navigation vers les annonces de la  categorie selectioner             */
+/*------------------------------------------------------------------------------*/
 import { annonces } from './../../model/Annonces';
 import { FirebaseListObservable } from 'angularfire2/database';
 import { Component } from '@angular/core';
@@ -21,21 +25,20 @@ import { Subscription } from 'rxjs/Subscription';
   templateUrl: 'list.html',
 })
 export class ListPage {
-   items: FirebaseListObservable<any[]>;
+  categories: FirebaseListObservable<categorie[]>;
     sub : Subscription
 
-  annoncesCount:  any[] = [];
+    annoncesCount: any[] = [];
   constructor(private categorieProvider : CategorieProvider, public navCtrl: NavController,
     public navParams: NavParams) {
-    this.items = categorieProvider.items$;
-
+    this.categories = categorieProvider.items$;
 
 
   }
 
   ionViewDidEnter() {
     console.log('ionViewDidLoad ListPage');
-    this.sub=this.items.map(cats=>{
+    this.sub=this.categories.map(cats=>{
       return cats.filter(cat=>{
         return !!cat.Annonces
       }).map(cat=>{
@@ -50,8 +53,8 @@ export class ListPage {
 
   }
 
-  goToEventDetail(categorieId){
-this.navCtrl.push(AnnoncesParCatégoriePage, { 'CategorieId': categorieId }).catch(err => {
+  GoToAnnoncesParCategorie(categorieId, categorieName ){
+    this.navCtrl.push(AnnoncesParCatégoriePage, { 'CategorieId': categorieId, 'categorieName': categorieName }).catch(err => {
   console.log(err);
 })
 }
@@ -60,6 +63,13 @@ ngOnDestroy() {
   this.sub.unsubscribe();
     }
 
+    ionViewDidLeave(){
+      this.sub.unsubscribe(), err => {
+        console.log(err.message)
+      }
+      console.log('ok');
+
+    }
 
 getnbannonces(key: string){
  return this.annoncesCount.filter(item=>{

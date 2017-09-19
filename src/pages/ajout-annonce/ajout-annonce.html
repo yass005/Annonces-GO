@@ -15,51 +15,41 @@
 
 <ion-content padding>
 
-  <form [formGroup]="todo" (ngSubmit)="logForm()">
-      <ion-item>
+  <form [formGroup]="annonceForm" (ngSubmit)="logForm()">
+    <ion-item>
       <ion-label floating>Titre</ion-label>
-        <ion-input type="text" formControlName="title"></ion-input>
-      </ion-item>
-      <ion-item class="error-message" *ngIf="!todo.controls.title.valid ">
-<p>Choisissez un titre  de 10 caractères au minimum.</p>
-</ion-item>
- <ion-item>
-    <ion-label floating>Catégorie</ion-label>
-       <ion-select formControlName="categorie" >
-      <ion-option   *ngFor=" let categorie of Cats | async " value="{{categorie.$key}}" >{{categorie.nom}}</ion-option>
+      <ion-input type="text" formControlName="title"></ion-input>
+    </ion-item>
+    <ion-item class="error-message" *ngIf="!annonceForm.controls.title.valid ">
+      <p>Choisissez un titre de 10 caractères au minimum.</p>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Catégorie</ion-label>
+      <ion-select formControlName="categorie">
+        <ion-option *ngFor=" let categorie of Categories | async " value="{{categorie.$key}}">{{categorie.nom}}</ion-option>
       </ion-select>
-     </ion-item>
-      <ion-item class="error-message" *ngIf="!todo.controls.categorie.valid ">
-<p>Choisissez une catégorie.</p>
-</ion-item>
-      <ion-item>
-        <ion-label floating>Description</ion-label>
-        <ion-textarea formControlName="description"></ion-textarea>
-      </ion-item>
-      <ion-item class="error-message"
-*ngIf="!todo.controls.description.valid">
-<p>Choisissez une description  de 20 caractères au minimum..</p>
-</ion-item>
+    </ion-item>
+    <ion-item class="error-message" *ngIf="!annonceForm.controls.categorie.valid ">
+      <p>Choisissez une catégorie.</p>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Description</ion-label>
+      <ion-textarea formControlName="description"></ion-textarea>
+    </ion-item>
+    <ion-item class="error-message" *ngIf="!annonceForm.controls.description.valid">
+      <p>Choisissez une description de 20 caractères au minimum..</p>
+    </ion-item>
 
-      <button
-            ion-button
-            icon-left
-            block
-            outline
-            type="button"
-            (click)="presentActionSheet()" >
+    <button ion-button icon-left block outline type="button" (click)="presentActionSheet()">
             <ion-icon name="camera"></ion-icon>
             Photo
           </button>
 
 
-<br>
-      <button ion-button  block type="submit" [disabled]="!todo.valid">Ajouter</button>
-    </form>
-    <div *ngIf="!guestPicture">
-        <img  src="{{guestPicture}}">
-    </div>
+    <br>
+    <button ion-button block type="submit" [disabled]="!annonceForm.valid">Ajouter</button>
+  </form>
+  <div *ngIf="!guestPicture">
+    <img src="{{guestPicture}}">
+  </div>
 </ion-content>
-
-
-

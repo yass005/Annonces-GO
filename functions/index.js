@@ -1,7 +1,27 @@
 
+/**
+ * Copyright 2017 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/*---------------------------Firebase cloud functions  -------------------------   */
+/* fichier de functions                                                           */
+/*-------------------------------------------------------------------------------*/
 const functions = require('firebase-functions');
 //const geolocation = require('node-geolocation');
 const NodeGeocoder = require('node-geocoder');
+// Configure the email transport using the default SMTP transport and a GMail account.
+// For Gmail, enable these:
 var nodemailer = require('nodemailer');
 const gcs = require('@google-cloud/storage')();
 // // Create and Deploy Your First Cloud Functions
@@ -10,7 +30,6 @@ const gcs = require('@google-cloud/storage')();
 // exports.helloWorld = functions.https.onRequest((request, response) => {
 //  response.send("Hello from Firebase!");
 // });
-var nodemailer = require('nodemailer');
 var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -37,9 +56,9 @@ const options = {
 const geocoder = NodeGeocoder(options);
 const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
-
+// [START onCreateTrigger] create a new node from a new registred user
 exports.createProfile = functions.auth.user().onCreate(event => {
-
+// event.data.uid The Firebase user.
   return admin.database().ref(`/userProfile/${event.data.uid}`).set({
     firstName: "",
     lastName: "",
@@ -56,13 +75,8 @@ exports.createProfile = functions.auth.user().onCreate(event => {
     email: event.data.email
 
   }).then(res => {
-    transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log('Email sent: ' + info.response);
-      }
-    });
+    //send an email to the admin
+  return sendEmail('new user',`a new user with ${event.data.email}`)
   }).catch(err => {
 
     console.log(err);
@@ -71,12 +85,12 @@ exports.createProfile = functions.auth.user().onCreate(event => {
 
 });
 
-
+//delete the user data after acount deleted
 exports.cleanupUserData = functions.auth.user().onDelete(event => {
   const uid = event.data.uid;
   return admin.database().ref(`/userProfile/${uid}`).remove();
 });
-
+//
 exports.newPost = functions.database.ref('/userProfile/{userId}/Annonces/{AnnoncesId}').onCreate(event => {
 
   let loc;
@@ -107,7 +121,7 @@ exports.newPost = functions.database.ref('/userProfile/{userId}/Annonces/{Annonc
 
       }).then(() => {
 
-        admin.database().ref(`/AnnoncesAValidé/${event.data.key}`).update({
+     return   admin.database().ref(`/AnnoncesAValidé/${event.data.key}`).update({
           location: {
             lat: res[0].latitude,
             lng: res[0].longitude
@@ -122,8 +136,6 @@ exports.newPost = functions.database.ref('/userProfile/{userId}/Annonces/{Annonc
 
 
 exports.newAnnonces = functions.database.ref('/AnnoncesAValidé/{AnnoncesId}/validé').onCreate(event => {
-
-
 
   //admin.database.ref('userProfile'/snapshot.child("userId").val()/Annonces/${snapshot.key/imageURL).
 
@@ -175,13 +187,7 @@ exports.UpdateImage = functions.database.ref('/userProfile/{userId}/Annonces/{An
         titre: snapshot.child("titre").val()
       }).then(res => {
 
-        transporter.sendMail(mailOptions, (error, info) => {
-          if (error) {
-            console.log(error);
-          } else {
-            console.log('Email sent: ' + info.response);
-          }
-        });
+        return sendEmail('New Annonce',`Nouvelle annonce en attente de validation${snapshot.child("titre").val()}`)
       }).catch(err => {
 
         console.log(err);
@@ -196,70 +202,74 @@ exports.UpdateImage = functions.database.ref('/userProfile/{userId}/Annonces/{An
 exports.DeleteAnnonce = functions.database.ref('/userProfile/{userId}/Annonces/{AnnoncesId}').onDelete(event => {
 
   var eventSnapshot = event.data.previous.val();
+  const UserId = event.params.userId;
 
   return admin.database().ref(`/Annonces/${event.data.key}`).remove().then(res =>
     console.log(res)
-  ).then(()=>{
-  return admin.database().ref(`/categories/${eventSnapshot.categorie}/Annonces`).child(event.data.key).remove();
+  ).then(() => {
+    return admin.database().ref(`/categories/${eventSnapshot.categorie}/Annonces`).child(event.data.key).remove();
+  }).then(() => {
+
+    return DeleteBucket(`/Users/${UserId}/${event.data.key}/Annonces.png`)
   }).catch(err => {
     console.log(err);
   })
 })
 
 
-exports.sendWeightUpdate = functions.database.ref('/userProfile/{userId}/position').onWrite(event => {
+exports.sendNotificationAnnonces = functions.database.ref('/userProfile/{userId}/position').onWrite(event => {
 
 
   const UserId = event.params.userId;
   var UserPosition = event.data.val();
   var LastUserPosition = event.data.previous.val();
- if (getDistanceBetweenPoints(UserPosition, LastUserPosition, 'km' ) <= 0.5 ){
-  return
- }
+  if (getDistanceBetweenPoints(UserPosition, LastUserPosition, 'km') <= 0.5) {
+    return
+  }
   const UserFavoris = event.data.ref.parent.child('Favoris');
   UserFavoris.once("value").then((snapshot) => {
     if (snapshot.exists()) {
-      let favorisIDs =   Object.keys(snapshot.val())
+      let favorisIDs = Object.keys(snapshot.val())
       console.log(favorisIDs)
-      return  admin.database().ref('/Annonces').once("value").then(Annonces => {
+      return admin.database().ref('/Annonces').once("value").then(Annonces => {
 
-           Annonces.forEach(childSnapshot=> {
-            console.log(childSnapshot.val(), UserPosition , childSnapshot.val().location )
-          if (  favorisIDs.includes(childSnapshot.val().categorie) && childSnapshot.val().location && (getDistanceBetweenPoints(UserPosition, childSnapshot.val().location, 'km' ))<=0.5) {
+        Annonces.forEach(childSnapshot => {
+          console.log(childSnapshot.val(), UserPosition, childSnapshot.val().location)
+
+          if (favorisIDs.includes(childSnapshot.val().categorie) && !(UserId === childSnapshot.val().userId) && childSnapshot.val().location && (getDistanceBetweenPoints(UserPosition, childSnapshot.val().location, 'km')) <= 0.5) {
             console.log(childSnapshot.val())
             const payload = {
-              "notification":{
-              "title": `une annonce qui vous interesse est a proximité `,
-              "body": `${childSnapshot.val().titre}`,
-              "sound":"default",
+              "notification": {
+                "title": `Une annonce qui vous interesse est a proximité `,
+                "body": `${childSnapshot.val().titre}`,
+                "icon": `${childSnapshot.val().imageURL}`,
+                "sound": "default",
               },
-              "data":{ "AnnonceId": childSnapshot.key }
-              };
+              "data": {
+                "AnnonceId": childSnapshot.key
+              }
+            };
 
-              event.data.ref.parent.child('token').once("value").then(token=> {
-                console.log(token.val());
-                return admin.messaging().sendToDevice(token.val(), payload).catch(err=> {
-                  console.log(err);
-                })
+            event.data.ref.parent.child('token').once("value").then(token => {
+              console.log(token.val());
+              return admin.messaging().sendToDevice(token.val(), payload).catch(err => {
+                console.log(err);
               })
+            })
 
           }
-          })
-
-
-      }).catch( err => {
-
-    console.log(err);
+        })
+      }).catch(err => {
+        console.log(err);
       })
-
       // update
     } else {
-        // Exit when the user dont have a list of favoris is deleted.
-        return;
+      // Exit when the user dont have a list of favoris
+      return;
     }
 
 
-});
+  });
 
 
 
@@ -275,12 +285,12 @@ exports.AddUserToker = functions.database.ref('/userProfile/{userId}/Favoris/{ca
   }
 
   const UserId = event.params.userId;
-  const categoriesId= event.params.categoriesId;
+  const categoriesId = event.params.categoriesId;
 
-  return admin.database().ref(`/userProfile/${UserId}/`).child('token').once("value").then(token=> {
+  return admin.database().ref(`/userProfile/${UserId}/`).child('token').once("value").then(token => {
     console.log(token.val());
-      return admin.database().ref(`/categories/${categoriesId}/UsersTokens`).child(token.val()).set(true)
-  }).catch(err=>{
+    return admin.database().ref(`/categories/${categoriesId}/UsersTokens`).child(token.val()).set(true)
+  }).catch(err => {
     console.log(err);
   })
 
@@ -290,9 +300,9 @@ exports.AddUserToker = functions.database.ref('/userProfile/{userId}/Favoris/{ca
 exports.DeleteUserToker = functions.database.ref('/userProfile/{userId}/Favoris/{categoriesId}').onDelete(event => {
 
   const UserId = event.params.userId;
-  const categoriesId= event.data.previous.key;
+  const categoriesId = event.data.previous.key;
 
-   admin.database().ref(`/userProfile/${UserId}/`).child('token').once("value").then(token=> {
+  admin.database().ref(`/userProfile/${UserId}/`).child('token').once("value").then(token => {
     return admin.database().ref(`/categories/${categoriesId}/UsersTokens/${token.val()}`).remove()
   }).catch(err => {
     console.log(err)
@@ -303,34 +313,36 @@ exports.DeleteUserToker = functions.database.ref('/userProfile/{userId}/Favoris/
 exports.NotifUserFavoris = functions.database.ref('/categories/{categoriesId}/Annonces/{AnnonceId}').onWrite(event => {
 
 
-   //exit when data is deleted
+  //exit when data is deleted
   if (!event.data.exists()) {
     return;
   }
 
 
-  const categoriesId= event.params.categoriesId;
+  const categoriesId = event.params.categoriesId;
   const AnnonceId = event.params.AnnonceId;
   var Tokens = event.data.ref.parent.parent.child('UsersTokens');
 
   Tokens.once("value").then((snapshot) => {
 
     if (snapshot.exists()) {
-      admin.database().ref(`/categories/${categoriesId}`).child('nom').once("value").then(nom=> {
+      admin.database().ref(`/categories/${categoriesId}`).child('nom').once("value").then(nom => {
 
         let payload = {
-          "notification":{
-          "title": `une nouvelle annonce vient d'être ` ,
-          "body": `une annonce dans ${nom.val()}`,
-          "sound":"default",
+          "notification": {
+            "title": `Nouvelle annonce dans `,
+            "body": `${nom.val()}`,
+            "sound": "default",
           },
-          "data":{ "AnnonceId": AnnonceId}
-          };
+          "data": {
+            "AnnonceId": AnnonceId
+          }
+        };
 
         return payload
 
-      }).then( payload => {
-        const ListeTokes =   Object.keys(snapshot.val())
+      }).then(payload => {
+        const ListeTokes = Object.keys(snapshot.val())
         return admin.messaging().sendToDevice(ListeTokes, payload).catch(err => {
           console.log(err);
         })
@@ -338,71 +350,71 @@ exports.NotifUserFavoris = functions.database.ref('/categories/{categoriesId}/An
         console.log(err);
       })
 
-  }
-  else {
-    return;
-  }
+    } else {
+      return;
+    }
 
-}).catch(err=> {
-  console.log(err);
+  }).catch(err => {
+    console.log(err);
+  })
+
 })
 
-})
 
-
-function getDistanceBetweenPoints( UserPosition, Destination, units)
+function getDistanceBetweenPoints(UserPosition, Destination, units)
 
 {
-
 
   let earthRadius = {
     miles: 3958.8,
     km: 6371
   };
 
-      let R = earthRadius[units || 'km'];
-      let lat1 = UserPosition.lat;
-      let lon1 = UserPosition.lng;
-      let lat2 = Destination.lat;
-      let lon2 = Destination.lng;
+  let R = earthRadius[units || 'km'];
+  let lat1 = UserPosition.lat;
+  let lon1 = UserPosition.lng;
+  let lat2 = Destination.lat;
+  let lon2 = Destination.lng;
 
-      let dLat = toRad((lat2 - lat1));
-      let dLon = toRad((lon2 - lon1));
-      let a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
-      let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-      let d = R * c;
+  let dLat = toRad((lat2 - lat1));
+  let dLon = toRad((lon2 - lon1));
+  let a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+    Math.sin(dLon / 2) *
+    Math.sin(dLon / 2);
+  let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  let d = R * c;
 
-       return  d
+  return d
 
+}
 
-  }
-
-
-
-  function toRad(x)
-  {
-    return x * Math.PI / 180;
-  }
+function toRad(x) {
+  return x * Math.PI / 180;
+}
 
 
-/*exports.deletePost = functions.database.ref('Posts/{pushId}').onWrite(event => {
+function DeleteBucket(filePath) {
+  const bucket = functions.config().firebase.storageBucket
+  const myBucket = gcs.bucket(bucket);
+  const file = myBucket.file(filePath);
+  console.log(`${myBucket},${filePath}, ${file}`)
+  file.exists().then(() => {
+    return file.delete()
+  })
 
-  const original = event.data.val()
-  const previous = event.data.previous.val()
-  const pushId = event.params.pushId
+}
 
-  if (original === null)
-    return
-
-  const filePath = 'Posts/' + pushId + 'thumbnail.jpg'
-  const bucket = gcs.bucket('postsapp-12312')
-  const bucket = gcs.bucket(functions.config().firebase.storageBucket)
-  const file = bucket.file(filePath)
-  const pr = file.delete()
-
-
-  return pr
-});*/
+// Sends  email to the admin
+function sendEmail(subject, Message) {
+  const mailOptions = {
+    from: 'badrenyassine@gmail.com',
+    to: 'samuel.loche@nospages.com',
+    subject: subject,
+    text: Message
+  };
+  // The user subscribed to the newsletter.
+  return mailTransport.sendMail(mailOptions).then(() => {
+    console.log('New  email sent to:');
+  });
+}

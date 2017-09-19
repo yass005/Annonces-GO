@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs/Rx';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, AlertController } from 'ionic-angular';
 import { Annonce } from '../../model/annonce';
 import { AnnonceProvider } from '../../providers/annonce/annonce';
 import { SocialSharing } from '@ionic-native/social-sharing';
@@ -19,29 +19,30 @@ import { SocialSharing } from '@ionic-native/social-sharing';
 export class AnnonceDetailsPage {
  itemObservable: Observable<any>
  public annonce: Annonce ;
-  constructor(public navCtrl: NavController, public navParams: NavParams,public annonceProvider :AnnonceProvider, private toastCtrl: ToastController,
+  constructor(public navCtrl: NavController, public navParams: NavParams,public annonceProvider :AnnonceProvider,
+    public alertCtrl: AlertController,
+    private toastCtrl: ToastController,
   private socialSharing: SocialSharing) {
 this.itemObservable=this.annonceProvider.getAnnonce(this.navParams.get('AnnoncesId'));
-console.log(this.annonce);
+
   }
 
- ionViewDidEnter() {
+  ionViewDidLoad() {
+
  this.itemObservable.subscribe(snapshot => {
 
    if (snapshot.val() != null) {
 
   this.annonce=snapshot.val()
   this.annonce.key=snapshot.key
-
+  console.log(this.annonce);
    }
 }, Error => {
   console.log(Error.message)
 
 });
-
     console.log('ionViewDidLoad AnnonceDetailsPage');
   }
-
 
 share(){
     this.socialSharing.share(this.annonce.titre, this.annonce.description, this.annonce.imageURL, "A URL to share").then(() => {
@@ -81,24 +82,48 @@ share(){
     });
 
   }*/
-suprimmer(annonce : Annonce){
 
-  this.annonceProvider.removeAnnonce(annonce);
- this.presentToast();
-}
 
 presentToast() {
   let toast = this.toastCtrl.create({
-    message: 'Annonces was  successfully deleted',
+    message: 'Annonce supprimée',
     duration: 2000,
     position: 'top'
   });
-
   toast.onDidDismiss(() => {
 
    this.navCtrl.pop();
   });
-
   toast.present();
+}
+
+SupprimerAnnonce(annonce : Annonce) {
+  let alert = this.alertCtrl.create({
+    title: 'Supprimer  cette annonce ',
+    message: 'Êtes-vous sûr de vouloir supprimer définitivement cette annonce  ? ',
+    buttons: [
+      {
+        text: 'Annuler',
+        role: 'cancel',
+        handler: () => {
+          console.log('Cancel clicked');
+        }
+      },
+      {
+        text: 'Oui',
+        handler: () => {
+          this.annonceProvider.removeAnnonce(annonce).then(resole=> {
+            return resole
+          }).then(resole=> {
+            this.presentToast();
+          }).catch(err=> {
+          console.log(err);
+          })
+
+        }
+      }
+    ]
+  });
+  alert.present();
 }
 }

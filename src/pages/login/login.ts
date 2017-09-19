@@ -1,3 +1,10 @@
+/*--------------------------- Page principale de l'application  --------------------------------*/
+/*	dans cette page j'ai injecter  le service de l'authetification  pour les divers Modes de    */
+/*	Connexion avec controle et validation des données                                           */
+/*------------------------------------------------------------------------------------          */
+
+
+//import de libraries et fichier externes
 import { Component } from '@angular/core';
 import {
   IonicPage,
@@ -31,11 +38,13 @@ export class LoginPage {
   public loading: Loading;
 
   constructor(public navCtrl: NavController,
-    public loadingCtrl: LoadingController, public authProvider: AuthProvider,
-    public formBuilder: FormBuilder, public alertCtrl: AlertController) {
+    public loadingCtrl: LoadingController,
+    public authProvider: AuthProvider,
+    public formBuilder: FormBuilder,
+    public alertCtrl: AlertController) {
 
-      // initiation du formulaire de'nvoie du login mot de passe avec controle de validité de email et mot longeur
-      //du mot de passe
+    // initiation du formulaire d'envoie du login et mot de passe avec controle de validité de email et  longeur
+    //du mot de passe
     this.loginForm = formBuilder.group({
       email: ['', Validators.compose([Validators.required, EmailValidator.isValid])],
       password: ['', Validators.compose([Validators.minLength(6),
@@ -72,30 +81,32 @@ export class LoginPage {
 
     }
   }
-
+  //Navigation vers la page de reset du mot de passe
   goToResetPassword(): void { this.navCtrl.push(ResetPasswordPage); }
 
+
+  //Navigation  vers la page decréation de  compte utilisateur
   goToSignup(): void { this.navCtrl.push(RegisterPage); }
 
-// appel de ma méthode de connexion facebook depuis le service de authetification
+  // appel de ma méthode de connexion facebook depuis le service de authetification
   facebookLogin(): void {
 
     this.authProvider.facebookLogin().then(() => {
       console.log("ok")
-
     }).catch(err => {
-    this.showMessage(err);
+      this.showMessage(err);
     })
   }
-  // appel de ma méthode de connexion google depuis le service de authetification
+  // Appel de la méthode de connexion google depuis le service de l'authetification
   googlelogin(): void {
     this.authProvider.googleLogin().then(() => {
       console.log("ok")
     }).catch(err => {
-    this.showMessage(err);
+      this.showMessage(err);
     })
   }
 
+  //controle Ionic pour l'affichage d'un message d'erreur
   showMessage(message: string) {
     this.loading.dismiss().then(() => {
       let alert = this.alertCtrl.create({

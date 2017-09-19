@@ -17,7 +17,7 @@
 
   <ion-list>
 
-  <ion-item *ngFor=" let categorie of items | async ">
+  <ion-item *ngFor=" let categorie of Categories | async ">
      {{categorie.nom}}
         <ion-icon name="{{categorie.icon}}" item-end> </ion-icon>
          <ion-icon color="primary"name="add-circle" item-end (click)="AddFavoris(categorie.$key, categorie.nom)" *ngIf="!include(categorie.$key)"></ion-icon>

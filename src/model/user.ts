@@ -1,5 +1,14 @@
+import { Loc } from './location';
+import { Adress } from './adress';
 export interface User {
-
+  key?:  string,
+  firstName: string,
+  lastName: string,
+  adress: Adress,
   email: string,
-  password: string,
+  birthDate?: Date,
+  position: Loc
+
 }
+
+

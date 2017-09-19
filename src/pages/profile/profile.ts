@@ -1,3 +1,12 @@
+/*--------------------------- Page profil utilisateur  --------------------------------*/
+/*	dans cette page j'ai injecter  le service de ProfileProvider  pour les divers     */
+/*	fonctionalité de gestion de compte Utilisateur, Favoris, et Les Annonces          */
+/* de se dérnier                                                                     */
+/*----------------------------------------------------------------------------------*/
+
+
+
+
 import { Component } from '@angular/core';
 import {
   Loading,
@@ -6,11 +15,11 @@ import {
 import { ProfileProvider } from '../../providers/profile/profile';
 import { AuthProvider } from '../../providers/auth/auth';
 import { LoginPage } from '../login/login';
-import { MyApp } from '../../app/app.component';
-import { Page2 } from '../page2/page2';
+import { MesAnnonces } from '../MesAnnonces/MesAnnonces';
 import { LocationTrackerProvider } from '../../providers/location-tracker/location-tracker';
 import { ListesFavorisPage } from '../listes-favoris/listes-favoris';
 import { MesFavorisPage } from '../mes-favoris/mes-favoris';
+import { User } from '../../model/user';
 
 @IonicPage({
   name: 'profile'
@@ -20,67 +29,77 @@ import { MesFavorisPage } from '../mes-favoris/mes-favoris';
   templateUrl: 'profile.html',
 })
 export class ProfilePage {
-  public userProfile: any;
-  public birthDate: string;
+  public userProfile: User;
+  public birthDate: Date;
   public userAdress: any;
   public loading: Loading;
-  check : boolean=false
-  constructor(public loadingCtrl: LoadingController, public navCtrl: NavController, public alertCtrl: AlertController,
-    public profileProvider: ProfileProvider, public authProvider: AuthProvider, public LocationTracker: LocationTrackerProvider) {
-
-
-
-    }
-
-  ionViewDidLoad(){
-
-
-    this.profileProvider.getUserProfile().on('value', userProfileSnapshot => {
-      this.userProfile = userProfileSnapshot.val();
-      this.birthDate = userProfileSnapshot.val().birthDate;
-      this.userAdress = userProfileSnapshot.val().adress;
-    });
-
-
+  check: boolean = false
+  constructor(public loadingCtrl: LoadingController, public navCtrl: NavController,
+    public alertCtrl: AlertController,
+    public profileProvider: ProfileProvider,
+    public authProvider: AuthProvider,
+    public LocationTracker: LocationTrackerProvider) {
 
   }
 
+
+  //Chargement des informations de l'utilisateur aprés chargement de la vue
+  ionViewDidLoad() {
+    this.profileProvider.getUserProfile().once('value').then(userProfileSnapshot => {
+      this.userProfile = userProfileSnapshot.val();
+      console.log(this.userProfile.adress);
+      this.birthDate = userProfileSnapshot.val().birthDate;
+      this.userAdress = this.userProfile.adress
+    })
+  }
+
+
+  //se déconnecter de l'application
   logOut(): void {
     this.authProvider.logout();
     //this.navCtrl.setRoot(MyApp);
 
   }
 
+
+  //fonction qui permet mettre à jour le nom et prénom et trairements des erreur
   updateName() {
     const alert = this.alertCtrl.create({
-      message: "Your first name & last name",
+      message: "Votre nom et prénom ",
       inputs: [
         {
-          name: 'firstName',
-          placeholder: 'Your first name',
+          name: 'Prénom',
+          placeholder: 'Votre Prénom',
           value: this.userProfile.firstName
         },
         {
-          name: 'lastName',
-          placeholder: 'Your last name',
+          name: 'Nom',
+          placeholder: 'Votre  Nom',
           value: this.userProfile.lastName
         },
       ],
       buttons: [
         {
-          text: 'Cancel',
+          text: 'Annuler',
         },
         {
-          text: 'Save',
+          text: 'Enregistrer',
           handler: data => {
-            this.profileProvider.updateName(data.firstName, data.lastName);
+            this.profileProvider.updateName(data.Prénom, data.Nom)
+              .then(() => {
+                this.showMessage("Votre Votre nom et prénom ont été modifiés");
+              }, error => {
+                this.showMessage(error.message);
+              });
+            this.loading = this.loadingCtrl.create();
+            this.loading.present();
           }
         }
       ]
     });
     alert.present();
   }
-
+  //fonction qui permet de mettre à jour l'adress et trairements des erreur
   updatadress() {
     const alert = this.alertCtrl.create({
       message: "Votre adress",
@@ -88,7 +107,7 @@ export class ProfilePage {
         {
           name: 'rue',
           placeholder: 'rue',
-          value: this.userAdress.rue
+          value: this.userProfile.adress.rue
         },
         {
           name: 'numéro',
@@ -108,17 +127,36 @@ export class ProfilePage {
         {
           text: 'Save',
           handler: data => {
-            this.profileProvider.updateAdresse(data.rue, data.numéro, data.ville);
+            this.profileProvider.updateAdresse(data.rue, data.numéro, data.ville)
+              .then(() => {
+                this.showMessage("Votre adresse a été modifié");
+              }, error => {
+                this.showMessage(error.message);
+              });
+            this.loading = this.loadingCtrl.create();
+            this.loading.present();
           }
         }
       ]
     });
     alert.present();
   }
+
+
+ // mettre à jour de la date de naissance
+
   updateDOB(birthDate) {
-    this.profileProvider.updateDOB(birthDate);
+    this.profileProvider.updateDOB(birthDate).then(() => {
+      this.showMessage("Votre date de naissance a été modifié");
+    }, error => {
+      this.showMessage(error.message);
+    });
+    this.loading = this.loadingCtrl.create();
+    this.loading.present();
   }
 
+
+ // mettre à jour l'email
   updateEmail() {
     let alert = this.alertCtrl.create({
       inputs: [
@@ -154,18 +192,18 @@ export class ProfilePage {
     });
     alert.present();
   }
-
+//mettre à jour du mot de passe
   updatePassword() {
     let alert = this.alertCtrl.create({
       inputs: [
         {
           name: 'newPassword',
-          placeholder: 'Your new password',
+          placeholder: 'Votre nouveau mot de passe',
           type: 'password'
         },
         {
           name: 'oldPassword',
-          placeholder: 'Your old password',
+          placeholder: 'votre ancien mot de passe',
           type: 'password'
         },
       ],
@@ -195,7 +233,7 @@ export class ProfilePage {
     });
     alert.present();
   }
-
+//fonction pour supprimer mon compte.
   Delteuser() {
     let alert = this.alertCtrl.create({
       message: "vous veuiller saisir votre mot de pass",
@@ -203,16 +241,16 @@ export class ProfilePage {
 
         {
           name: 'Password',
-          placeholder: 'Your password',
+          placeholder: 'Votre mot de passe',
           type: 'password'
         }
       ],
       buttons: [
         {
-          text: 'Cancel',
+          text: 'Annuler',
         },
         {
-          text: 'Save',
+          text: 'Enregistrer',
           handler: data => {
 
             this.profileProvider.DeleteUser(data.Password).then(() => {
@@ -228,6 +266,8 @@ export class ProfilePage {
     });
     alert.present();
   }
+
+  //Message de controle pour confirmation de la supression de compte
   presentConfirm() {
     let alert = this.alertCtrl.create({
       title: 'Supprimer votre compte',
@@ -250,6 +290,8 @@ export class ProfilePage {
     });
     alert.present();
   }
+
+  //message de confirmation
   showMessage(message: string) {
     this.loading.dismiss().then(() => {
       let alert = this.alertCtrl.create({
@@ -266,21 +308,26 @@ export class ProfilePage {
     });
   }
 
-  annonces(){
-    this.navCtrl.push(Page2)
+
+  //Navigation vers la page des Annonces de l'utilisateur
+  annonces() {
+    this.navCtrl.push(MesAnnonces)
   }
 
-   MesFavoris(){
+
+  //Navigation vers la page des Favoris de l'utilisateur
+
+  MesFavoris() {
     this.navCtrl.push(MesFavorisPage)
   }
 
-
-  start_stop(){
-   this.check ? this.LocationTracker.startTracking() :  this.LocationTracker.stopTracking();
+//Activation du mode  suivie de position
+  start_stop() {
+    this.check ? this.LocationTracker.startTracking() : this.LocationTracker.stopTracking();
   }
 
-  changer(){
- this.check ? this.check=false : this.check=true
- this.start_stop();
+  changer() {
+    this.check ? this.check = false : this.check = true
+    this.start_stop();
   }
 }

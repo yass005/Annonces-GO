@@ -1,3 +1,7 @@
+/*--------------------------- Page d'enregistrement d'un nouveau compte  ------------------------*/
+/*	  dans cette page j'ai injecter  le service de l'authetification  pour                       */
+/*	 enregistrer un nouveau compte  avec controle et validation des données                      */
+/*------------------------------------------------------------------------------------           */
 import { Component } from '@angular/core';
 import {
   IonicPage,
@@ -23,12 +27,14 @@ import { EmailValidator } from '../../validators/email';
 })
 export class RegisterPage {
 
+  //Variables pour le formulaire d'inscription
   public signupForm: FormGroup;
   public loading: Loading;
   constructor(public navCtrl: NavController,
-    public loadingCtrl: LoadingController, public alertCtrl:
-      AlertController,
-    public formBuilder: FormBuilder, public authProvider: AuthProvider) {
+    public loadingCtrl: LoadingController,
+    public alertCtrl: AlertController,
+    public formBuilder: FormBuilder,
+    public authProvider: AuthProvider) {
     this.signupForm = formBuilder.group({
       email: ['', Validators.compose([Validators.required, EmailValidator.isValid])],
       password: ['', Validators.compose([Validators.minLength(6), Validators.required])],
@@ -39,6 +45,10 @@ export class RegisterPage {
     });
 
   }
+
+/* Contrôle des données saisi dans le formulaire et envois d'une requête de création
+ d'un nouveau utilisateur */
+
   signupUser(): void {
     if (!this.signupForm.valid) {
       console.log(this.signupForm.value);
@@ -67,6 +77,8 @@ export class RegisterPage {
     }
   }
 
+
+  //controle de la a confirmation du mot de passe
   isEqualPassword(control: FormControl): { [s: string]: boolean } {
     if (!this.signupForm) {
       return { passwordsNotMatch: true };

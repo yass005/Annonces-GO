@@ -1,8 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, Platform, ModalController } from 'ionic-angular';
+import { NavController, Platform,  ToastController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { Page2 } from '../pages/page2/page2';
 import { LoginPage} from '../pages/login/login';
 import { ProfilePage } from '../pages/profile/profile';
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -22,7 +21,7 @@ export class MyApp {
 
   constructor(public platform: Platform, public statusBar: StatusBar,
     private firebase: Firebase,
-    public modalCtrl: ModalController,
+    private toastCtrl: ToastController,
     public splashScreen: SplashScreen,public afAuth : AngularFireAuth) {
 
 
@@ -52,7 +51,9 @@ export class MyApp {
       //Notification was received in foreground. Maybe the user needs to be
      // notified.
       console.log( JSON.stringify(data) );
+      this.presentToast()
       this.navCtrl.push(AnnoncePage, { 'Id': data.AnnonceId});
+
       }
       });
 
@@ -64,5 +65,17 @@ export class MyApp {
       this.splashScreen.hide();
     });
 
+
+
+    }
+
+    presentToast() {
+      let toast = this.toastCtrl.create({
+        message: 'Annonce à proximité',
+        duration: 5000,
+        position: 'top'
+      });
+
+      toast.present();
     }
 }

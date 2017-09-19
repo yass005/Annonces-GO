@@ -4,6 +4,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { MyApp } from './app.component';
 import { AngularFireAuth } from 'angularfire2/auth';
+import { Firebase } from '@ionic-native/firebase';
 import {
   PlatformMock,
   StatusBarMock,
@@ -24,7 +25,8 @@ describe('MyApp Component', () => {
         { provide: StatusBar, useClass: StatusBarMock },
         { provide: SplashScreen, useClass: SplashScreenMock },
         { provide: Platform, useClass: PlatformMock },
-         { provide: AngularFireAuth}
+         { provide: AngularFireAuth},
+         {provide: Firebase}
       ]
     })
   }));

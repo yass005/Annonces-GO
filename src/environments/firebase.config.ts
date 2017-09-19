@@ -1,11 +1,12 @@
 
 export const firebaseConfig = {
-    apiKey: "AIzaSyDgqyuhgKcxbDqma14wjx6js9Rbk9-IBMQ",
-    authDomain: "coss-707a2.firebaseapp.com",
-    databaseURL: "https://coss-707a2.firebaseio.com",
-    projectId: "coss-707a2",
-    storageBucket: "coss-707a2.appspot.com",
-    messagingSenderId: "1062287311924"
+
+    apiKey: "AIzaSyB6s6vyLqyo9EaN2xqDpHa0WBu4tKFzwgo",
+    authDomain: "annonces-go.firebaseapp.com",
+    databaseURL: "https://annonces-go.firebaseio.com",
+    projectId: "annonces-go",
+    storageBucket: "annonces-go.appspot.com",
+    messagingSenderId: "240356183666"
 };
 
 

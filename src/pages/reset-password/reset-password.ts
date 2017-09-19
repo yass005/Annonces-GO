@@ -1,3 +1,6 @@
+/*--------------------------- Page pour  réinitialisation de mot de pass  ------------------------*/
+/*	        dans cette page j'ai injecter  le service de l'authetification  pour                  */
+/*          la réinitialisation du mot de pass                                                    */
 import { Component } from '@angular/core';
 import {
   IonicPage,
@@ -26,6 +29,8 @@ export class ResetPasswordPage {
     });
   }
 
+  /* Contrôle des données saisi dans le formulaire et envois d'une requête de
+réinitialisation du mot de passe*/
   resetPassword(): void {
     if (!this.resetPasswordForm.valid) {
       console.log(this.resetPasswordForm.value);
