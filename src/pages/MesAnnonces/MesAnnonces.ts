@@ -18,29 +18,29 @@ export class MesAnnonces {
   selectedItem: any;
   MesAnnonces: FirebaseListObservable<any[]>;
   pushPage: any;
-  constructor(public navCtrl: NavController, public navParams: NavParams,public  Annonces : AnnonceProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public Annonces: AnnonceProvider) {
 
-    this.MesAnnonces=Annonces.MesAnnonces$;
+    this.MesAnnonces = Annonces.MesAnnonces$;
 
   }
 
-// Navigation vers la page d'ajout d'une annonce
- AjoutAnnonce() {
-    this.navCtrl.push(AjoutAnnoncePage).then(()=>{
+  // Navigation vers la page d'ajout d'une annonce
+  AjoutAnnonce() {
+    this.navCtrl.push(AjoutAnnoncePage).then(() => {
       console.log('navigation ok')
     }).catch(err => {
       console.log(err)
     })
-    }
+  }
 
 
-// Navigation vers le détail de l'annonce selectionner
-goToDetailAnnonce(AnnonceId){
-this.navCtrl.push(AnnonceDetailsPage, { 'AnnoncesId': AnnonceId }).then(()=>{
-  console.log('navigation ok')
-}).catch(err => {
-  console.log(err)
-})
-}
+  // Navigation vers le détail de l'annonce selectionner
+  goToDetailAnnonce(AnnonceId) {
+    this.navCtrl.push(AnnonceDetailsPage, { 'AnnoncesId': AnnonceId }).then(() => {
+      console.log('navigation ok')
+    }).catch(err => {
+      console.log(err)
+    })
+  }
 
 }

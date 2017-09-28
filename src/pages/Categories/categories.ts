@@ -27,27 +27,27 @@ import { Subscription } from 'rxjs/Subscription';
 
 export class CategoriesPage {
   categories: FirebaseListObservable<categorie[]>;
-    sub : Subscription
+  sub: Subscription
 
-    annoncesCount: any[] = [];
-  constructor(private categorieProvider : CategorieProvider, public navCtrl: NavController,
+  annoncesCount: any[] = [];
+  constructor(private categorieProvider: CategorieProvider, public navCtrl: NavController,
     public navParams: NavParams) {
     this.categories = categorieProvider.items$;
 
 
   }
-// au chargement de du composant on charge la liste des catégorie depuis firebase l'application
+  // au chargement de du composant on charge la liste des catégorie depuis firebase l'application
   ionViewDidEnter() {
     console.log('ionViewDidLoad ListPage');
-    this.sub=this.categories.map(cats=>{
-      return cats.filter(cat=>{
+    this.sub = this.categories.map(cats => {
+      return cats.filter(cat => {
         return !!cat.Annonces
-      }).map(cat=>{
-      return {id : cat.$key, nbannonces: Object.keys(cat.Annonces).length}
-    })
-    }).subscribe(val=>{
-      this.annoncesCount=val;
-      console.log(  this.annoncesCount);
+      }).map(cat => {
+        return { id: cat.$key, nbannonces: Object.keys(cat.Annonces).length }
+      })
+    }).subscribe(val => {
+      this.annoncesCount = val;
+      console.log(this.annoncesCount);
     }, Error => {
       console.log(Error.message)
     })
@@ -55,33 +55,33 @@ export class CategoriesPage {
   }
 
   //navigations vers la liste des annonces de la catégorie
-  GoToAnnoncesParCategorie(categorieId, categorieName ){
+  GoToAnnoncesParCategorie(categorieId, categorieName) {
     this.navCtrl.push(AnnoncesParCatégoriePage, { 'CategorieId': categorieId, 'categorieName': categorieName }).catch(err => {
-  console.log(err);
-})
-}
-//fin de vie de notre  Observable
-ngOnDestroy() {
-  this.sub.unsubscribe();
+      console.log(err);
+    })
+  }
+  //fin de vie de notre  Observable
+  ngOnDestroy() {
+    this.sub.unsubscribe();
+  }
+
+  //fin de vie de notre  Observable
+  ionViewDidLeave() {
+    this.sub.unsubscribe(), err => {
+      console.log(err.message)
     }
+    console.log('ok');
 
- //fin de vie de notre  Observable
-    ionViewDidLeave(){
-      this.sub.unsubscribe(), err => {
-        console.log(err.message)
-      }
-      console.log('ok');
+  }
 
-    }
-
-    // retourne le nombre d'annonces d'une catégorie
-getnbannonces(key: string){
- return this.annoncesCount.filter(item=>{
-    return item.id===key
-  }).map(item=>{
-    return item.nbannonces
-  })
-}
+  // retourne le nombre d'annonces d'une catégorie
+  getnbannonces(key: string) {
+    return this.annoncesCount.filter(item => {
+      return item.id === key
+    }).map(item => {
+      return item.nbannonces
+    })
+  }
 
 
 

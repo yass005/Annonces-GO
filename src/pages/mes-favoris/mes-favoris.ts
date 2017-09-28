@@ -39,7 +39,7 @@ export class MesFavorisPage {
 
   }
 
-//chargement de la liste des categorie filtré avec ceux du user
+  //chargement de la liste des categorie filtré avec ceux du user
   ionViewDidLoad() {
 
     this.CategorieFavoris$ = this.profileProvider.getFavoris();
@@ -62,14 +62,14 @@ export class MesFavorisPage {
 
 
   }
-//unsubscribe de la liste Categories
+  //unsubscribe de la liste Categories
   ngOnDestroy() {
     this.sub.unsubscribe(), err => {
       console.log(err.message)
     }
     console.log('ok');
   }
-//navigation vers la liste des Categories pour en  Ajouter aux Favoris
+  //navigation vers la liste des Categories pour en  Ajouter aux Favoris
   AjoutFavoris() {
     this.navCtrl.push(ListesFavorisPage);
   }
@@ -84,7 +84,7 @@ export class MesFavorisPage {
     })
 
   }
-//message de confirmation de la supression
+  //message de confirmation de la supression
   presentToast(nom: string) {
     let toast = this.toastCtrl.create({
       message: 'la categorie  ' + nom + ' a été suprimmer de vos favoris',

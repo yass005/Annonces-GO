@@ -1,56 +1,47 @@
 <!-- vue de la la page d'enregistrement -->
 <ion-header>
-<ion-navbar color="primary">
-<ion-title>
-Créer un compte
-</ion-title>
-</ion-navbar>
+  <ion-navbar color="primary">
+    <ion-title>
+      Créer un compte
+    </ion-title>
+  </ion-navbar>
 </ion-header>
 <ion-content padding>
-<img src="http://via.placeholder.com/350x150" class="auth-img">
-<form [formGroup]="signupForm" (submit)="signupUser()" novalidate>
-<ion-item>
-<ion-label stacked>Email</ion-label>
-<ion-input formControlName="email" type="email"
-placeholder="Addresse e-mail"
-[class.invalid]="!signupForm.controls.email.valid &&
+  <img src="http://via.placeholder.com/350x150" class="auth-img">
+  <form [formGroup]="signupForm" (submit)="signupUser()" novalidate>
+    <ion-item>
+      <ion-label stacked>Email</ion-label>
+      <ion-input formControlName="email" type="email" placeholder="Addresse e-mail" [class.invalid]="!signupForm.controls.email.valid &&
 signupForm.controls.email.dirty">
-</ion-input>
-</ion-item>
-<ion-item class="error-message"
-*ngIf="!signupForm.controls.email.valid &&
+      </ion-input>
+    </ion-item>
+    <ion-item class="error-message" *ngIf="!signupForm.controls.email.valid &&
 signupForm.controls.email.dirty">
-<p>Veuillez entrer une adresse email valide svp!</p>
-</ion-item>
-<ion-item>
-<ion-label stacked>Mot de passe</ion-label>
-<ion-input formControlName="password" type="password"
-placeholder="mot de passe"
-[class.invalid]="!signupForm.controls.password.valid &&
+      <p>Veuillez entrer une adresse email valide svp!</p>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>Mot de passe</ion-label>
+      <ion-input formControlName="password" type="password" placeholder="mot de passe" [class.invalid]="!signupForm.controls.password.valid &&
 signupForm.controls.password.dirty">
-</ion-input>
-</ion-item>
+      </ion-input>
+    </ion-item>
 
-<ion-item class="error-message"
-*ngIf="!signupForm.controls.password.valid &&
+    <ion-item class="error-message" *ngIf="!signupForm.controls.password.valid &&
 signupForm.controls.password.dirty">
-<p>Choisissez un mot de passe de 6 caractères au minimum</p>
-</ion-item>
-<ion-item>
-<ion-label stacked>Confirmer le mot de passe</ion-label>
-<ion-input formControlName="Confirmpassword" type="password"
-placeholder="Confirmez votre mot de passe"
-[class.invalid]="!signupForm.controls.Confirmpassword.valid &&
+      <p>Choisissez un mot de passe de 6 caractères au minimum</p>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>Confirmer le mot de passe</ion-label>
+      <ion-input formControlName="Confirmpassword" type="password" placeholder="Confirmez votre mot de passe" [class.invalid]="!signupForm.controls.Confirmpassword.valid &&
 signupForm.controls.Confirmpassword.dirty">
-</ion-input>
-</ion-item>
-<ion-item class="error-message"
-*ngIf="!signupForm.controls.Confirmpassword.valid &&
+      </ion-input>
+    </ion-item>
+    <ion-item class="error-message" *ngIf="!signupForm.controls.Confirmpassword.valid &&
 signupForm.controls.Confirmpassword.dirty">
-<p>Les 2 mots de passe sont différents</p>
-</ion-item>
-<button ion-button block type="submit" [disabled]="!signupForm.valid" color="personal">
+      <p>Les 2 mots de passe sont différents</p>
+    </ion-item>
+    <button ion-button block type="submit" [disabled]="!signupForm.valid" color="personal">
   Créer un compte
 </button>
-</form>
+  </form>
 </ion-content>

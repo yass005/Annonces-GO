@@ -46,7 +46,7 @@ export class ListesFavorisPage {
 
     console.log(this.favorisIDs);
   }
-//fin de vie de notre  Observable
+  //fin de vie de notre  Observable
   ngOnDestroy() {
     this.sub.unsubscribe(), err => {
       console.log(err.message)
@@ -54,7 +54,7 @@ export class ListesFavorisPage {
     console.log('ok');
   }
 
-//Ajoute d'une Categorie aux Favoris du user
+  //Ajoute d'une Categorie aux Favoris du user
   AddFavoris(key: string, nom) {
     this.profileProvider.AddFavoris(key)
       .then(res => this.presentToast(nom)
@@ -75,7 +75,7 @@ export class ListesFavorisPage {
 
     toast.present();
   }
-// permes de vérifier si la catégorie fais parti de ceux de l'utilisateur
+  // permes de vérifier si la catégorie fais parti de ceux de l'utilisateur
   include(key: string) {
 
     return this.favorisIDs.includes(key);

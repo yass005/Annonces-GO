@@ -14,49 +14,36 @@
 
 
 <ion-content class="cards-bg">
-    <div *ngIf="annonce">
+  <div *ngIf="annonce">
     <ion-card>
-    <div *ngIf="annonce.imageURL">
-        <img src="{{annonce.imageURL}}"/>
-    </div>
-    <ion-card-content>
-      <ion-card-title>
-       {{annonce.titre}}
-      </ion-card-title>
-    <p>{{annonce.description}}</p>
+      <div *ngIf="annonce.imageURL">
+        <img src="{{annonce.imageURL}}" />
+      </div>
+      <ion-card-content>
+        <ion-card-title>
+          {{annonce.titre}}
+        </ion-card-title>
+        <p>{{annonce.description}}</p>
 
-    </ion-card-content>
-  </ion-card>
-</div>
-<ion-grid>
-  <ion-row>
-    <ion-col col-6 >
-        <button
-        [disabled]="!contienposition"
-        ion-button
-        block
-        color="personal"
-        (click)="navigate()">
+      </ion-card-content>
+    </ion-card>
+  </div>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-6>
+        <button [disabled]="!contienposition" ion-button block color="personal" (click)="navigate()">
    <ion-icon name="navigate" >   Navigation  </ion-icon>
   </button>
-    </ion-col>
-    <ion-col col-6>
-        <button
-        ion-button
-        block
-        color="personal"
-        (click)="email(annonce.userId, annonce.titre)"><ion-icon name="mail">  Contact</ion-icon>
+      </ion-col>
+      <ion-col col-6>
+        <button ion-button block color="personal" (click)="email(annonce.userId, annonce.titre)"><ion-icon name="mail">  Contact</ion-icon>
       </button>
-    </ion-col>
-  </ion-row>
-  <ion-row>
-      <button
-      ion-button
-      block
-      color="personal"
-      (click)="onAbort()"><ion-icon name="md-arrow-round-back"> retour</ion-icon></button>
-  </ion-row>
-</ion-grid>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <button ion-button block color="personal" (click)="onAbort()"><ion-icon name="md-arrow-round-back"> retour</ion-icon></button>
+    </ion-row>
+  </ion-grid>
 
 
 

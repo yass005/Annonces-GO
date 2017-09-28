@@ -250,7 +250,7 @@ exports.sendNotificationAnnonces = functions.database.ref('/userProfile/{userId}
           console.log(childSnapshot.val(), UserPosition, childSnapshot.val().location)
 
           if (favorisIDs.includes(childSnapshot.val().categorie) && !(UserId === childSnapshot.val().userId) && childSnapshot.val().location &&
-           (getDistanceBetweenPoints(UserPosition, childSnapshot.val().location, 'km')) <= 0.5) {
+            (getDistanceBetweenPoints(UserPosition, childSnapshot.val().location, 'km')) <= 0.5) {
             console.log(childSnapshot.val())
             const payload = {
               "notification": {

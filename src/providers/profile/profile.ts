@@ -49,10 +49,10 @@ export class ProfileProvider implements IProfile {
 
   }
   //récupérer email d'un utilisateur
-GetEmail(key : string): firebase.Promise<void>{
-  return  firebase.database().ref(`/userProfile/${key}/email`).once('value');
+  GetEmail(key: string): firebase.Promise<void> {
+    return firebase.database().ref(`/userProfile/${key}/email`).once('value');
 
-}
+  }
   //récupérer la lite des favoris
   getFavoris(): FirebaseListObservable<any> {
     return this.db.list(`/userProfile/${this.currentUser.uid}/Favoris`);
@@ -85,9 +85,9 @@ GetEmail(key : string): firebase.Promise<void>{
   }
   //Modfication de l'adress
   updateAdresse(rue: string, num: number, ville: string): firebase.Promise<void> {
-   // const AdresseRef = this.userProfile.child("adress");
+    // const AdresseRef = this.userProfile.child("adress");
     return this.userProfile.child("adress").update({
-     numéro: num,
+      numéro: num,
       rue: rue,
       ville: ville
     })

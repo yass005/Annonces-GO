@@ -4,7 +4,7 @@
 /* des categories FirebaseListObservable. fournit une liste  observable des categories */
 /*---------------------------------------------------------------------------------   */
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase,  FirebaseObjectObservable, FirebaseListObservable } from 'angularfire2/database';
+import { AngularFireDatabase, FirebaseObjectObservable, FirebaseListObservable } from 'angularfire2/database';
 import 'rxjs/add/operator/map';
 import { categorie } from '../../model/categorie';
 import firebase from 'firebase'
@@ -20,41 +20,38 @@ import { ICategorie } from "../../model/ICategorie";
 */
 @Injectable()
 export class CategorieProvider implements ICategorie {
- //  categorie: categorie
+  //  categorie: categorie
   items$: FirebaseListObservable<any[]> = null; //  list of objects
-  constructor(public db:AngularFireDatabase) {
-  this.items$=db.list('categories')
+  constructor(public db: AngularFireDatabase) {
+    this.items$ = db.list('categories')
   }
 
-//récupération d'une catégorie
-  getNom(key: string)
-  {
-  return  firebase.database().ref(`categories/${key}/`);
+  //récupération d'une catégorie
+  getNom(key: string) {
+    return firebase.database().ref(`categories/${key}/`);
 
   }
-//Lise des Annonce d'une categorie ou key repérsente id categorie
-  GetAnnoncesParCatégoriePage(key: string) : FirebaseListObservable<Annonce[]>
-
-  {
-  return   this.db.list('Annonces',{
-    query: {
-      orderByChild: 'categorie',
-      equalTo: key
-    }
-  })
+  //Lise des Annonce d'une categorie ou key repérsente id categorie
+  GetAnnoncesParCatégoriePage(key: string): FirebaseListObservable<Annonce[]> {
+    return this.db.list('Annonces', {
+      query: {
+        orderByChild: 'categorie',
+        equalTo: key
+      }
+    })
 
   }
 
   //récupération d'une annonce depuis la liste public des annonces validé par administrateur
-getAnnonce(key : string) : FirebaseObjectObservable<Annonce> {
-  return this.db.object(`Annonces/${key}`, { preserveSnapshot: true })
-}
+  getAnnonce(key: string): FirebaseObjectObservable<Annonce> {
+    return this.db.object(`Annonces/${key}`, { preserveSnapshot: true })
+  }
 
-///Lise des Annonce validé par administrateur
-findAllAnnonces():FirebaseListObservable<Annonce[]>{
+  ///Lise des Annonce validé par administrateur
+  findAllAnnonces(): FirebaseListObservable<Annonce[]> {
 
-  return this.db.list('Annonces')
-}
+    return this.db.list('Annonces')
+  }
 
 
 

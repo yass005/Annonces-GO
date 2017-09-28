@@ -48,8 +48,8 @@ export class AnnoncePage {
   }
 
   ionViewDidLeave() {
-   this.sub.unsubscribe()
-      console.log('ok');
+    this.sub.unsubscribe()
+    console.log('ok');
 
 
   }
@@ -72,7 +72,7 @@ export class AnnoncePage {
 
   }
 
- // retour a la page précédente
+  // retour a la page précédente
   onAbort() {
     this.viewCtrl.dismiss();
   }

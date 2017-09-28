@@ -8,7 +8,7 @@ import { Injectable } from '@angular/core';
 import { Platform } from 'ionic-angular';
 import 'rxjs/add/operator/map';
 import { Geolocation } from '@ionic-native/geolocation';
-import { NativeGeocoder,  NativeGeocoderForwardResult } from '@ionic-native/native-geocoder';
+import { NativeGeocoder, NativeGeocoderForwardResult } from '@ionic-native/native-geocoder';
 import { Loc } from '../../model/location';
 import { IGeolocation } from '../../model/IGeolocation';
 import { Observable } from 'rxjs/Observable';

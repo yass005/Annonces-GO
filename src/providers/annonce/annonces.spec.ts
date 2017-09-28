@@ -65,44 +65,44 @@ describe('annonces Service', () => {
 });*/
 describe("The Annonce Data Service", () => {
 
-   let AnnonceData: AnnonceProvider;
+  let AnnonceData: AnnonceProvider;
 
-   let objectSpy = jasmine.createSpy("object").and.callFake((path: string) => {
-     if(path.includes("512")) {
-       return Observable.of({
-         title: "Example Ajout d'annonce",
-         body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla commodo dui quis.",
-       });
-     } else {
-       return Observable.throw("Invalid path!");
-     }
-   });
+  let objectSpy = jasmine.createSpy("object").and.callFake((path: string) => {
+    if (path.includes("512")) {
+      return Observable.of({
+        title: "Example Ajout d'annonce",
+        body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla commodo dui quis.",
+      });
+    } else {
+      return Observable.throw("Invalid path!");
+    }
+  });
 
-   let afStub: any = {
-     database: {
-       object: objectSpy,
-     },
-   };
+  let afStub: any = {
+    database: {
+      object: objectSpy,
+    },
+  };
 
-   beforeEach(() => {
-     TestBed.configureTestingModule({
+  beforeEach(() => {
+    TestBed.configureTestingModule({
       imports: [
-      AngularFireModule.initializeApp(firebaseConfig),
+        AngularFireModule.initializeApp(firebaseConfig),
 
       ],
-       providers: [
-         { provide: AngularFireDatabase, useValue: afStub },
-         ProfileProvider,
-         AnnonceProvider,
-         firebase,
+      providers: [
+        { provide: AngularFireDatabase, useValue: afStub },
+        ProfileProvider,
+        AnnonceProvider,
+        firebase,
 
-       ],
-     });
-   });
+      ],
+    });
+  });
 
-   beforeEach(inject([AnnonceProvider], (AnnoncDataInjected: AnnonceProvider) => {
+  beforeEach(inject([AnnonceProvider], (AnnoncDataInjected: AnnonceProvider) => {
     AnnonceData = AnnoncDataInjected;
-   })
+  })
   );
 
   it("should return all data from an annonce when the specified ID  exists", () => {

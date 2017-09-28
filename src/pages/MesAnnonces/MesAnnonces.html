@@ -11,17 +11,17 @@
 
 
   <ion-list>
-  <ion-item ion-item *ngFor="let Annonce of MesAnnonces | async"  (click)="goToDetailAnnonce(Annonce.$key)">
+    <ion-item ion-item *ngFor="let Annonce of MesAnnonces | async" (click)="goToDetailAnnonce(Annonce.$key)">
 
-    <ion-thumbnail item-start>
-      <img src="{{Annonce.imageURL}}">
-    </ion-thumbnail>
-    <h2> {{Annonce.titre}}</h2>
-    <button ion-button clear item-end>Voir</button>
-  </ion-item>
+      <ion-thumbnail item-start>
+        <img src="{{Annonce.imageURL}}">
+      </ion-thumbnail>
+      <h2> {{Annonce.titre}}</h2>
+      <button ion-button clear item-end>Voir</button>
+    </ion-item>
 
-</ion-list>
-<ion-fab right bottom>
-  <button ion-fab color="personal" (click)="AjoutAnnonce()"><ion-icon name="add"></ion-icon></button>
-</ion-fab>
+  </ion-list>
+  <ion-fab right bottom>
+    <button ion-fab color="personal" (click)="AjoutAnnonce()"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
 </ion-content>

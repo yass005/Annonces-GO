@@ -48,8 +48,8 @@ export class AuthProvider implements IAuthSytem {
 
   }
 
-/*---Connexion en utilisan le mode signInAnonymously fonction demandé par le mondant mais pour ----/
-/----les changement future------------------------------------------------------------------------*/
+  /*---Connexion en utilisan le mode signInAnonymously fonction demandé par le mondant mais pour ----/
+  /----les changement future------------------------------------------------------------------------*/
   private init(): void {
     this.afAuth.authState.subscribe((authState) => {
       if (authState === null) {
@@ -130,7 +130,7 @@ export class AuthProvider implements IAuthSytem {
 
     return this.firebase.getToken()
       .then(token => {
-         this.afDatabase.object(`/userProfile/${userUid}/`).update({
+        this.afDatabase.object(`/userProfile/${userUid}/`).update({
           token: token
         })
       }).catch(err => {

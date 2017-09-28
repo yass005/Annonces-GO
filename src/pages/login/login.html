@@ -1,53 +1,45 @@
 <!-- vue de la la page de login -->
 <ion-header>
-<ion-navbar color="primary">
-<ion-title> Login </ion-title>
-</ion-navbar>
+  <ion-navbar color="primary">
+    <ion-title> Login </ion-title>
+  </ion-navbar>
 </ion-header>
 <ion-content padding>
-<img src="http://via.placeholder.com/350x150" class="auth-img">
-<form [formGroup]="loginForm" (submit)="loginUser()" novalidate>
-<ion-item>
-<ion-label stacked>Email</ion-label>
-<ion-input formControlName="email" type="email"
-placeholder="Adresse e-mail"
-[class.invalid]="!loginForm.controls.email.valid &&
+  <img src="http://via.placeholder.com/350x150" class="auth-img">
+  <form [formGroup]="loginForm" (submit)="loginUser()" novalidate>
+    <ion-item>
+      <ion-label stacked>Email</ion-label>
+      <ion-input formControlName="email" type="email" placeholder="Adresse e-mail" [class.invalid]="!loginForm.controls.email.valid &&
 loginForm.controls.email.dirty">
-</ion-input>
-</ion-item>
-<ion-item class="error-message"
-*ngIf="!loginForm.controls.email.valid &&
+      </ion-input>
+    </ion-item>
+    <ion-item class="error-message" *ngIf="!loginForm.controls.email.valid &&
 loginForm.controls.email.dirty">
-<p>Entrez votre adresse e-mail correctement.</p>
-</ion-item>
-<ion-item>
-<ion-label stacked>Password</ion-label>
-<ion-input formControlName="password" type="password"
-placeholder="Mot de passe"
-[class.invalid]="!loginForm.controls.password.valid && loginForm.controls.password.dirty">
-</ion-input>
-</ion-item>
-<ion-item class="error-message"
-*ngIf="!loginForm.controls.password.valid && loginForm.controls.password.dirty">
-<p>Choisissez un mot de passe de 6 caractères au minimum</p>
-</ion-item>
-<button color="personal" ion-button block type="submit" [disabled]="!loginForm.valid">
+      <p>Entrez votre adresse e-mail correctement.</p>
+    </ion-item>
+    <ion-item>
+      <ion-label stacked>Password</ion-label>
+      <ion-input formControlName="password" type="password" placeholder="Mot de passe" [class.invalid]="!loginForm.controls.password.valid && loginForm.controls.password.dirty">
+      </ion-input>
+    </ion-item>
+    <ion-item class="error-message" *ngIf="!loginForm.controls.password.valid && loginForm.controls.password.dirty">
+      <p>Choisissez un mot de passe de 6 caractères au minimum</p>
+    </ion-item>
+    <button color="personal" ion-button block type="submit" [disabled]="!loginForm.valid">
 Login
 </button>
-</form>
-<button ion-button clear block color="primary-dark" class="login-button"
-(click)="goToSignup()">
+  </form>
+  <button ion-button clear block color="primary-dark" class="login-button" (click)="goToSignup()">
   créer un nouveau compte
 </button>
-<button ion-button clear block color="primary-dark" class="login-button"
-(click)="goToResetPassword()">
+  <button ion-button clear block color="primary-dark" class="login-button" (click)="goToResetPassword()">
 Mot de passe oublié ?
 </button>
- <button ion-button block class="facebook-btn" (click)="facebookLogin()">
+  <button ion-button block class="facebook-btn" (click)="facebookLogin()">
     <ion-icon name="logo-facebook" item-left></ion-icon>
     Connexion avec Facebook
   </button>
-<button ion-button block class="google-btn"  (click)="googlelogin()">
+  <button ion-button block class="google-btn" (click)="googlelogin()">
     <ion-icon name="logo-google" item-left></ion-icon>
     Connexion avec Google
   </button>

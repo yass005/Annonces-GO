@@ -132,7 +132,7 @@ export class ProfilePage {
                 this.showMessage("Votre adresse a été modifié");
 
               }).catch(error => {
-                this.showMessage( error.message );
+                this.showMessage(error.message);
               })
             this.loading = this.loadingCtrl.create();
             this.loading.present();
@@ -144,7 +144,7 @@ export class ProfilePage {
   }
 
 
- // mettre à jour de la date de naissance
+  // mettre à jour de la date de naissance
 
   updateDOB(birthDate) {
     this.profileProvider.updateDOB(birthDate).then(() => {
@@ -157,7 +157,7 @@ export class ProfilePage {
   }
 
 
- // mettre à jour l'email
+  // mettre à jour l'email
   updateEmail() {
     let alert = this.alertCtrl.create({
       inputs: [
@@ -193,7 +193,7 @@ export class ProfilePage {
     });
     alert.present();
   }
-//mettre à jour du mot de passe
+  //mettre à jour du mot de passe
   updatePassword() {
     let alert = this.alertCtrl.create({
       inputs: [
@@ -234,7 +234,7 @@ export class ProfilePage {
     });
     alert.present();
   }
-//fonction pour supprimer mon compte.
+  //fonction pour supprimer mon compte.
   Delteuser() {
     let alert = this.alertCtrl.create({
       message: "vous veuiller saisir votre mot de pass",
@@ -322,7 +322,7 @@ export class ProfilePage {
     this.navCtrl.push(MesFavorisPage)
   }
 
-//Activation du mode  suivie de position
+  //Activation du mode  suivie de position
   start_stop() {
     this.check ? this.LocationTracker.startTracking() : this.LocationTracker.stopTracking();
   }

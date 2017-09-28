@@ -17,39 +17,34 @@
 
 
 <ion-content class="cards-bg">
-    <div *ngIf="annonce">
+  <div *ngIf="annonce">
     <ion-card>
-    <div *ngIf="annonce.imageURL">
-        <img src="{{annonce.imageURL}}"/>
-    </div>
-    <ion-card-content>
-      <ion-card-title>
-       {{annonce.titre}}
-      </ion-card-title>
-    <p>{{annonce.description}}</p>
-    </ion-card-content>
- <ion-grid>
-   <ion-row >
-      <ion-col >
-           <button ion-fab color="primary" (click)="Modifier()"><ion-icon name="create"></ion-icon></button>
+      <div *ngIf="annonce.imageURL">
+        <img src="{{annonce.imageURL}}" />
+      </div>
+      <ion-card-content>
+        <ion-card-title>
+          {{annonce.titre}}
+        </ion-card-title>
+        <p>{{annonce.description}}</p>
+      </ion-card-content>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <button ion-fab color="primary" (click)="Modifier()"><ion-icon name="create"></ion-icon></button> Modifier
 
-          Modifier
+          </ion-col>
+          <ion-col>
+            <button ion-fab color="danger" (click)="SupprimerAnnonce(annonce)"><ion-icon name="trash"></ion-icon></button>            Suprimer
 
-      </ion-col>
-      <ion-col >
-         <button ion-fab color="danger" (click)="SupprimerAnnonce(annonce)"><ion-icon name="trash"></ion-icon></button>
-
-          Suprimer
-
-      </ion-col>
-      <ion-col >
-      <button ion-fab color="secondary" (click)="share()"><ion-icon name="md-share" (click)="share()"></ion-icon></button>
-      Partager
+          </ion-col>
+          <ion-col>
+            <button ion-fab color="secondary" (click)="share()"><ion-icon name="md-share" (click)="share()"></ion-icon></button>            Partager
 
 
-      </ion-col>
-    </ion-row>
-     </ion-grid>
-  </ion-card>
-</div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card>
+  </div>
 </ion-content>

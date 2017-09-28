@@ -46,8 +46,8 @@ export class RegisterPage {
 
   }
 
-/* Contrôle des données saisi dans le formulaire et envois d'une requête de création
- d'un nouveau utilisateur */
+  /* Contrôle des données saisi dans le formulaire et envois d'une requête de création
+   d'un nouveau utilisateur */
 
   signupUser(): void {
     if (!this.signupForm.valid) {

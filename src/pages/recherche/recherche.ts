@@ -25,24 +25,24 @@ import { Annonce } from '../../model/annonce';
 export class RecherchePage {
   annonces: FirebaseListObservable<Annonce[]>;
   searchQuery: string;
-  public ALLAnnonces : Annonce[];
+  public ALLAnnonces: Annonce[];
   filtredAnnonce: Annonce[];
-  sub : Subscription
-  constructor(private categorieProvider : CategorieProvider,
-     private modalCtrl: ModalController,
+  sub: Subscription
+  constructor(private categorieProvider: CategorieProvider,
+    private modalCtrl: ModalController,
     public navCtrl: NavController, public navParams: NavParams) {
 
-    this.sub=this.categorieProvider.findAllAnnonces()
-    .subscribe(
+    this.sub = this.categorieProvider.findAllAnnonces()
+      .subscribe(
       value => {
         console.log(value)
-        this.ALLAnnonces = this.filtredAnnonce=value
-    }
-       , Error => {
+        this.ALLAnnonces = this.filtredAnnonce = value
+      }
+      , Error => {
         console.log(Error.message)
 
       }
-       );
+      );
   }
 
   ionViewDidLoad() {
@@ -50,23 +50,23 @@ export class RecherchePage {
   }
 
 
-    ngOnDestroy() {
-      this.sub.unsubscribe();
-        }
+  ngOnDestroy() {
+    this.sub.unsubscribe();
+  }
 
-        // cette fonction recois le text saisie par le user et tre la liste par rapport au annonce qu'il contient
-  search(text ){
+  // cette fonction recois le text saisie par le user et tre la liste par rapport au annonce qu'il contient
+  search(text) {
 
-        this.filtredAnnonce= this.ALLAnnonces.filter(Annonce => Annonce.titre.includes(text));
-      }
+    this.filtredAnnonce = this.ALLAnnonces.filter(Annonce => Annonce.titre.includes(text));
+  }
 
-      // modal détails de l'annonce
-      onOpenAnnonce(key: string) {
-        const modal = this.modalCtrl.create(AnnoncePage,
-          { Id: key });
+  // modal détails de l'annonce
+  onOpenAnnonce(key: string) {
+    const modal = this.modalCtrl.create(AnnoncePage,
+      { Id: key });
 
-        modal.present();
+    modal.present();
 
-      }
+  }
 
 }

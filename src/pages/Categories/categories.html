@@ -12,23 +12,23 @@
 </ion-header>
 
 
-<ion-content >
+<ion-content>
 
 
 
-<ion-card>
-  <ion-card-header color="primary">
-   Choisir une catégorie
-  </ion-card-header>
+  <ion-card>
+    <ion-card-header color="primary">
+      Choisir une catégorie
+    </ion-card-header>
 
-  <ion-list>
-    <button ion-item *ngFor=" let categorie of categories | async " (click)="GoToAnnoncesParCategorie(categorie.$key,categorie.nom)" >
+    <ion-list>
+      <button ion-item *ngFor=" let categorie of categories | async " (click)="GoToAnnoncesParCategorie(categorie.$key,categorie.nom)">
          <ion-icon name="{{categorie.icon}}" item-start> </ion-icon>
       {{categorie.nom}}
        <ion-badge item-end *ngIf="categorie.Annonces">{{getnbannonces(categorie.$key)}}</ion-badge>
     </button>
-</ion-list>
-</ion-card>
+    </ion-list>
+  </ion-card>
 
 
 </ion-content>

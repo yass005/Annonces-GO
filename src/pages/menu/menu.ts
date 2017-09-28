@@ -30,8 +30,8 @@ export class MenuPage {
   tab1Root = ProfilePage;
   tab2Root = CategoriesPage;
   tab3Root = HomePage;
-  tab4Root=RecherchePage
-  tab5Root=AproposPage
+  tab4Root = RecherchePage
+  tab5Root = AproposPage
   constructor() {
 
   }

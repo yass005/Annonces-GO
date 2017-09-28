@@ -23,132 +23,132 @@ import { Subscription } from 'rxjs/Subscription';
 })
 
 export class AnnonceDetailsPage {
-  sub : Subscription
- itemObservable: Observable<any>
- public annonce: Annonce ;
-  constructor(public navCtrl: NavController, public navParams: NavParams,public annonceProvider :AnnonceProvider,
+  sub: Subscription
+  itemObservable: Observable<any>
+  public annonce: Annonce;
+  constructor(public navCtrl: NavController, public navParams: NavParams, public annonceProvider: AnnonceProvider,
     public alertCtrl: AlertController,
     private toastCtrl: ToastController,
-  private socialSharing: SocialSharing) {
-this.itemObservable=this.annonceProvider.getAnnonce(this.navParams.get('AnnoncesId'));
+    private socialSharing: SocialSharing) {
+    this.itemObservable = this.annonceProvider.getAnnonce(this.navParams.get('AnnoncesId'));
 
   }
 
   ionViewDidLoad() {
 
-    this.sub=this.itemObservable.subscribe(snapshot => {
+    this.sub = this.itemObservable.subscribe(snapshot => {
 
-   if (snapshot.val() != null) {
+      if (snapshot.val() != null) {
 
-  this.annonce=snapshot.val()
-  this.annonce.key=snapshot.key
-  console.log(this.annonce);
-   }
-}, Error => {
-  console.log(Error.message)
+        this.annonce = snapshot.val()
+        this.annonce.key = snapshot.key
+        console.log(this.annonce);
+      }
+    }, Error => {
+      console.log(Error.message)
 
-});
+    });
     console.log('ionViewDidLoad AnnonceDetailsPage');
   }
 
 
   // cette méthode fais appel au plugin de partage social de l'annonce
-share(){
+  share() {
     this.socialSharing.share(this.annonce.titre, this.annonce.description, this.annonce.imageURL, "A URL to share").then(() => {
       console.log("shareSheetShare: Success");
     }).catch(() => {
       console.error("shareSheetShare: failed");
     });
-}
-//fin de vie de notre  Observable
-ngOnDestroy() {
-  this.sub.unsubscribe();
-    }
- /* smsShare() {
-    this.socialSharing.shareViaSMS("shareViaSMS", "mobile-no").then(() => {
-      console.log("shareViaSMS: Success");
-    }).catch(() => {
-      console.error("shareViaSMS: failed");
-    });
   }
-  whatsappShare() {
-    this.socialSharing.shareViaWhatsApp(this.annonce.description, this.annonce.imageURL, "null").then(() => {
-      console.log("shareViaWhatsApp: Success");
-    }).catch(() => {
-      console.error("shareViaWhatsApp: failed");
-    });
+  //fin de vie de notre  Observable
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
-  facebookShare() {
-    this.socialSharing.shareViaFacebook(this.annonce.description, this.annonce.imageURL, "null").then(() => {
-      console.log("shareViaFacebook: Success");
-    }).catch(() => {
-      console.error("shareViaFacebook: failed");
-    });
+  /* smsShare() {
+     this.socialSharing.shareViaSMS("shareViaSMS", "mobile-no").then(() => {
+       console.log("shareViaSMS: Success");
+     }).catch(() => {
+       console.error("shareViaSMS: failed");
+     });
+   }
+   whatsappShare() {
+     this.socialSharing.shareViaWhatsApp(this.annonce.description, this.annonce.imageURL, "null").then(() => {
+       console.log("shareViaWhatsApp: Success");
+     }).catch(() => {
+       console.error("shareViaWhatsApp: failed");
+     });
+   }
+   facebookShare() {
+     this.socialSharing.shareViaFacebook(this.annonce.description, this.annonce.imageURL, "null").then(() => {
+       console.log("shareViaFacebook: Success");
+     }).catch(() => {
+       console.error("shareViaFacebook: failed");
+     });
 
+   }
+
+   TwitterShare() {
+     this.socialSharing.shareViaTwitter(this.annonce.description, this.annonce.imageURL, "null").then(() => {
+       console.log("shareViaFacebook: Success");
+     }).catch(() => {
+       console.error("shareViaFacebook: failed");
+     });
+
+   }*/
+
+  // Toast de confirmations de la supression
+  presentToast() {
+    let toast = this.toastCtrl.create({
+      message: 'Annonce supprimée',
+      duration: 2000,
+      position: 'top'
+    });
+    toast.onDidDismiss(() => {
+
+      this.navCtrl.pop();
+    });
+    toast.present();
   }
 
-  TwitterShare() {
-    this.socialSharing.shareViaTwitter(this.annonce.description, this.annonce.imageURL, "null").then(() => {
-      console.log("shareViaFacebook: Success");
-    }).catch(() => {
-      console.error("shareViaFacebook: failed");
-    });
 
-  }*/
+  //supression avec un modal de confirmations
+  SupprimerAnnonce(annonce: Annonce) {
+    let alert = this.alertCtrl.create({
+      title: 'Supprimer  cette annonce ',
+      message: 'Êtes-vous sûr de vouloir supprimer définitivement cette annonce  ? ',
+      buttons: [
+        {
+          text: 'Annuler',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Oui',
+          handler: () => {
+            this.annonceProvider.removeAnnonce(annonce).then(resole => {
+              return resole
+            }).then(resole => {
+              this.presentToast();
+            }).catch(err => {
+              console.log(err);
+            })
 
-// Toast de confirmations de la supression
-presentToast() {
-  let toast = this.toastCtrl.create({
-    message: 'Annonce supprimée',
-    duration: 2000,
-    position: 'top'
-  });
-  toast.onDidDismiss(() => {
-
-   this.navCtrl.pop();
-  });
-  toast.present();
-}
-
-
-//supression avec un modal de confirmations
-SupprimerAnnonce(annonce : Annonce) {
-  let alert = this.alertCtrl.create({
-    title: 'Supprimer  cette annonce ',
-    message: 'Êtes-vous sûr de vouloir supprimer définitivement cette annonce  ? ',
-    buttons: [
-      {
-        text: 'Annuler',
-        role: 'cancel',
-        handler: () => {
-          console.log('Cancel clicked');
+          }
         }
-      },
-      {
-        text: 'Oui',
-        handler: () => {
-          this.annonceProvider.removeAnnonce(annonce).then(resole=> {
-            return resole
-          }).then(resole=> {
-            this.presentToast();
-          }).catch(err=> {
-          console.log(err);
-          })
+      ]
+    });
+    alert.present();
+  }
 
-        }
-      }
-    ]
-  });
-  alert.present();
-}
+  Modifier() {
+    let alert = this.alertCtrl.create({
+      title: 'Non disponible ',
+      message: 'Cette fonctionalité non disponible',
+      buttons: ['ok']
+    })
 
-Modifier(){
-  let alert =this.alertCtrl.create({
-    title: 'Non disponible ',
-    message: 'Cette fonctionalité non disponible',
-    buttons: ['ok']
-})
-
-alert.present();
-}
+    alert.present();
+  }
 }

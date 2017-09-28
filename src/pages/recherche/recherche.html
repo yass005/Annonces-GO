@@ -8,12 +8,10 @@
 
   <ion-navbar color="primary">
     <ion-title>Recherche</ion-title>
-        <ion-toolbar>
-<ion-searchbar [(ngModel)]="searchQuery" (ionInput)="search(searchQuery)"
-placeholder="Taper un titre"
->
-</ion-searchbar>
-</ion-toolbar>
+    <ion-toolbar>
+      <ion-searchbar [(ngModel)]="searchQuery" (ionInput)="search(searchQuery)" placeholder="Taper un titre">
+      </ion-searchbar>
+    </ion-toolbar>
   </ion-navbar>
 
 </ion-header>
@@ -22,8 +20,8 @@ placeholder="Taper un titre"
 <ion-content>
 
 
-    <ion-list>
-    <ion-item ion-item *ngFor="let annonce of filtredAnnonce " (click)=" onOpenAnnonce(annonce.$key)" >
+  <ion-list>
+    <ion-item ion-item *ngFor="let annonce of filtredAnnonce " (click)=" onOpenAnnonce(annonce.$key)">
 
       <ion-thumbnail item-start>
         <img src="{{annonce.imageURL}}">
@@ -33,5 +31,4 @@ placeholder="Taper un titre"
     </ion-item>
   </ion-list>
 
-  </ion-content>
-
+</ion-content>
