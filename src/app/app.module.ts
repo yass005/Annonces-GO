@@ -29,12 +29,10 @@ import { AjoutAnnoncePage } from '../pages/ajout-annonce/ajout-annonce';
 import { AnnonceDetailsPage } from '../pages/annonce-details/annonce-details';
 import { Camera } from '@ionic-native/camera';
 import { CategorieProvider } from '../providers/categorie/categorie';
-import { CategoriesComponent } from '../components/categories/categories';
 import { ListesFavorisPage } from '../pages/listes-favoris/listes-favoris';
 import { MesFavorisPage } from '../pages/mes-favoris/mes-favoris';
 import { SocialSharing } from '@ionic-native/social-sharing';
 import { MenuPage } from '../pages/menu/menu';
-import { ListPage } from '../pages/list/list';
 import { GoogleMaps } from '@ionic-native/google-maps';
 import { HomePage } from '../pages/map/home';
 import { AnnoncesParCatégoriePage } from "../pages/annonces-par-cat\u00E9gorie/annonces-par-cat\u00E9gorie";
@@ -44,9 +42,9 @@ import { AproposPage } from '../pages/apropos/apropos';
 import { EmailComposer } from '@ionic-native/email-composer';
 import { LaunchNavigator } from '@ionic-native/launch-navigator';
 import { GeolocationProvider } from '../providers/geolocation/geolocation';
-import { TestPage } from '../pages/test/test';
 import { Firebase } from '@ionic-native/firebase';
 import { firebaseConfig } from '../environments/firebase.config';
+import { CategoriesPage } from '../pages/Categories/categories';
 
 
 
@@ -66,14 +64,13 @@ import { firebaseConfig } from '../environments/firebase.config';
     ListesFavorisPage,
     MesFavorisPage,
     MenuPage,
-    TestPage,
-    ListPage,
+    CategoriesPage,
     AproposPage,
     HomePage,
     AnnoncePage,
     AnnoncesParCatégoriePage,
-    RecherchePage,
-    CategoriesComponent
+    RecherchePage
+
   ],
 
   /*imports – Cette propriété permet de déclarer les modules dont dépend notre module;*/
@@ -100,8 +97,7 @@ import { firebaseConfig } from '../environments/firebase.config';
     MesFavorisPage,
     AproposPage,
     MenuPage,
-    ListPage,
-    TestPage,
+    CategoriesPage,
     AnnoncePage,
     AnnoncesParCatégoriePage,
     AnnonceDetailsPage,

@@ -16,7 +16,7 @@
 
 <ion-content padding>
   <ion-list>
-  <ion-item ion-item *ngFor="let Annonce of AnnoncesParCategorie | async" (click)=" onOpenMap(Annonce.$key)">
+  <ion-item ion-item *ngFor="let Annonce of AnnoncesParCategorie | async" (click)=" onOpenAnnonce(Annonce.$key)">
 
     <ion-thumbnail item-start>
       <img src="{{Annonce.imageURL}}">

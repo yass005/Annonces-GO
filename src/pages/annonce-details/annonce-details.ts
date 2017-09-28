@@ -1,9 +1,15 @@
+/*------------------------ Page détail de l'annonce d'un utilisateur  ----------------------*/
+/*	dans cette permet l'affichage du des détails d'une annonce apartenant a un utilisateur */
+/*	 et  permet a l'utilisateur  de suprimmer, partager                                   */
+/*     la modification n'a pas pue être déveloper                                       */
+/*----------------------------------------------------------------------------------*/
 import { Observable } from 'rxjs/Rx';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, AlertController } from 'ionic-angular';
 import { Annonce } from '../../model/annonce';
 import { AnnonceProvider } from '../../providers/annonce/annonce';
 import { SocialSharing } from '@ionic-native/social-sharing';
+import { Subscription } from 'rxjs/Subscription';
 /**
  * Generated class for the AnnonceDetailsPage page.
  *
@@ -17,6 +23,7 @@ import { SocialSharing } from '@ionic-native/social-sharing';
 })
 
 export class AnnonceDetailsPage {
+  sub : Subscription
  itemObservable: Observable<any>
  public annonce: Annonce ;
   constructor(public navCtrl: NavController, public navParams: NavParams,public annonceProvider :AnnonceProvider,
@@ -29,7 +36,7 @@ this.itemObservable=this.annonceProvider.getAnnonce(this.navParams.get('Annonces
 
   ionViewDidLoad() {
 
- this.itemObservable.subscribe(snapshot => {
+    this.sub=this.itemObservable.subscribe(snapshot => {
 
    if (snapshot.val() != null) {
 
@@ -44,6 +51,8 @@ this.itemObservable=this.annonceProvider.getAnnonce(this.navParams.get('Annonces
     console.log('ionViewDidLoad AnnonceDetailsPage');
   }
 
+
+  // cette méthode fais appel au plugin de partage social de l'annonce
 share(){
     this.socialSharing.share(this.annonce.titre, this.annonce.description, this.annonce.imageURL, "A URL to share").then(() => {
       console.log("shareSheetShare: Success");
@@ -51,6 +60,10 @@ share(){
       console.error("shareSheetShare: failed");
     });
 }
+//fin de vie de notre  Observable
+ngOnDestroy() {
+  this.sub.unsubscribe();
+    }
  /* smsShare() {
     this.socialSharing.shareViaSMS("shareViaSMS", "mobile-no").then(() => {
       console.log("shareViaSMS: Success");
@@ -83,7 +96,7 @@ share(){
 
   }*/
 
-
+// Toast de confirmations de la supression
 presentToast() {
   let toast = this.toastCtrl.create({
     message: 'Annonce supprimée',
@@ -97,6 +110,8 @@ presentToast() {
   toast.present();
 }
 
+
+//supression avec un modal de confirmations
 SupprimerAnnonce(annonce : Annonce) {
   let alert = this.alertCtrl.create({
     title: 'Supprimer  cette annonce ',
@@ -125,5 +140,15 @@ SupprimerAnnonce(annonce : Annonce) {
     ]
   });
   alert.present();
+}
+
+Modifier(){
+  let alert =this.alertCtrl.create({
+    title: 'Non disponible ',
+    message: 'Cette fonctionalité non disponible',
+    buttons: ['ok']
+})
+
+alert.present();
 }
 }

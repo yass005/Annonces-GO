@@ -6,7 +6,6 @@ import { LoginPage} from '../pages/login/login';
 import { ProfilePage } from '../pages/profile/profile';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { MenuPage } from '../pages/menu/menu';
-import { TestPage } from '../pages/test/test';
 import { AnnoncePage } from '../pages/annonce/annonce';
 import { Firebase } from '@ionic-native/firebase';
 @Component({
@@ -34,10 +33,11 @@ export class MyApp {
       }
     });
 
+
+    //  reception des notification quand l'application est en background
     firebase.onNotificationOpen().subscribe( data => {
       console.log(JSON.stringify(data))
- // api map  AIzaSyBorIC0Qj6l5qDQyVz5ArBSPaTI62KzICI
- // ionic cordova plugin add https://github.com/mapsplugin/cordova-plugin-googlemaps#multiple_maps --variable API_KEY_FOR_ANDROID="AIzaSyBorIC0Qj6l5qDQyVz5ArBSPaTI62KzICI"
+
       if(data.wasTapped){
 
     //  authUnsubscribe.unsubscribe();

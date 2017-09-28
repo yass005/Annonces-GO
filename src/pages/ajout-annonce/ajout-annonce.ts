@@ -36,9 +36,9 @@ export class AjoutAnnoncePage {
 ) {
 
      this.annonceForm = this.formBuilder.group({
-      title: ['',  Validators.compose([Validators.minLength(10), Validators.required])],
+      title: ['',  Validators.compose([Validators.minLength(11), Validators.required])],
       categorie: ['', Validators.required],
-      description: ['', Validators.compose([Validators.minLength(20), Validators.required])],
+      description: ['', Validators.compose([Validators.minLength(21), Validators.required])],
 
     });
 
@@ -49,6 +49,7 @@ export class AjoutAnnoncePage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad AjoutAnnoncePage');
   }
+
 
 
 logForm(){
@@ -65,7 +66,9 @@ console.log( this.annonce);
 this.annonceProvider.AjouterAnnonce(this.annonce).then(resole=> {
   return resole
 }).then(resole=> {
-  this.presentToast('Annonces was added successfully');
+  this.presentToast('Votre annonce a été ajouté');
+}).catch(err => {
+  this.presentToast(err.message);
 })
 
 console.log(this.annonceProvider.getList_des_annonce());

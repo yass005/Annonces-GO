@@ -23,7 +23,7 @@ placeholder="Taper un titre"
 
 
     <ion-list>
-    <ion-item ion-item *ngFor="let annonce of filtredAnnonce " (click)=" onOpenMap(annonce.$key)" >
+    <ion-item ion-item *ngFor="let annonce of filtredAnnonce " (click)=" onOpenAnnonce(annonce.$key)" >
 
       <ion-thumbnail item-start>
         <img src="{{annonce.imageURL}}">

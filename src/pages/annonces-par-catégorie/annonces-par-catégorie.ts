@@ -1,3 +1,6 @@
+/*-------------Menu principale des annonce d'une Categorie  ----------------------- -*/
+/*cette page représente  les annonce de la Categorierselectioner-*/
+/*--------------------------------------------------------------------------------*/
 import { Component } from '@angular/core';
 import { ModalController, ViewController, IonicPage, NavController, NavParams, LoadingController, Loading } from 'ionic-angular';
 import { Observable } from 'rxjs/Rx';
@@ -40,7 +43,7 @@ export class AnnoncesParCatégoriePage {
     this.AnnoncesParCategorie = this.categorieProvider.GetAnnoncesParCatégoriePage(this.navParams.get('CategorieId'));
     this.titre=this.navParams.get('categorieName');
   }
-
+//fin de vie de notre  Observable
   ngOnDestroy() {
     if(this.sub){ this.sub.unsubscribe(), err => {
       console.log(err.message)
@@ -86,13 +89,17 @@ export class AnnoncesParCatégoriePage {
     console.log('ionViewDidLoad AnnoncesParCatégoriePage');
   }
 
-  onOpenMap(key: string) {
+
+  //creation du détails de l'annonce en mode modal
+  onOpenAnnonce(key: string) {
     const modal = this.modalCtrl.create(AnnoncePage,
       { Id: key, Position: this.userPosition });
 
     modal.present();
 
   }
+
+  // clacule de la distance entre l'utilisateur et l'annonce
   getDistanceFromMe(key: string){
     return this.annoncesDistance.filter(Annonce=>{
        return Annonce.id===key

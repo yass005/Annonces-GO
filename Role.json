@@ -1,0 +1,82 @@
+{
+  "rules": {
+    "userProfile": {
+       ".read": "auth != null || root.child('Admin').child(auth.uid).exists() ",
+      "$uid": {
+      ".read": "auth != null ||  root.child('Admin').child(auth.uid).exists() ",
+      ".write": "$uid === auth.uid ||  root.child('Admin').child(auth.uid).exists() ",
+          // the value of "Favoris" must exist as a key in our categories
+        "Favoris":{
+           ".write": "root.child('categories/'+newData.val()).exists()"
+        },
+          "adress":{
+            ".validate": "newData.hasChildren(['rue','num�ro','ville'])"
+          },
+        "location":{
+          "lat":{
+             ".validate": "newData.isNumber() && newData.val() >= -90 && newData.val() <= 90"
+          },
+            "lng":{
+               ".validate": "newData.isNumber() && newData.val() >= -180 && newData.val() <= 180"
+            }
+        },
+       "Annonces":{
+         "$Annonce": {
+          
+           ".validate": "newData.hasChildren(['titre','description','categorie','imageURL','location']) &&
+           		newData.child('titre').isString() && newData.child('titre').val().length >= 9 &&
+             newData.child('description').isString() && newData.child('description').val().length > 19 ",
+                "categorie":{
+           ".write": "root.child('categories/'+newData.val()).exists()"
+        },
+              "location":{
+          "lat":{
+             ".validate": "newData.isNumber() && newData.val() >= -90 && newData.val() <= 90"
+          },
+            "lng":{
+               ".validate": "newData.isNumber() && newData.val() >= -180 && newData.val() <= 180"
+            }
+        },
+
+         }
+       }
+      }
+      },
+      
+      "categories" : {
+         ".read": "auth != null ",
+          ".write": "auth != null && root.child('Admin').child(auth.uid).exists()",
+            
+     		  "$categorie": {
+             ".validate": "newData.hasChildren(['icon','nom'])",
+            "icon":{
+                   ".validate": "newData.isString() && newData.val().length > 2"
+           },
+         "nom":{
+            ".validate": "newData.isString() && newData.val().length > 5"
+          }
+      
+       }
+      },
+        "AnnoncesAValid�" : {
+         ".read": "auth != null  &&   root.child('Admin').child(auth.uid).exists()",
+          ".write": "auth != null &&  root.child('Admin').child(auth.uid).exists()",
+      }
+          ,
+          //can add read Annonces authenticated
+        "Annonces" : {
+       ".read": "auth != null " ,
+        ".write": " root.child('Admin').child(auth.uid).exists()",
+           ".indexOn": ["categorie"]
+
+      },
+        
+        "Admin":{
+          ".read": "false",
+            ".write": "false"
+
+        }
+  
+        
+  }
+}

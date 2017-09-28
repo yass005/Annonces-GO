@@ -85,13 +85,12 @@ GetEmail(key : string): firebase.Promise<void>{
   }
   //Modfication de l'adress
   updateAdresse(rue: string, num: number, ville: string): firebase.Promise<void> {
-    const AdresseRef = this.userProfile.child("adress");
-    return AdresseRef.update({
-      numéro: num,
+   // const AdresseRef = this.userProfile.child("adress");
+    return this.userProfile.child("adress").update({
+     numéro: num,
       rue: rue,
       ville: ville
-    }).then(res => console.log(res))
-      .catch(err => console.log(err))
+    })
 
   }
   //Modfication de la date de naissance

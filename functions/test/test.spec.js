@@ -1,4 +1,4 @@
-// You can run these unit tests by running "npm run testWithJest" inside the email-users/functions directory.
+// test mock
 
 // Mock the Firebase configuration
 require('firebase-functions').config = jest.fn(() => {

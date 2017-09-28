@@ -1,4 +1,3 @@
-
 /**
  * Copyright 2017 Google Inc. All Rights Reserved.
  *
@@ -30,6 +29,10 @@ const gcs = require('@google-cloud/storage')();
 // exports.helloWorld = functions.https.onRequest((request, response) => {
 //  response.send("Hello from Firebase!");
 // });
+
+//
+
+//mail config for  test
 var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -53,12 +56,13 @@ const options = {
   formatter: null // 'gpx', 'string', ...
 };
 
+
 const geocoder = NodeGeocoder(options);
 const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 // [START onCreateTrigger] create a new node from a new registred user
 exports.createProfile = functions.auth.user().onCreate(event => {
-// event.data.uid The Firebase user.
+  // event.data.uid The Firebase user.
   return admin.database().ref(`/userProfile/${event.data.uid}`).set({
     firstName: "",
     lastName: "",
@@ -76,7 +80,7 @@ exports.createProfile = functions.auth.user().onCreate(event => {
 
   }).then(res => {
     //send an email to the admin
-  return sendEmail('new user',`a new user with ${event.data.email}`)
+    return sendEmail('new user', `a new user with ${event.data.email}`)
   }).catch(err => {
 
     console.log(err);
@@ -90,7 +94,7 @@ exports.cleanupUserData = functions.auth.user().onDelete(event => {
   const uid = event.data.uid;
   return admin.database().ref(`/userProfile/${uid}`).remove();
 });
-//
+//Listen for data changes in the path /userProfile/{userId}/Annonces/{AnnoncesId}
 exports.newPost = functions.database.ref('/userProfile/{userId}/Annonces/{AnnoncesId}').onCreate(event => {
 
   let loc;
@@ -121,7 +125,7 @@ exports.newPost = functions.database.ref('/userProfile/{userId}/Annonces/{Annonc
 
       }).then(() => {
 
-     return   admin.database().ref(`/AnnoncesAValidé/${event.data.key}`).update({
+        return admin.database().ref(`/AnnoncesAValidé/${event.data.key}`).update({
           location: {
             lat: res[0].latitude,
             lng: res[0].longitude
@@ -134,7 +138,7 @@ exports.newPost = functions.database.ref('/userProfile/{userId}/Annonces/{Annonc
 
 });
 
-
+//Triggers when  the admin validate an annonces
 exports.newAnnonces = functions.database.ref('/AnnoncesAValidé/{AnnoncesId}/validé').onCreate(event => {
 
   //admin.database.ref('userProfile'/snapshot.child("userId").val()/Annonces/${snapshot.key/imageURL).
@@ -155,7 +159,8 @@ exports.newAnnonces = functions.database.ref('/AnnoncesAValidé/{AnnoncesId}/val
 
 })
 
-
+//Triggers when the annonce has been add to online list and add the id to the categories and delete it from the
+//AnnoncesAValidé(wait liste)
 exports.finishValidate = functions.database.ref('/Annonces/{AnnoncesId}').onCreate(event => {
 
   var eventSnapshot = event.data.val();
@@ -171,6 +176,8 @@ exports.finishValidate = functions.database.ref('/Annonces/{AnnoncesId}').onCrea
 
 })
 
+
+//Triggers when the user finish add annonce and add it to the wait list for validation
 exports.UpdateImage = functions.database.ref('/userProfile/{userId}/Annonces/{AnnoncesId}/imageURL').onUpdate(event => {
 
   var Annonce = event.data.ref.parent
@@ -187,7 +194,7 @@ exports.UpdateImage = functions.database.ref('/userProfile/{userId}/Annonces/{An
         titre: snapshot.child("titre").val()
       }).then(res => {
 
-        return sendEmail('New Annonce',`Nouvelle annonce en attente de validation${snapshot.child("titre").val()}`)
+        return sendEmail('New Annonce', `Nouvelle annonce en attente de validation${snapshot.child("titre").val()}`)
       }).catch(err => {
 
         console.log(err);
@@ -198,7 +205,9 @@ exports.UpdateImage = functions.database.ref('/userProfile/{userId}/Annonces/{An
 
 })
 
-
+/**
+ * Triggers when a user delete an annonce from his acount and delete from the categorie and the online annonce
+ * to keep the database consistency */
 exports.DeleteAnnonce = functions.database.ref('/userProfile/{userId}/Annonces/{AnnoncesId}').onDelete(event => {
 
   var eventSnapshot = event.data.previous.val();
@@ -217,8 +226,10 @@ exports.DeleteAnnonce = functions.database.ref('/userProfile/{userId}/Annonces/{
 })
 
 
+/**
+ * Triggers when   the position of the users changes and  some products  part of his favorites are nearby
+ * and sends a notification to  users with the annonce id*/
 exports.sendNotificationAnnonces = functions.database.ref('/userProfile/{userId}/position').onWrite(event => {
-
 
   const UserId = event.params.userId;
   var UserPosition = event.data.val();
@@ -236,7 +247,8 @@ exports.sendNotificationAnnonces = functions.database.ref('/userProfile/{userId}
         Annonces.forEach(childSnapshot => {
           console.log(childSnapshot.val(), UserPosition, childSnapshot.val().location)
 
-          if (favorisIDs.includes(childSnapshot.val().categorie) && !(UserId === childSnapshot.val().userId) && childSnapshot.val().location && (getDistanceBetweenPoints(UserPosition, childSnapshot.val().location, 'km')) <= 0.5) {
+          if (favorisIDs.includes(childSnapshot.val().categorie) && !(UserId === childSnapshot.val().userId) && childSnapshot.val().location &&
+           (getDistanceBetweenPoints(UserPosition, childSnapshot.val().location, 'km')) <= 0.5) {
             console.log(childSnapshot.val())
             const payload = {
               "notification": {
@@ -249,12 +261,13 @@ exports.sendNotificationAnnonces = functions.database.ref('/userProfile/{userId}
                 "AnnonceId": childSnapshot.key
               }
             };
-
             event.data.ref.parent.child('token').once("value").then(token => {
               console.log(token.val());
               return admin.messaging().sendToDevice(token.val(), payload).catch(err => {
                 console.log(err);
               })
+            }).catch(err => {
+              console.log(err);
             })
 
           }
@@ -267,10 +280,7 @@ exports.sendNotificationAnnonces = functions.database.ref('/userProfile/{userId}
       // Exit when the user dont have a list of favoris
       return;
     }
-
-
   });
-
 
 
 });
@@ -297,6 +307,9 @@ exports.AddUserToker = functions.database.ref('/userProfile/{userId}/Favoris/{ca
 })
 
 
+// Triggers when  a  user delete a  categoriesId from his favoris and delete his token from the
+//categories/${categoriesId}/UsersTokens/
+
 exports.DeleteUserToker = functions.database.ref('/userProfile/{userId}/Favoris/{categoriesId}').onDelete(event => {
 
   const UserId = event.params.userId;
@@ -310,14 +323,19 @@ exports.DeleteUserToker = functions.database.ref('/userProfile/{userId}/Favoris/
 
 })
 
-exports.NotifUserFavoris = functions.database.ref('/categories/{categoriesId}/Annonces/{AnnonceId}').onWrite(event => {
 
+/**
+ * Triggers when  a  new Annonces is add and sends a notification to intersted users
+ *
+ * Annonces is  add a flag to categories/{categoriesId}/Annonces/{AnnonceId}
+ * Users save their device notification tokens to `/categories/{categoriesId}/UsersTokens/`.
+ */
+exports.NotifUserFavoris = functions.database.ref('/categories/{categoriesId}/Annonces/{AnnonceId}').onWrite(event => {
 
   //exit when data is deleted
   if (!event.data.exists()) {
     return;
   }
-
 
   const categoriesId = event.params.categoriesId;
   const AnnonceId = event.params.AnnonceId;
@@ -360,16 +378,15 @@ exports.NotifUserFavoris = functions.database.ref('/categories/{categoriesId}/An
 
 })
 
-
+//haversine  formula  calculates the distance between two geo coordinates
+// userposition is the position of the user and Destination is the annonce geo coordinates
 function getDistanceBetweenPoints(UserPosition, Destination, units)
 
 {
-
   let earthRadius = {
     miles: 3958.8,
     km: 6371
   };
-
   let R = earthRadius[units || 'km'];
   let lat1 = UserPosition.lat;
   let lon1 = UserPosition.lng;
@@ -384,16 +401,15 @@ function getDistanceBetweenPoints(UserPosition, Destination, units)
     Math.sin(dLon / 2);
   let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   let d = R * c;
-
   return d
 
 }
-
+// convert degre to radian
 function toRad(x) {
   return x * Math.PI / 180;
 }
 
-
+// delete a file from the firebase.storageBucket
 function DeleteBucket(filePath) {
   const bucket = functions.config().firebase.storageBucket
   const myBucket = gcs.bucket(bucket);

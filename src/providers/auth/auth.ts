@@ -1,4 +1,4 @@
-/*---------------------------Service pour authetification-------------------------  */
+/*---------------------------Service pour l'authetification-------------------------  */
 /* Service AuthProvider qui gère les fonction de connexion en utilisant angularfire2*/
 /*ce service permet d'avoir de Surveiller l'état d'authentification en temps réel   */
 /* AngularFireAuth.authState fournit un <Firebase.User> observable pour surveiller  */
@@ -87,7 +87,7 @@ export class AuthProvider implements IAuthSytem {
     return this.afAuth.auth.signInWithEmailAndPassword(email, password)
       .then(() => { this.UpdateToken(this.afAuth.auth.currentUser.uid); })
   }
-  // impossible d'utiliser authetification native une cle hash et demander et impossible de
+  // impossible d'utiliser l'authetification native une cle hash et demander et impossible de
   //la générer. Le plugin disponible génère aussi une erreur l’or du test sur émulateur ou devise
   // 24.07.2017
   // connexion avec facebook en utilisan l'accées native aprés un downgrade. des recherche on permis la résoluion
@@ -130,7 +130,7 @@ export class AuthProvider implements IAuthSytem {
 
     return this.firebase.getToken()
       .then(token => {
-        this.afDatabase.object(`/userProfile/${userUid}/`).update({
+         this.afDatabase.object(`/userProfile/${userUid}/`).update({
           token: token
         })
       }).catch(err => {

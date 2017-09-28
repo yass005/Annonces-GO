@@ -6,7 +6,6 @@
 
 
 
-
 import { Component } from '@angular/core';
 import {
   Loading,
@@ -45,7 +44,7 @@ export class ProfilePage {
 
   //Chargement des informations de l'utilisateur aprés chargement de la vue
   ionViewDidLoad() {
-    this.profileProvider.getUserProfile().once('value').then(userProfileSnapshot => {
+    this.profileProvider.getUserProfile().on('value', userProfileSnapshot => {
       this.userProfile = userProfileSnapshot.val();
       console.log(this.userProfile.adress);
       this.birthDate = userProfileSnapshot.val().birthDate;
@@ -107,7 +106,7 @@ export class ProfilePage {
         {
           name: 'rue',
           placeholder: 'rue',
-          value: this.userProfile.adress.rue
+          value: this.userAdress.rue
         },
         {
           name: 'numéro',
@@ -122,17 +121,19 @@ export class ProfilePage {
       ],
       buttons: [
         {
-          text: 'Cancel',
+          text: 'Annuler',
         },
         {
-          text: 'Save',
+          text: 'Ok',
           handler: data => {
+            console.log(data)
             this.profileProvider.updateAdresse(data.rue, data.numéro, data.ville)
               .then(() => {
                 this.showMessage("Votre adresse a été modifié");
-              }, error => {
-                this.showMessage(error.message);
-              });
+
+              }).catch(error => {
+                this.showMessage( error.message );
+              })
             this.loading = this.loadingCtrl.create();
             this.loading.present();
           }

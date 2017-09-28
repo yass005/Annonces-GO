@@ -31,6 +31,8 @@ export class ListesFavorisPage {
     console.log('Hello CategoriesComponent Component');
 
   }
+
+  // au chargement de du composant on charge la liste des catégories favoris de l'utilisateur et tous les catégories depuis firebase
   ionViewDidLoad() {
 
     this.Categories = this.categorieProvider.items$;
@@ -44,7 +46,7 @@ export class ListesFavorisPage {
 
     console.log(this.favorisIDs);
   }
-
+//fin de vie de notre  Observable
   ngOnDestroy() {
     this.sub.unsubscribe(), err => {
       console.log(err.message)
@@ -59,6 +61,8 @@ export class ListesFavorisPage {
       )
       .catch(err => console.log(err));
   }
+
+  //Toast de confirmation de l'opération d'ajout
   presentToast(nom: string) {
     let toast = this.toastCtrl.create({
       message: 'la categorie  ' + nom + ' a été Ajouter  de vos favoris',
@@ -71,7 +75,7 @@ export class ListesFavorisPage {
 
     toast.present();
   }
-
+// permes de vérifier si la catégorie fais parti de ceux de l'utilisateur
   include(key: string) {
 
     return this.favorisIDs.includes(key);

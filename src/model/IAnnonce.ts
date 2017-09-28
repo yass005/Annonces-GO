@@ -10,4 +10,5 @@ export interface IAnnonce {
   getList_des_annonce(): FirebaseListObservable<any>
   removeAnnonce(annonce :Annonce):firebase.Promise<any>
   AjouterAnnonce(annonce: Annonce ):firebase.Promise<any>
+  ModifierAnnonce(annonce: Annonce):firebase.Promise<any>
 }

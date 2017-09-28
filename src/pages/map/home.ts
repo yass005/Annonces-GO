@@ -1,17 +1,15 @@
+/*--------------------------- Page  cartze   -----------------    */
+/*	dans cette page permet de voir les annonces sur une carte   */
+/*--------------------------------------------------------    */
+
 import { Annonce } from './../../model/annonce';
 import { Component } from '@angular/core';
 import { NavController, Platform, ModalController } from 'ionic-angular'
 // Native components
 import { Geolocation } from '@ionic-native/geolocation';
 import { GoogleMaps, GoogleMap, GoogleMapsEvent, LatLng, CameraPosition, GoogleMapsAnimation, MarkerOptions, Marker } from '@ionic-native/google-maps';
-import { treeMap, TreeMappingMock } from '../../model/tri.mapping';
 import { CategorieProvider } from '../../providers/categorie/categorie';
-import { Observable } from 'rxjs/Rx';
-import { FirebaseListObservable } from 'angularfire2/database';
-import { AnnoncePage } from '../annonce/annonce';
 import { Subscription } from 'rxjs/Subscription';
-// Mocks
-
 
 const MARKER_SIZE = 30;
 
@@ -80,9 +78,9 @@ loadMap() {
       console.log('Error getting location', error);
     });
 
- // create ne
+ // create
  // listen to MAP_READY event
- // You must wait for this event to fire before adding something to the map or modifying it in anyway
+ //  wait for this event to fire before adding something to the map or modifying it in anyway
 
  map.one(GoogleMapsEvent.MAP_READY).then(
    () => {

@@ -1,5 +1,5 @@
 /*---------------------------Service pour Les annonces-------------------------           */
-/* Service AnnonceProvider qui gère les Annonces des users en en  utilisant angularfire2 */
+/* Service AnnonceProvider qui gère les Annonces des users en utilisant angularfire2 */
 /*ce service permet de récupérer une reference depuis firebase de la liste des annonces */
 /* FirebaseListObservable. fournit une liste  observable des annonces  et de           */
 /*  Synchroniser les collections de base de données en tant qu'objets ou listes.     */
@@ -22,6 +22,7 @@ import { IAnnonce } from '../../model/IAnnonce';
 */
 @Injectable()
 export class AnnonceProvider implements IAnnonce {
+
 
 //  list of  observable des annonces
   MesAnnonces$: FirebaseListObservable<any> = null;
@@ -97,7 +98,9 @@ else {
 
 }
      }
+//Modification d'une annonce
 
-
-
+     ModifierAnnonce(annonce: Annonce): firebase.Promise<any> {
+      throw new Error("Method not implemented.");
+    }
      }

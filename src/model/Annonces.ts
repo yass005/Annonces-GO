@@ -1,3 +1,5 @@
+
+// fichier de mocks utilisé pour realisé des test unitaire
 import { Annonce } from './annonce';
 
 

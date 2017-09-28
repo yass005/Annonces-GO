@@ -1,3 +1,6 @@
+/*--------------------------- Page de  recherche ---------*/
+/*	  Cette page permet la recherche par mot clée titre */
+/*----------------------------------------------       */
 import { AnnoncePage } from './../annonce/annonce';
 import { FirebaseListObservable } from 'angularfire2/database';
 import { CategorieProvider } from './../../providers/categorie/categorie';
@@ -51,12 +54,14 @@ export class RecherchePage {
       this.sub.unsubscribe();
         }
 
+        // cette fonction recois le text saisie par le user et tre la liste par rapport au annonce qu'il contient
   search(text ){
 
         this.filtredAnnonce= this.ALLAnnonces.filter(Annonce => Annonce.titre.includes(text));
       }
 
-      onOpenMap(key: string) {
+      // modal détails de l'annonce
+      onOpenAnnonce(key: string) {
         const modal = this.modalCtrl.create(AnnoncePage,
           { Id: key });
 

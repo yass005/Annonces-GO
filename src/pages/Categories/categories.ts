@@ -1,7 +1,7 @@
-/*-------------Menu principale des Categories  ------------------------------------*/
-/*cette page représente le des Categories de l'application  permet a l'utilisateur*/
-/*	    la navigation vers les annonces de la  categorie selectioner             */
-/*------------------------------------------------------------------------------*/
+/*-------------Menu principale des Categories  --------------------------------------*/
+/*cette page représente  les Categories de l'application  et permet a l'utilisateur-*/
+/*	  la navigation vers les annonces de la  categorie selectioner                 */
+/*--------------------------------------------------------------------------------*/
 import { annonces } from './../../model/Annonces';
 import { FirebaseListObservable } from 'angularfire2/database';
 import { Component } from '@angular/core';
@@ -22,9 +22,10 @@ import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'page-list',
-  templateUrl: 'list.html',
+  templateUrl: 'categories.html',
 })
-export class ListPage {
+
+export class CategoriesPage {
   categories: FirebaseListObservable<categorie[]>;
     sub : Subscription
 
@@ -35,7 +36,7 @@ export class ListPage {
 
 
   }
-
+// au chargement de du composant on charge la liste des catégorie depuis firebase l'application
   ionViewDidEnter() {
     console.log('ionViewDidLoad ListPage');
     this.sub=this.categories.map(cats=>{
@@ -53,16 +54,18 @@ export class ListPage {
 
   }
 
+  //navigations vers la liste des annonces de la catégorie
   GoToAnnoncesParCategorie(categorieId, categorieName ){
     this.navCtrl.push(AnnoncesParCatégoriePage, { 'CategorieId': categorieId, 'categorieName': categorieName }).catch(err => {
   console.log(err);
 })
 }
-
+//fin de vie de notre  Observable
 ngOnDestroy() {
   this.sub.unsubscribe();
     }
 
+ //fin de vie de notre  Observable
     ionViewDidLeave(){
       this.sub.unsubscribe(), err => {
         console.log(err.message)
@@ -71,6 +74,7 @@ ngOnDestroy() {
 
     }
 
+    // retourne le nombre d'annonces d'une catégorie
 getnbannonces(key: string){
  return this.annoncesCount.filter(item=>{
     return item.id===key
