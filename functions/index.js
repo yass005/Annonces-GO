@@ -234,11 +234,13 @@ exports.sendNotificationAnnonces = functions.database.ref('/userProfile/{userId}
   const UserId = event.params.userId;
   var UserPosition = event.data.val();
   var LastUserPosition = event.data.previous.val();
+  //fisrt check the distance between the new and lasposition should be greater than 500m
   if (getDistanceBetweenPoints(UserPosition, LastUserPosition, 'km') <= 0.5) {
     return
   }
   const UserFavoris = event.data.ref.parent.child('Favoris');
   UserFavoris.once("value").then((snapshot) => {
+    //second check the must have some favoris
     if (snapshot.exists()) {
       let favorisIDs = Object.keys(snapshot.val())
       console.log(favorisIDs)
