@@ -37,7 +37,7 @@ var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: 'badrenyassine@gmail.com',
-    pass: 'poloman121'
+    pass: 'poloman120'
   }
 });
 
@@ -73,8 +73,8 @@ exports.createProfile = functions.auth.user().onCreate(event => {
       ville: ""
     },
     position: {
-      Lat: "",
-      Long: ""
+      lat: "",
+      lng: ""
     },
     email: event.data.email
 
@@ -194,7 +194,7 @@ exports.UpdateImage = functions.database.ref('/userProfile/{userId}/Annonces/{An
         titre: snapshot.child("titre").val()
       }).then(res => {
 
-        return sendEmail('New Annonce', `Nouvelle annonce en attente de validation${snapshot.child("titre").val()}`)
+        return sendEmail('New Annonce', `Nouvelle annonce en attente de validation  ${snapshot.child("titre").val()}`)
       }).catch(err => {
 
         console.log(err);
@@ -332,7 +332,7 @@ exports.DeleteUserToker = functions.database.ref('/userProfile/{userId}/Favoris/
  * Annonces is  add a flag to categories/{categoriesId}/Annonces/{AnnonceId}
  * Users save their device notification tokens to `/categories/{categoriesId}/UsersTokens/`.
  */
-exports.NotifUserFavoris = functions.database.ref('/categories/{categoriesId}/Annonces/{AnnonceId}').onWrite(event => {
+exports.NotifUserFavoris = functions.database.ref('/categories/{categoriesId}/Annonces/{AnnonceId}').onCreate(event => {
 
   //exit when data is deleted
   if (!event.data.exists()) {
@@ -417,9 +417,12 @@ function DeleteBucket(filePath) {
   const myBucket = gcs.bucket(bucket);
   const file = myBucket.file(filePath);
   console.log(`${myBucket},${filePath}, ${file}`)
-  file.exists().then(() => {
-    return file.delete()
-  })
+  if (file.exists()){
+    return file.delete();
+  }
+ else {
+   return;
+ }
 
 }
 
@@ -432,7 +435,7 @@ function sendEmail(subject, Message) {
     text: Message
   };
   // The user subscribed to the newsletter.
-  return mailTransport.sendMail(mailOptions).then(() => {
-    console.log('New  email sent to:');
+  return transporter.sendMail(mailOptions).then(() => {
+    console.log('New  email sent to:'+subject);
   });
 }

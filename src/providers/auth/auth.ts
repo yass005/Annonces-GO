@@ -44,7 +44,7 @@ export class AuthProvider implements IAuthSytem {
       this.afDatabase.object(`/userProfile/${newUser.uid}`).update({
         email: email
       })
-    })
+    }).then(() => { this.UpdateToken(this.afAuth.auth.currentUser.uid); })
 
   }
 

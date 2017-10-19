@@ -237,7 +237,7 @@ export class ProfilePage {
   //fonction pour supprimer mon compte.
   Delteuser() {
     let alert = this.alertCtrl.create({
-      message: "vous veuiller saisir votre mot de pass",
+      message: "Veuillez saisir votre mot de passe",
       inputs: [
 
         {
