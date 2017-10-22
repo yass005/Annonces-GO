@@ -27,7 +27,7 @@ import { FirebaseListObservable } from 'angularfire2/database';
 export class AjoutAnnoncePage {
   public annonceForm: FormGroup;
   public annonce: Annonce = null;
-  public guestPicture: string = null;
+  public Photo: string = null;
   Categories: FirebaseListObservable<categorie[]>;
   constructor(public navCtrl: NavController, public navParams: NavParams, public annonceProvider: AnnonceProvider,
     private formBuilder: FormBuilder, private toastCtrl: ToastController,
@@ -58,7 +58,7 @@ export class AjoutAnnoncePage {
       titre: this.annonceForm.value.title,
       description: this.annonceForm.value.description,
       categorie: this.annonceForm.value.categorie,
-      imageURL: this.guestPicture,
+      imageURL: this.Photo,
       location: { lat: 0, lng: 0 }
     }
 
@@ -107,7 +107,7 @@ export class AjoutAnnoncePage {
       targetHeight: 500,
       saveToPhotoAlbum: true
     }).then(imageData => {
-      this.guestPicture = imageData;
+      this.Photo = imageData;
     }, error => {
       this.presentAlert(error);
       //  console.log("ERROR -> " + JSON.stringify(error));
