@@ -27,6 +27,7 @@ import { FirebaseListObservable } from 'angularfire2/database';
 export class AjoutAnnoncePage {
   public annonceForm: FormGroup;
   public annonce: Annonce = null;
+public AnnonceAModifier : Annonce=null;
   public Photo: string = null;
   Categories: FirebaseListObservable<categorie[]>;
   constructor(public navCtrl: NavController, public navParams: NavParams, public annonceProvider: AnnonceProvider,
@@ -34,6 +35,10 @@ export class AjoutAnnoncePage {
     private alertCtrl: AlertController,
     private camera: Camera, public actionSheetCtrl: ActionSheetController, public categorieProvider: CategorieProvider
   ) {
+if(this.navParams.get('Annonce')!=null){
+  this.AnnonceAModifier = this.navParams.get('Annonce');
+  console.log(this.navParams.get('Annonce'));
+}
 
     this.annonceForm = this.formBuilder.group({
       title: ['', Validators.compose([Validators.minLength(11), Validators.required])],

@@ -1,3 +1,4 @@
+import { AjoutAnnoncePage } from './../ajout-annonce/ajout-annonce';
 /*------------------------ Page détail de l'annonce d'un utilisateur  ----------------------*/
 /*	dans cette permet l'affichage du des détails d'une annonce apartenant a un utilisateur */
 /*	 et  permet a l'utilisateur  de suprimmer, partager                                   */
@@ -143,12 +144,13 @@ export class AnnonceDetailsPage {
   }
 
   Modifier() {
-    let alert = this.alertCtrl.create({
+    this.navCtrl.push(AjoutAnnoncePage,{ 'Annonce': this.annonce})
+   /* let alert = this.alertCtrl.create({
       title: 'Non disponible ',
       message: 'Cette fonctionalité non disponible',
       buttons: ['ok']
     })
 
-    alert.present();
+    alert.present();*/
   }
 }

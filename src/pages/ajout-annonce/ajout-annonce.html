@@ -47,7 +47,14 @@
 
 
     <br>
-    <button ion-button block type="submit" [disabled]="!annonceForm.valid">Ajouter</button>
+<div *ngIf=!AnnonceAModifier>
+  <button ion-button block type="submit" [disabled]="!annonceForm.valid">Ajouter</button>
+</div>
+
+<div *ngIf=AnnonceAModifier>
+  <button ion-button block type="submit" [disabled]="!annonceForm.valid">Modifier</button>
+</div>
+
   </form>
   <div *ngIf="!Photo">
     <img src="{{Photo}}">

@@ -34,7 +34,7 @@ export class MyApp {
 
 
       //  reception des notification quand l'application est en background
-      firebase.onNotificationOpen().subscribe(data => {
+     /* firebase.onNotificationOpen().subscribe(data => {
         console.log(JSON.stringify(data))
 
         if (data.wasTapped) {
@@ -54,7 +54,7 @@ export class MyApp {
           this.navCtrl.push(AnnoncePage, { 'Id': data.AnnonceId });
 
         }
-      });
+      });*/
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
