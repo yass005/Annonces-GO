@@ -18,14 +18,15 @@
   <form [formGroup]="annonceForm" (ngSubmit)="logForm()">
     <ion-item>
       <ion-label floating>Titre</ion-label>
-      <ion-input type="text" formControlName="title"></ion-input>
+      <ion-input *ngIf="AnnonceAModifier" type="text" formControlName="title" value="{{AnnonceAModifier.titre}}"></ion-input>
+      <ion-input *ngIf="!AnnonceAModifier" type="text" formControlName="title"></ion-input>
     </ion-item>
     <ion-item class="error-message" *ngIf="!annonceForm.controls.title.valid ">
       <p>Choisissez un titre de 10 caractères au minimum.</p>
     </ion-item>
     <ion-item>
       <ion-label floating>Catégorie</ion-label>
-      <ion-select formControlName="categorie">
+      <ion-select formControlName="categorie" >
         <ion-option *ngFor=" let categorie of Categories | async " value="{{categorie.$key}}">{{categorie.nom}}</ion-option>
       </ion-select>
     </ion-item>
@@ -45,7 +46,10 @@
             Photo
           </button>
 
-
+          <button ion-button icon-left block outline type="button" (click)="SelectPosition()">
+            <ion-icon name="navigate"></ion-icon>
+            Position
+          </button>
     <br>
 <div *ngIf=!AnnonceAModifier>
   <button ion-button block type="submit" [disabled]="!annonceForm.valid">Ajouter</button>

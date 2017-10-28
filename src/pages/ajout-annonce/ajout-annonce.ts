@@ -1,16 +1,18 @@
+import { Adress } from './../../model/adress';
 /*--------------------------- Page d'ajoutd'une  annonce   --------------------------------    */
 /*	dans cette page j'ai injecté  le service de AnnonceProvider  pour l'ajout d'une annonce   */
 /*	le     service  CategorieProvider pour avoir la lste des   categories                    */
 /*------------------------------------------------------------------------------------      */
 import { CategorieProvider } from './../../providers/categorie/categorie';
 import { Component } from '@angular/core';
-import { AlertController, ActionSheetController, IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { AlertController, ActionSheetController, IonicPage, NavController, NavParams, ToastController, LoadingController, Loading } from 'ionic-angular';
 import { AnnonceProvider } from '../../providers/annonce/annonce';
 import { Annonce } from '../../model/annonce';
 import { categorie } from '../../model/categorie';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
 import { Camera } from '@ionic-native/camera';
 import { FirebaseListObservable } from 'angularfire2/database';
+import { GeolocationProvider } from '../../providers/geolocation/geolocation';
 
 
 /**
@@ -26,14 +28,19 @@ import { FirebaseListObservable } from 'angularfire2/database';
 })
 export class AjoutAnnoncePage {
   public annonceForm: FormGroup;
-  public annonce: Annonce = null;
+  public annonce = <Annonce>{};
+  public loading: Loading;
+public adress=<Adress>{}
 public AnnonceAModifier : Annonce=null;
   public Photo: string = null;
   Categories: FirebaseListObservable<categorie[]>;
   constructor(public navCtrl: NavController, public navParams: NavParams, public annonceProvider: AnnonceProvider,
     private formBuilder: FormBuilder, private toastCtrl: ToastController,
     private alertCtrl: AlertController,
-    private camera: Camera, public actionSheetCtrl: ActionSheetController, public categorieProvider: CategorieProvider
+    private camera: Camera, public actionSheetCtrl: ActionSheetController,
+   private  geolocationProvider : GeolocationProvider,
+   public loadingCtrl: LoadingController,
+     public categorieProvider: CategorieProvider
   ) {
 if(this.navParams.get('Annonce')!=null){
   this.AnnonceAModifier = this.navParams.get('Annonce');
@@ -118,7 +125,37 @@ if(this.navParams.get('Annonce')!=null){
       //  console.log("ERROR -> " + JSON.stringify(error));
     });
   }
-
+  //Controle de type ActionSheet qui permet a l'utilisateur de choisir etre la Galerie et l'appareil photo
+  public SelectPosition() {
+    let actionSheet = this.actionSheetCtrl.create({
+      title: " emplacement de l'annonce ",
+      buttons: [
+        {
+          text: 'Maposition',
+          handler: () => {
+            this.GetPosition();
+          }
+        },
+        {
+          text: 'MonAdress',
+          handler: () => {
+            this.takePicture(this.camera.PictureSourceType.CAMERA);
+          }
+        },
+        {
+          text: 'SaisieAdress',
+          handler: () => {
+            this.AdressTolanlng();
+          }
+        },
+        {
+          text: 'Annuler',
+          role: 'cancel'
+        }
+      ]
+    });
+    actionSheet.present();
+  }
 
   //Controle de type ActionSheet qui permet a l'utilisateur de choisir etre la Galerie et l'appareil photo
   public presentActionSheet() {
@@ -152,6 +189,61 @@ if(this.navParams.get('Annonce')!=null){
       title: 'Camera',
       subTitle: message,
       buttons: ['ok']
+    });
+    alert.present();
+  }
+
+  GetPosition(){
+
+  this.geolocationProvider.Position().then(pos => {
+this.annonce.location={ lat: pos.coords.latitude, lng: pos.coords.longitude };
+
+console.log(this.annonce);
+    }).catch(err => {
+      console.log(err);
+    })
+  }
+
+  AdressTolanlng() {
+    const alert = this.alertCtrl.create({
+      message: "Votre adress",
+      inputs: [
+        {
+          name: 'rue',
+          placeholder: 'rue',
+
+        },
+        {
+          name: 'numéro',
+          placeholder: 'numéro',
+
+        },
+        {
+          name: 'ville',
+          placeholder: 'ville',
+
+        }
+      ],
+      buttons: [
+        {
+          text: 'Annuler',
+        },
+        {
+          text: 'Ok',
+          handler: data => {
+            console.log(data)
+            this.geolocationProvider.AdressTolatitudelongitude(`${data.rue} ${data.numéro} ${data.ville}`)
+              .then(() => {
+             //   this.showMessage("Votre adresse a été modifié");
+
+              }).catch(error => {
+             //   this.showMessage(error.message);
+              })
+            this.loading = this.loadingCtrl.create();
+            this.loading.present();
+          }
+        }
+      ]
     });
     alert.present();
   }

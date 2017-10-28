@@ -3,7 +3,7 @@ import { Loc } from './location';
 
 export interface Annonce {
   key?: string;
-  titre : string;
+  titre? : string;
   description? : string
   categorie?: categorie
   imageURL?: string
